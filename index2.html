@@ -1,137 +1,286 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>تفكيك المصفوفة LU - محمود عادل</title>
+    <title>LU Decomposition Pro - Mahmoud Adel</title>
     <style>
         :root {
-            --primary: #ffd700;
-            --bg: #1a1a1a;
-            --card: #2d2d2d;
-            --text: #ffffff;
-            --accent: #8a2be2;
+            --bg-color: #0f172a;
+            --panel-bg: #1e293b;
+            --primary-gold: #fbbf24;
+            --accent-blue: #38bdf8;
+            --text-main: #f8fafc;
+            --l-matrix-color: #4ade80;
+            --u-matrix-color: #f87171;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .container { max-width: 900px; width: 100%; background: var(--card); padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); border: 1px solid #444; }
-        h2 { text-align: center; color: var(--primary); margin-bottom: 30px; border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
-        .matrix-input { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; max-width: 300px; margin: 0 auto 20px auto; }
-        input { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #555; background: #3d3d3d; color: #fff; text-align: center; font-size: 1.2rem; }
-        input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 5px var(--primary); }
-        .controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
-        button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.3s; }
-        .btn-calc { background: var(--primary); color: #000; }
-        .btn-rand { background: #555; color: #fff; }
-        button:hover { opacity: 0.8; transform: translateY(-2px); }
-        .results { display: flex; flex-wrap: wrap; justify-content: space-around; gap: 20px; margin-top: 20px; }
-        .matrix-box { background: #222; padding: 15px; border-radius: 10px; border-right: 4px solid var(--accent); min-width: 200px; }
-        .matrix-box h3 { color: var(--primary); text-align: center; font-size: 1rem; }
-        .matrix-display { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; text-align: center; }
-        .cell { padding: 8px; background: #333; border-radius: 3px; font-family: 'Courier New', Courier, monospace; }
-        .steps { margin-top: 30px; padding: 15px; background: #333; border-radius: 10px; font-size: 0.9rem; line-height: 1.6; }
-        .step-item { margin-bottom: 10px; border-bottom: 1px dashed #555; padding-bottom: 5px; }
-        .math { color: #00ffcc; font-weight: bold; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-wrapper {
+            max-width: 1100px;
+            width: 100%;
+            background: var(--panel-bg);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+        }
+
+        h1 { text-align: center; color: var(--primary-gold); margin-bottom: 30px; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Input Section */
+        .input-section {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+            background: rgba(0,0,0,0.2);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            gap: 15px;
+        }
+
+        .matrix-grid input {
+            width: 80px;
+            height: 60px;
+            background: #334155;
+            border: 2px solid #475569;
+            color: var(--primary-gold);
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        .matrix-grid input.active {
+            border-color: var(--accent-blue);
+            background: #1e293b;
+        }
+
+        /* Keypad */
+        .keypad {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            gap: 10px;
+        }
+
+        .keypad button {
+            height: 50px;
+            border: none;
+            border-radius: 8px;
+            background: #475569;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .keypad button:hover { background: #64748b; transform: scale(1.05); }
+        .keypad .btn-op { background: var(--accent-blue); color: #000; }
+        .keypad .btn-del { background: #ef4444; }
+        .keypad .btn-rand { background: var(--primary-gold); color: #000; }
+
+        /* Results Area */
+        .results-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 30px;
+            padding: 20px;
+            border-top: 2px solid #334155;
+        }
+
+        .matrix-output {
+            text-align: center;
+            padding: 20px;
+            border: 2px solid #334155;
+            border-radius: 15px;
+            background: rgba(0,0,0,0.3);
+            min-width: 250px;
+        }
+
+        .output-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .cell {
+            padding: 15px;
+            background: #1e293b;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .l-cell { color: var(--l-matrix-color); border: 1px solid var(--l-matrix-color); }
+        .u-cell { color: var(--u-matrix-color); border: 1px solid var(--u-matrix-color); }
+
+        /* Detailed Steps */
+        .steps-box {
+            margin-top: 40px;
+            background: #0f172a;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid var(--primary-gold);
+        }
+
+        .step-line {
+            margin-bottom: 12px;
+            font-size: 1rem;
+            border-bottom: 1px solid #1e293b;
+            padding-bottom: 5px;
+        }
+
+        .formula { color: var(--accent-blue); font-style: italic; margin-right: 10px; }
+        .calc { color: var(--primary-gold); font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>تفكيك المصفوفة LU (3×3)</h2>
-    
-    <div class="matrix-input" id="matrixA">
-        <input type="number" value="2" id="a00"> <input type="number" value="3" id="a01"> <input type="number" value="1" id="a02">
-        <input type="number" value="4" id="a10"> <input type="number" value="7" id="a11"> <input type="number" value="-1" id="a12">
-        <input type="number" value="-2" id="a20"> <input type="number" value="2" id="a21"> <input type="number" value="-11" id="a22">
-    </div>
+<div class="main-wrapper">
+    <h1>LU Decomposition (3x3)</h1>
 
-    <div class="controls">
-        <button class="btn-calc" onclick="decomposeLU()">احسب التفكيك</button>
-        <button class="btn-rand" onclick="generateRandom()">مصفوفة عشوائية</button>
-    </div>
-
-    <div class="results" id="resultsArea" style="display: none;">
-        <div class="matrix-box">
-            <h3>المصفوفة L (Lower)</h3>
-            <div class="matrix-display" id="displayL"></div>
+    <div class="input-section">
+        <div>
+            <h3 style="text-align:center">Matrix A</h3>
+            <div class="matrix-grid" id="inputGrid">
+                <input type="number" id="v00" value="2" class="active" onclick="setActive(0,0)">
+                <input type="number" id="v01" value="3" onclick="setActive(0,1)">
+                <input type="number" id="v02" value="1" onclick="setActive(0,2)">
+                <input type="number" id="v10" value="4" onclick="setActive(1,0)">
+                <input type="number" id="v11" value="7" onclick="setActive(1,1)">
+                <input type="number" id="v12" value="-1" onclick="setActive(1,2)">
+                <input type="number" id="v20" value="-2" onclick="setActive(2,0)">
+                <input type="number" id="v21" value="2" onclick="setActive(2,1)">
+                <input type="number" id="v22" value="-11" onclick="setActive(2,2)">
+            </div>
+            <button onclick="calculate()" style="width:100%; margin-top:20px; padding:15px; background:var(--l-matrix-color); border:none; border-radius:10px; font-weight:bold; cursor:pointer;">DECOMPOSE A = LU</button>
         </div>
-        <div class="matrix-box">
-            <h3>المصفوفة U (Upper)</h3>
-            <div class="matrix-display" id="displayU"></div>
+
+        <div class="keypad">
+            <button onclick="keyPress('7')">7</button><button onclick="keyPress('8')">8</button><button onclick="keyPress('9')">9</button><button class="btn-del" onclick="keyPress('DEL')">DEL</button>
+            <button onclick="keyPress('4')">4</button><button onclick="keyPress('5')">5</button><button onclick="keyPress('6')">6</button><button class="btn-op" onclick="keyPress('NEXT')">NEXT</button>
+            <button onclick="keyPress('1')">1</button><button onclick="keyPress('2')">2</button><button onclick="keyPress('3')">3</button><button class="btn-op" onclick="keyPress('-')">+/-</button>
+            <button onclick="keyPress('0')">0</button><button onclick="keyPress('.')">.</button><button class="btn-rand" onclick="randomize()">RAND</button><button class="btn-op" onclick="calculate()">GO</button>
         </div>
     </div>
 
-    <div class="steps" id="stepsArea" style="display: none;">
-        <h3 style="color:var(--primary)">خطوات الحساب بالتفصيل:</h3>
-        <div id="stepsContent"></div>
+    <div class="results-container" id="resView" style="display:none">
+        <div class="matrix-output">
+            <h3 style="color:var(--l-matrix-color)">L (Lower)</h3>
+            <div class="output-grid" id="outL"></div>
+        </div>
+        <div style="display:flex; align-items:center; font-size:2rem; color:var(--primary-gold)">×</div>
+        <div class="matrix-output">
+            <h3 style="color:var(--u-matrix-color)">U (Upper)</h3>
+            <div class="output-grid" id="outU"></div>
+        </div>
+    </div>
+
+    <div class="steps-box" id="stepBox" style="display:none">
+        <h3 style="color:var(--primary-gold); margin-top:0">Calculation Steps & Trace:</h3>
+        <div id="traceContent"></div>
     </div>
 </div>
 
 <script>
-    function generateRandom() {
-        for(let i=0; i<3; i++) {
-            for(let j=0; j<3; j++) {
-                document.getElementById(`a${i}${j}`).value = Math.floor(Math.random() * 21) - 10;
-            }
-        }
+    let activeR = 0, activeC = 0;
+
+    function setActive(r, c) {
+        document.querySelectorAll('.matrix-grid input').forEach(el => el.classList.remove('active'));
+        activeR = r; activeC = c;
+        document.getElementById(`v${r}${c}`).classList.add('active');
     }
 
-    function decomposeLU() {
-        // قراءة القيم
-        let A = [[], [], []];
+    function keyPress(key) {
+        let input = document.getElementById(`v${activeR}${activeC}`);
+        if(key === 'DEL') input.value = input.value.slice(0, -1);
+        else if(key === '-') input.value = input.value.startsWith('-') ? input.value.substr(1) : '-' + input.value;
+        else if(key === 'NEXT') {
+            activeC++; if(activeC > 2) { activeC = 0; activeR++; }
+            if(activeR > 2) activeR = 0;
+            setActive(activeR, activeC);
+        }
+        else if(key !== 'GO') input.value += key;
+    }
+
+    function randomize() {
+        for(let i=0; i<3; i++) for(let j=0; j<3; j++) 
+            document.getElementById(`v${i}${j}`).value = Math.floor(Math.random() * 20) - 10;
+        calculate();
+    }
+
+    function calculate() {
+        let A = [];
         for(let i=0; i<3; i++) {
-            for(let j=0; j<3; j++) {
-                A[i][j] = parseFloat(document.getElementById(`a${i}${j}`).value) || 0;
-            }
+            A[i] = [];
+            for(let j=0; j<3; j++) A[i][j] = parseFloat(document.getElementById(`v${i}${j}`).value) || 0;
         }
 
         let n = 3;
-        let L = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
-        let U = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
-        let log = [];
+        let L = [[1,0,0],[0,1,0],[0,0,1]];
+        let U = [[0,0,0],[0,0,0],[0,0,0]];
+        let steps = [];
 
-        // خوارزمية دوليتل
         for (let i = 0; i < n; i++) {
-            // حساب U
             for (let k = i; k < n; k++) {
                 let sum = 0;
-                for (let j = 0; j < i; j++) sum += (L[i][j] * U[j][k]);
+                let sumStr = "";
+                for (let j = 0; j < i; j++) {
+                    sum += (L[i][j] * U[j][k]);
+                    sumStr += `${L[i][j].toFixed(1)}*${U[j][k].toFixed(1)} + `;
+                }
                 U[i][k] = A[i][k] - sum;
-                log.push(`حساب U[${i+1}][${k+1}]: ${A[i][k]} - (${sum.toFixed(2)}) = <span class="math">${U[i][k].toFixed(2)}</span>`);
+                steps.push(`<div class="step-line"><span class="formula">U[${i+1},${k+1}] = A[${i+1},${k+1}] - Σ(L*U)</span> ➜ ${A[i][k]} - (${sumStr || '0'}) = <span class="calc">${U[i][k].toFixed(2)}</span></div>`);
             }
 
-            // حساب L
             for (let k = i + 1; k < n; k++) {
                 let sum = 0;
-                for (let j = 0; j < i; j++) sum += (L[k][j] * U[j][i]);
-                if(U[i][i] === 0) { alert("خطأ: القسمة على صفر (المصفوفة تحتاج تبديل صفوف)"); return; }
+                let sumStr = "";
+                for (let j = 0; j < i; j++) {
+                    sum += (L[k][j] * U[j][i]);
+                    sumStr += `${L[k][j].toFixed(1)}*${U[j][i].toFixed(1)} + `;
+                }
+                if(U[i][i] === 0) { alert("Pivot is zero! Division by zero error."); return; }
                 L[k][i] = (A[k][i] - sum) / U[i][i];
-                log.push(`حساب L[${k+1}][${i+1}]: (${A[k][i]} - ${sum.toFixed(2)}) / ${U[i][i].toFixed(2)} = <span class="math">${L[k][i].toFixed(2)}</span>`);
+                steps.push(`<div class="step-line"><span class="formula">L[${k+1},${i+1}] = (A[${k+1},${i+1}] - Σ(L*U)) / U[${i+1},${i+1}]</span> ➜ (${A[k][i]} - ${sumStr || '0'}) / ${U[i][i].toFixed(2)} = <span class="calc">${L[k][i].toFixed(2)}</span></div>`);
             }
         }
 
-        // عرض النتائج
-        renderMatrix('displayL', L);
-        renderMatrix('displayU', U);
-        document.getElementById('resultsArea').style.display = 'flex';
-        
-        // عرض الخطوات
-        let stepsHtml = log.map(step => `<div class="step-item">${step}</div>`).join('');
-        document.getElementById('stepsContent').innerHTML = stepsHtml;
-        document.getElementById('stepsArea').style.display = 'block';
+        render(L, 'outL', 'l-cell');
+        render(U, 'outU', 'u-cell');
+        document.getElementById('resView').style.display = 'flex';
+        document.getElementById('traceContent').innerHTML = steps.join('');
+        document.getElementById('stepBox').style.display = 'block';
     }
 
-    function renderMatrix(id, matrix) {
-        let container = document.getElementById(id);
-        container.innerHTML = '';
-        matrix.forEach(row => {
-            row.forEach(val => {
-                let div = document.createElement('div');
-                div.className = 'cell';
-                div.innerText = val.toFixed(2);
-                container.appendChild(div);
-            });
-        });
+    function render(m, id, cls) {
+        let el = document.getElementById(id);
+        el.innerHTML = '';
+        m.forEach(row => row.forEach(v => {
+            let d = document.createElement('div');
+            d.className = `cell ${cls}`;
+            d.innerText = v.toFixed(2);
+            el.appendChild(d);
+        }));
     }
 </script>
-
 </body>
 </html>
