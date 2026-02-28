@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Matrix Pro - MAS Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1e293b;
+  --accent:#2563eb;
+  --success:#16a34a;
+  --danger:#dc2626;
+  --warning:#f59e0b;
+  --bg:#f1f5f9;
+  --card:#ffffff;
+  --shadow:0 10px 25px rgba(0,0,0,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Cairo',sans-serif}
+body{background:var(--bg);display:flex;flex-direction:column;height:100vh}
+header{
+  background:linear-gradient(135deg,var(--primary),#0f172a);
+  color:#fff;
+  padding:12px;
+  text-align:center;
+  font-weight:700;
+  letter-spacing:.5px;
+  box-shadow:var(--shadow)
+}
+.container{flex:1;display:flex;flex-direction:column;padding:8px;gap:8px;overflow:hidden}
+.card{
+  background:var(--card);
+  border-radius:16px;
+  padding:10px;
+  box-shadow:var(--shadow);
+}
+.section-title{font-weight:700;margin-bottom:6px;color:var(--primary)}
+.matrix-wrapper{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.matrix-box{display:flex;flex-direction:column;align-items:center}
+.matrix-label{font-weight:700;margin-bottom:4px}
+.matrix-grid{display:grid;gap:4px}
+.matrix-grid input{
+  width:38px;height:32px;text-align:center;
+  border-radius:8px;border:1px solid #cbd5e1;
+  font-weight:700;font-size:14px;
+  transition:.2s
+}
+.matrix-grid input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 2px rgba(37,99,235,.2)}
+.numpad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.numpad button{
+  padding:10px;border:none;border-radius:12px;
+  font-weight:700;font-size:16px;
+  background:#e2e8f0;cursor:pointer;
+  transition:.2s
+}
+.numpad button:hover{transform:translateY(-2px)}
+.ops{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ops button{
+  padding:8px;border:none;border-radius:12px;
+  font-size:12px;font-weight:700;color:#fff;
+  background:var(--primary);cursor:pointer;
+  transition:.2s
+}
+.ops button:hover{opacity:.9;transform:scale(1.03)}
+.result{
+  flex:1;overflow:auto;
+  font-weight:700;text-align:center
+}
+.footer{
+  background:var(--primary);
+  color:#fff;
+  text-align:center;
+  padding:6px;
+  font-size:12px
+}
+@media(max-width:480px){
+  .matrix-grid input{width:32px;height:28px}
+}
+</style>
+</head>
+<body>
+<header>Matrix Pro — MAS Professional Edition</header>
+<div class="container"><div class="card">
+<div class="section-title">المصفوفات</div>
+<div class="matrix-wrapper">
+<div class="matrix-box">
+<div class="matrix-label">أ</div>
+<div id="_grA" class="matrix-grid"></div>
+</div>
+<div class="matrix-box">
+<div class="matrix-label">ب</div>
+<div id="_grB" class="matrix-grid"></div>
+</div>
+</div>
+</div><div class="card">
+<div class="section-title">لوحة الأرقام</div>
+<div class="numpad">
+<button onclick="_fH(3,'7')">٧</button>
+<button onclick="_fH(3,'8')">٨</button>
+<button onclick="_fH(3,'9')">٩</button>
+<button style="background:var(--danger);color:#fff" onclick="_fH(5)">مسح</button>
+<button onclick="_fH(3,'4')">٤</button>
+<button onclick="_fH(3,'5')">٥</button>
+<button onclick="_fH(3,'6')">٦</button>
+<button onclick="_fH(3,'back')">⌫</button>
+<button onclick="_fH(3,'1')">١</button>
+<button onclick="_fH(3,'2')">٢</button>
+<button onclick="_fH(3,'3')">٣</button>
+<button style="background:var(--accent);color:#fff" onclick="_fH(4)">التالي</button>
+<button onclick="_fH(3,'0')">٠</button>
+<button onclick="_fH(3,'-')">ـ</button>
+<button onclick="_fH(3,'.')">٫</button>
+<button style="background:var(--warning);color:#fff" onclick="location.reload()">إعادة</button>
+</div>
+</div><div class="card">
+<div class="section-title">العمليات</div>
+<div class="ops">
+<button onclick="_oK(1)">أ + ب</button>
+<button onclick="_oK(2)">أ - ب</button>
+<button onclick="_oK(3)">أ × ب</button>
+<button onclick="_oK(4)">محدد أ</button>
+<button onclick="_oK(5)">محدد ب</button>
+<button onclick="_oK(6)">معكوس أ</button>
+<button onclick="_oK(7)">معكوس ب</button>
+<button onclick="_oK(8)">أ ^ ن</button>
+<button style="background:var(--warning)" onclick="_oK(9)">AX=B</button>
+<button style="background:var(--success)" onclick="_oK(10)">المساحة</button>
+<button onclick="_oK(11)">تفكيك</button>
+<button style="background:var(--danger)" onclick="_oK(12)">عشوائي</button>
+</div>
+</div><div class="card result" id="res"></div></div>
+<div class="footer">تصميم احترافي — محمود عادل صالح</div><script>
+/* ضع هنا نفس كود الجافاسكريبت الأصلي بالكامل بدون أي حذف */
+</script></body>
+</html>
