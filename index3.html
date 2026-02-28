@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>LU Solver Pro - Mahmoud Adel</title>
+    <style>
+        :root {
+            --primary-blue: #38bdf8;
+            --pink-accent: #f472b6;
+            --bg-gray: #1f2937;
+            --panel-gray: #374151;
+            --l-color: #4ade80;
+            --u-color: #fb7185;
+        }
+
+        body { font-family: sans-serif; background-color: var(--bg-gray); color: white; margin: 0; padding: 5px; overflow-x: hidden; }
+        .outer-frame { border: 3px solid var(--primary-blue); border-radius: 12px; width: 100%; box-sizing: border-box; }
+        .inner-frame { border: 2px solid var(--pink-accent); padding: 8px; border-radius: 10px; background: var(--panel-gray); }
+        h1 { text-align: center; color: var(--primary-blue); font-size: 1rem; margin: 0 0 8px 0; }
+
+        .matrix-container { display: flex; justify-content: center; margin-bottom: 8px; }
+        .brackets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; padding: 8px; border-left: 2px solid white; border-right: 2px solid white; position: relative; }
+        .brackets::before, .brackets::after { content: ''; position: absolute; left: 0; right: 0; height: 5px; border-left: 2px solid white; border-right: 2px solid white; }
+        .brackets::before { top: 0; border-top: 2px solid white; }
+        .brackets::after { bottom: 0; border-bottom: 2px solid white; }
+
+        input { width: 45px; height: 35px; background: #000; border: 1px solid #555; color: var(--primary-blue); text-align: center; font-size: 1rem; border-radius: 4px; font-weight: bold; }
+        input.active { border: 2px solid var(--pink-accent); background: #111; }
+
+        .keypad-grid { background: #111827; padding: 6px; border-radius: 10px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 5px; }
+        button.key { height: 40px; border: none; border-radius: 6px; font-weight: bold; font-size: 0.85rem; cursor: pointer; color: white; background: #4b5563; }
+        .btn-blue { background: var(--primary-blue); color: #000; }
+        .btn-red { background: #ef4444; }
+        .btn-go { background: var(--pink-accent); color: white; }
+
+        #resultsArea { margin-top: 8px; border-top: 1px dashed #555; padding-top: 8px; display: none; }
+        .res-matrix-box { margin-bottom: 8px; background: #000; padding: 6px; border-radius: 8px; border: 1px solid #444; flex: 1; }
+        .res-title { font-size: 0.7rem; margin-bottom: 3px; display: block; text-align: center; font-weight: bold; }
+        .cell-res { text-align: center; font-family: monospace; font-weight: bold; font-size: 0.85rem; padding: 2px; }
+
+        .control-row { display: flex; justify-content: space-between; padding: 0 10px; margin-top: 5px; }
+        .action-text { color: var(--primary-blue); cursor: pointer; font-size: 0.8rem; font-weight: bold; text-decoration: underline; background: none; border: none; }
+        
+        .derivation-log { display: none; font-size: 0.7rem; background: #000; padding: 8px; border-radius: 6px; max-height: 150px; overflow-y: auto; border: 1px solid #444; margin-top: 5px; line-height: 1.4; }
+        .math-sym { color: var(--pink-accent); font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="outer-frame">
+    <div class="inner-frame">
+        <h1>LU Step-by-Step</h1>
+
+        <div class="matrix-container">
+            <div class="brackets" id="inputGrid">
+                <input type="text" id="v00" value="2" readonly onclick="setActive(0,0)" class="active">
+                <input type="text" id="v01" value="3" readonly onclick="setActive(0,1)">
+                <input type="text" id="v02" value="1" readonly onclick="setActive(0,2)">
+                <input type="text" id="v10" value="4" readonly onclick="setActive(1,0)">
+                <input type="text" id="v11" value="7" readonly onclick="setActive(1,1)">
+                <input type="text" id="v12" value="-1" readonly onclick="setActive(1,2)">
+                <input type="text" id="v20" value="-2" readonly onclick="setActive(2,0)">
+                <input type="text" id="v21" value="2" readonly onclick="setActive(2,1)">
+                <input type="text" id="v22" value="-11" readonly onclick="setActive(2,2)">
+            </div>
+        </div>
+
+        <div id="keypad" class="keypad-grid">
+            <button class="key" onclick="press('7')">7</button><button class="key" onclick="press('8')">8</button><button class="key" onclick="press('9')">9</button><button class="key btn-red" onclick="press('DEL')">DEL</button>
+            <button class="key" onclick="press('4')">4</button><button class="key" onclick="press('5')">5</button><button class="key" onclick="press('6')">6</button><button class="key btn-blue" onclick="press('NEXT')">NEXT</button>
+            <button class="key" onclick="press('1')">1</button><button class="key" onclick="press('2')">2</button><button class="key" onclick="press('3')">3</button><button class="key btn-blue" onclick="press('-')">+/-</button>
+            <button class="key" onclick="press('0')">0</button><button class="key" onclick="press('.')">.</button><button class="key btn-blue" onclick="randomize()">RAND</button><button class="key btn-go" onclick="calculate()">GO</button>
+        </div>
+
+        <div id="resultsArea">
+            <div style="display: flex; gap: 5px;">
+                <div class="res-matrix-box">
+                    <span class="res-title" style="color:var(--l-color)">L Matrix</span>
+                    <div id="resL" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
+                </div>
+                <div class="res-matrix-box">
+                    <span class="res-title" style="color:var(--u-color)">U Matrix</span>
+                    <div id="resU" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
+                </div>
+            </div>
+            
+            <div class="control-row">
+                <button class="action-text" onclick="reloadApp()">Reload</button>
+                <button class="action-text" onclick="toggleDerivation()">Show Guide</button>
+            </div>
+            <div class="derivation-log" id="derivationLog"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let r = 0, c = 0, isNew = true;
+
+    function setActive(row, col) {
+        document.querySelectorAll('input').forEach(i => i.classList.remove('active'));
+        r = row; c = col; isNew = true;
+        document.getElementById(`v${r}${c}`).classList.add('active');
+    }
+
+    function press(k) {
+        let el = document.getElementById(`v${r}${c}`);
+        if(k === 'NEXT') {
+            c++; if(c > 2) { c = 0; r++; } if(r > 2) r = 0;
+            setActive(r, c); return;
+        }
+        if(k === 'DEL') { el.value = "0"; isNew = true; return; }
+        if(k === '-') { el.value = el.value.startsWith('-') ? el.value.slice(1) : '-' + el.value; return; }
+        if(isNew) { el.value = k; isNew = false; } else { el.value += k; }
+    }
+
+    function randomize() {
+        for(let i=0; i<3; i++) for(let j=0; j<3; j++)
+            document.getElementById(`v${i}${j}`).value = (Math.random()*16 - 8).toFixed(0);
+        document.getElementById('resultsArea').style.display = 'none';
+    }
+
+    function reloadApp() {
+        document.getElementById('keypad').style.display = 'grid';
+        document.getElementById('resultsArea').style.display = 'none';
+        document.getElementById('derivationLog').style.display = 'none';
+        setActive(0, 0);
+    }
+
+    function toggleDerivation() {
+        let log = document.getElementById('derivationLog');
+        log.style.display = (log.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function calculate() {
+        let A = [[],[],[]];
+        for(let i=0; i<3; i++) for(let j=0; j<3; j++) A[i][j] = parseFloat(document.getElementById(`v${i}${j}`).value) || 0;
+        let L = [[1,0,0],[0,1,0],[0,0,1]], U = [[0,0,0],[0,0,0],[0,0,0]], trace = [];
+
+        for(let i=0; i<3; i++) {
+            // Calculate U row
+            for(let k=i; k<3; k++) {
+                let sum = 0, steps = "";
+                for(let j=0; j<i; j++) {
+                    sum += L[i][j]*U[j][k];
+                    steps += ` - (${L[i][j].toFixed(1)}*${U[j][k].toFixed(1)})`;
+                }
+                U[i][k] = A[i][k] - sum;
+                trace.push(`<div><span class="math-sym">u${i+1}${k+1}</span> = a${i+1}${k+1}(${A[i][k]})${steps || ' - 0'} = <b>${U[i][k].toFixed(1)}</b></div>`);
+            }
+            // Calculate L column
+            for(let k=i+1; k<3; k++) {
+                let sum = 0, steps = "";
+                for(let j=0; j<i; j++) {
+                    sum += L[k][j]*U[j][i];
+                    steps += ` - (${L[k][j].toFixed(1)}*${U[j][i].toFixed(1)})`;
+                }
+                if(U[i][i] === 0) { alert("Error: u"+(i+1)+(i+1)+" is 0"); return; }
+                L[k][i] = (A[k][i] - sum) / U[i][i];
+                trace.push(`<div><span class="math-sym">l${k+1}${i+1}</span> = (a${k+1}${i+1}(${A[k][i]})${steps || ' - 0'}) / u${i+1}${i+1}(${U[i][i].toFixed(1)}) = <b>${L[k][i].toFixed(2)}</b></div>`);
+            }
+        }
+
+        render('resL', L, 'l-color'); render('resU', U, 'u-color');
+        document.getElementById('derivationLog').innerHTML = trace.join('');
+        document.getElementById('keypad').style.display = 'none';
+        document.getElementById('resultsArea').style.display = 'block';
+    }
+
+    function render(id, m, colorVar) {
+        let html = '';
+        m.forEach(row => row.forEach(v => html += `<div class="cell-res" style="color:var(--${colorVar})">${v.toFixed(1)}</div>`));
+        document.getElementById(id).innerHTML = html;
+    }
+</script>
+</body>
+</html>
