@@ -6,7 +6,7 @@
     <title>Matrix Pro - M.A.S</title>
     <link rel="manifest" href="manifest.json">
     <style>
-        :root { --p: #2c3e50; --a: #2980b9; --ac: #fff9c4; --s: #27ae60; --w: #e67e22; --gold: #d4af37; --silver: #e0e0e0; }
+        :root { --p: #2c3e50; --a: #2980b9; --ac: #fff9c4; --s: #27ae60; --w: #e67e22; --gold: #ffd700; --silver: #e0e0e0; --random: #8e44ad; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         html, body { height: 100vh; width: 100vw; overflow: hidden; background: #f4f7f6; font-family: 'Segoe UI', sans-serif; display: flex; flex-direction: column; }
 
@@ -17,34 +17,45 @@
         .b-k { display: flex; align-items: center; padding: 2px; border-left: 3px solid var(--p); border-right: 3px solid var(--p); border-radius: 12px / 8px; background: #fff; }
         .det-style { border-radius: 0 !important; border-width: 4px !important; }
         .g-d { display: grid; gap: 1px; }
-        .c-l { width: 32px; height: 28px; text-align: center; border: 1px solid #ddd; border-radius: 4px; font-size: 15px; font-weight: bold; outline: none; }
+        .c-l { width: 32px; height: 28px; text-align: center; border: 1px solid #ddd; border-radius: 4px; font-size: 15px; font-weight: bold; outline: none; transition: 0.1s; }
         .c-l.at { background: var(--ac) !important; border: 2px solid var(--a); }
         .c-l.ro { background: #f0f0f0; color: #999; }
         .dim-btn { background: var(--p); color: white; border-radius: 4px; padding: 2px 6px; font-size: 11px; cursor: pointer; margin: 1px; font-weight: bold; }
 
         /* القسم 2: لوحة المفاتيح (28% من الشاشة) */
         .sec-numpad { height: 28vh; display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 4px; background: #34495e; }
-        .sec-numpad button { border: none; border-radius: 5px; font-size: 18px; font-weight: bold; background: #ecf0f1; cursor: pointer; }
+        .sec-numpad button { border: none; border-radius: 5px; font-size: 18px; font-weight: bold; background: #ecf0f1; cursor: pointer; box-shadow: 0 2px 0 #bdc3c7; }
         .btn-next { background: var(--a) !important; color: white; }
         .btn-del { background: var(--w) !important; color: white; }
 
         /* القسم 3: العمليات (18% من الشاشة) */
         .sec-ops { height: 18vh; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 4px; background: #ebf0f1; }
-        .o-b { border: none; border-radius: 4px; font-size: 10px; font-weight: bold; background: var(--p); color: white; cursor: pointer; }
+        .o-b { border: none; border-radius: 4px; font-size: 10px; font-weight: bold; background: var(--p); color: white; cursor: pointer; box-shadow: 0 2px 0 #1a252f; }
+        .o-b.special { background: var(--w); }
+        .o-b.random { background: var(--random); }
 
-        /* القسم 4: النتائج (24% من الشاشة) */
-        .sec-res { height: 24vh; padding: 5px; overflow-y: auto; background: #fff; border-top: 2px solid var(--a); text-align: center; padding-bottom: 40px; }
-        .res-row { display: flex; align-items: center; justify-content: center; gap: 5px; }
+        /* القسم 4: النتائج (24% من الشاشة) الجبار */
+        .sec-res { height: 24vh; padding: 5px; overflow-y: auto; background: #fff; border-top: 2px solid var(--a); text-align: center; padding-bottom: 40px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .res-row { display: flex; align-items: center; justify-content: center; gap: 5px; width: 100%; flex-wrap: nowrap; }
+        .res-row .b-k { padding: 4px; max-width: 90%; }
+        .res-row .grid { display: grid; gap: 2px; justify-items: center; align-items: center; }
+        /* ضمان احتواء الأرقام الطويلة داخل المستطيل الأقواس */
+        .res-row .c-l { width: auto; min-width: 32px; padding: 0 4px; height: 32px; font-size: 16px; border: 1px solid #ccc; background: #fdfdfd; }
+        
         .f-c { display: flex; flex-direction: column; align-items: center; font-size: 16px; font-weight: bold; }
         .f-n { border-bottom: 2px solid #000; padding: 0 4px; }
 
-        /* الماركوي السفلي الثابت */
-        .m-wrap { position: fixed; bottom: 0; left: 0; width: 100%; background: #1a1a1a; border-top: 1px solid var(--gold); border-bottom: 1px solid var(--gold); height: 32px; display: flex; align-items: center; z-index: 2000; }
-        .m-wrap marquee { color: var(--silver); font-size: 14px; font-weight: bold; line-height: 32px; }
+        /* الماركوي الملكي المحدث */
+        .m-wrap { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--gold); border-top: 1px solid #000; border-bottom: 1px solid #000; height: 32px; display: flex; align-items: center; z-index: 2000; box-shadow: 0 -2px 5px rgba(0,0,0,0.2); }
+        .m-wrap marquee { color: #000; font-size: 14px; font-weight: bold; line-height: 32px; text-shadow: 1px 1px 2px rgba(142, 68, 173, 0.3); } /* ظل بنفسجي خفيف */
         .wa-icon { vertical-align: middle; width: 18px; margin: 0 5px; filter: drop-shadow(0 0 2px #25d366); }
+        
+        #pwa-btn { display: none; position: fixed; top: 5px; left: 5px; z-index: 1000; background: var(--s); color: white; border: none; padding: 5px 10px; border-radius: 15px; font-size: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
+
+    <button id="pwa-btn">تثبيت 📲</button>
 
     <div class="sec-matrices">
         <div id="_preX" style="display:none; margin-top:20px;"><div class="f-c"><span class="f-n">١</span><span>٢</span></div></div>
@@ -75,18 +86,24 @@
     <div class="sec-ops">
         <button class="o-b" onclick="_oK(1)">أ + ب</button><button class="o-b" onclick="_oK(2)">أ - ب</button><button class="o-b" onclick="_oK(3)">أ × ب</button><button class="o-b" onclick="_oK(4)">محدد أ</button>
         <button class="o-b" onclick="_oK(5)">محدد ب</button><button class="o-b" onclick="_oK(6)">معكوس أ</button><button class="o-b" onclick="_oK(7)">معكوس ب</button><button class="o-b" onclick="_oK(8)">أ ^ ن</button>
-        <button class="o-b" style="background:var(--w)" onclick="_oK(9)">AX=B</button><button class="o-b" style="background:var(--s)" onclick="_oK(10)">المساحة</button><button class="o-b" style="background:var(--r)" onclick="_oK(11)">تفكيك</button><button class="o-b" style="background:#e74c3c" onclick="_oK(12)">عشوائي</button>
+        <button class="o-b special" onclick="_oK(9)">AX=B</button><button class="o-b" style="background:var(--s)" onclick="_oK(10)">المساحة</button><button class="o-b" style="background:#8e44ad" onclick="_oK(11)">تفكيك</button><button class="o-b random" onclick="_oK(12)">عشوائي</button>
     </div>
 
-    <div class="sec-res" id="res"></div>
+    <div class="sec-res" id="res">النتيجة تظهر هنا...</div>
 
     <div class="m-wrap">
         <marquee direction="right" scrollamount="6">
-            محمود عادل صالح  &nbsp;&nbsp;  رياضيات تفاعلية  &nbsp;&nbsp;  للمراسلة: <a href="https://wa.me/201552402912" style="text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="wa-icon"> 01552402912</a> &nbsp;&nbsp; محمود عادل صالح
+            <a href="https://wa.me/201552402912" style="text-decoration:none; color:#000;">
+                محمود عادل صالح  &nbsp;&nbsp;  رياضيات تفاعلية  &nbsp;&nbsp;  <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="wa-icon"> مراسلتي عبر الواتساب &nbsp;&nbsp; محمود عادل صالح
+            </a>
         </marquee>
     </div>
 
 <script>
+    if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
+    let _iP; window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); _iP = e; document.getElementById('pwa-btn').style.display='block'; });
+    document.getElementById('pwa-btn').onclick = () => { if(_iP){ _iP.prompt(); _iP=null; document.getElementById('pwa-btn').style.display='none'; }};
+
     (function(){
         let _ac = null, _d = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _isP=false;
         const _ta = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]).replace("-", "ـ"), _te = s => s.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("ـ", "-");
@@ -122,7 +139,7 @@
         };
 
         window._setS = n => { _d.A={r:n,c:n}; _d.B={r:n,c:1}; _d.X={r:n,c:1}; _rG('A'); _rG('B'); document.getElementById('_uSys').style.display='flex'; const gx=document.getElementById('_grX'), ux=n===2?['س','ص']:['س','ص','ع']; gx.style.gridTemplateColumns='32px'; gx.innerHTML=ux.map(u=>`<input class="c-l ro" type="text" value="${u}" readonly>`).join(''); document.getElementById('res').innerHTML='<button class="o-b" style="padding:8px 20px;background:var(--w)" onclick="_eS()">احسب الحل</button>'; };
-        window._eS = () => { let _a=_gM('A'), _b=_gM('B'), _r=_adD(_a); if(_r.det===0)return; let _ajB=_mu(_r.adj,_b), ux=_a.length===2?['س','ص']:['س','ص','ع']; let h=`<div class="res-row"><div class="b-k"><div class="g-d">${ux.map(u=>`<input class="c-l ro" type="text" value="${u}" readonly>`).join('')}</div></div><span>=</span>`+(_r.det===1?_rS(_ajB):`<div class="f-c"><span class="f-n">١</span><span>${_ta(_r.det)}</span></div>`+_rS(_ajB))+`</div>`; document.getElementById('res').innerHTML=h; };
+        window._eS = () => { let _a=_gM('A'), _b=_gM('B'), _r=_adD(_a); if(_r.det===0){alert("المحدد صفر");return;} let _ajB=_mu(_r.adj,_b), ux=_a.length===2?['س','ص']:['س','ص','ع']; let h=`<div class="res-row"><div class="b-k"><div class="g-d">${ux.map(u=>`<input class="c-l ro" type="text" value="${u}" readonly>`).join('')}</div></div><span>=</span>`+(_r.det===1?_rS(_ajB):`<div class="f-c"><span class="f-n">١</span><span>${_ta(_r.det)}</span></div>`+_rS(_ajB))+`</div>`; document.getElementById('res').innerHTML=h; };
         window._eP = () => { let n=parseInt(_te(document.getElementById('_powV').value))||1, m=_gM('A'); if(_d.A.r!==_d.A.c)return; let r=m; for(let i=1;i<n;i++) r=_mu(r,m); _sR(r,`أ ^ ${_ta(n)}`); };
         window._eT = () => { let m=_gM('A'), d=(m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]))-(m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]))+(m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0])); document.getElementById('res').innerHTML=`<b>المساحة = ${_ta(Math.abs(d)/2)} وحدة مربعة</b>`; };
         window._rs = () => { document.getElementById('_uSys').style.display='none'; document.getElementById('_preX').style.display='none'; document.getElementById('_uB').style.display='flex'; document.getElementById('_brkA').classList.remove('det-style'); document.getElementById('_lblA').innerText="أ"; document.getElementById('res').innerHTML=''; };
@@ -130,7 +147,12 @@
         const _mu = (m1,m2) => { let r=Array(m1.length).fill(0).map(()=>Array(m2[0].length).fill(0)); for(let i=0; i<m1.length; i++)for(let j=0; j<m2[0].length; j++)for(let k=0; k<m1[0].length; k++)r[i][j]+=m1[i][k]*m2[k][j]; return r; };
         const _tp = a => a[0].map((_,c)=>a.map(r=>r[c]));
         const _adD = m => { let n=m.length, d=(n===1)?m[0][0]:(n===2)?(m[0][0]*m[1][1]-m[0][1]*m[1][0]):(m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0])), aj = (n===1)?[[1]]:(n===2)?[[m[1][1],-m[0][1]],[-m[1][0],m[0][0]]]:[[(m[1][1]*m[2][2]-m[1][2]*m[2][1]),-(m[0][1]*m[2][2]-m[0][2]*m[2][1]),(m[0][1]*m[1][2]-m[0][2]*m[1][1])],[-(m[1][0]*m[2][2]-m[1][2]*m[2][0]),(m[0][0]*m[2][2]-m[0][2]*m[2][0]),-(m[0][0]*m[1][2]-m[0][2]*m[1][0])],[(m[1][0]*m[2][1]-m[1][1]*m[2][0]),-(m[0][0]*m[2][1]-m[0][1]*m[2][0]),(m[0][0]*m[1][1]-m[0][1]*m[1][0])]]; return {adj:aj, det:d}; };
-        const _rS = m => { let h=`<div class="b-k"><div class="g-d" style="grid-template-columns:repeat(${m[0].length},32px)">`; m.forEach(r=>r.forEach(v=>h+=`<input class="c-l ro" type="text" value="${_ta(Number.isInteger(v)?v:v.toFixed(1))}" readonly>`)); return h+'</div></div>'; };
+        
+        // تعديل دالة رسم النتيجة لتكون مرنة مع الأرقام الطويلة
+        const _rS = m => { 
+            let h=`<div class="b-k"><div class="grid" style="grid-template-columns:repeat(${m[0].length}, auto)">`; // استخدام auto لتسمح بالاستطالة العرضية
+            m.forEach(r=>r.forEach(v=>h+=`<input class="c-l ro" type="text" value="${_ta(Number.isInteger(v)?v:v.toFixed(1))}" readonly>`)); return h+'</div></div>'; 
+        };
         const _sR = (m,t,dt=null,sep="",m2=null) => { let h=`<b>${t}</b><div class="res-row">`+(dt && dt!==1?`<div class="f-c"><span class="f-n">١</span><span>${_ta(dt)}</span></div>`:"")+_rS(m)+(sep?`<span>${sep}</span>`:"")+(m2?_rS(m2):"")+'</div>'; document.getElementById('res').innerHTML=h; };
         _rG('A'); _rG('B');
     })();
