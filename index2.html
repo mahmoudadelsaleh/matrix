@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LU Mobile Matrix - Mahmoud Adel</title>
+    <title>LU Solver Gray & Blue - Mahmoud Adel</title>
     <style>
         :root {
-            --gold: #ffd700;
-            --pink: #ff69b4;
-            --bg: #0a0a0a;
-            --keypad-bg: #1e1e2e;
-            --l-color: #00ff88;
-            --u-color: #ff4444;
+            --primary-blue: #38bdf8;
+            --pink-accent: #f472b6;
+            --bg-gray: #1f2937;
+            --panel-gray: #374151;
+            --keypad-bg: #111827;
+            --l-color: #4ade80;
+            --u-color: #fb7185;
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: var(--bg);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background-color: var(--bg-gray);
             color: white;
             margin: 0;
             padding: 10px;
@@ -24,101 +25,97 @@
             justify-content: center;
         }
 
-        /* Double Border Logic */
+        /* Framing */
         .outer-frame {
-            border: 4px solid var(--gold);
-            padding: 5px;
+            border: 4px solid var(--primary-blue);
+            padding: 4px;
             border-radius: 20px;
             width: 100%;
-            max-width: 450px;
+            max-width: 420px;
         }
 
         .inner-frame {
-            border: 3px solid var(--pink);
+            border: 3px solid var(--pink-accent);
             padding: 15px;
             border-radius: 15px;
-            background: #111;
+            background: var(--panel-gray);
+            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
 
-        h1 { text-align: center; color: var(--gold); font-size: 1.4rem; margin-bottom: 20px; text-shadow: 2px 2px #000; }
+        h1 { text-align: center; color: var(--primary-blue); font-size: 1.3rem; margin: 0 0 15px 0; text-transform: uppercase; }
 
-        /* Matrix with Brackets */
-        .matrix-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 15px 0;
-        }
-
+        /* Matrix Brackets Setup */
+        .matrix-container { display: flex; justify-content: center; margin-bottom: 20px; }
         .brackets {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            padding: 10px;
+            gap: 10px;
+            padding: 15px;
             border-left: 3px solid white;
             border-right: 3px solid white;
             position: relative;
         }
-
-        .brackets::before, .brackets::after {
-            content: '';
-            position: absolute;
-            height: 10px;
-            width: 15px;
-            border-color: white;
-            border-style: solid;
-        }
-        /* Top Brackets */
-        .brackets::before { top: 0; left: 0; border-width: 3px 0 0 3px; }
-        .brackets::after { top: 0; right: 0; border-width: 3px 3px 0 0; }
-        
-        /* Bottom implementation for full bracket look */
-        .bracket-footer::before { content: ''; position: absolute; bottom: 0; left: 0; height: 10px; width: 15px; border-left: 3px solid white; border-bottom: 3px solid white; }
-        .bracket-footer::after { content: ''; position: absolute; bottom: 0; right: 0; height: 10px; width: 15px; border-right: 3px solid white; border-bottom: 3px solid white; }
+        .brackets::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 10px; border-top: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
+        .brackets::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 10px; border-bottom: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
 
         input {
-            width: 60px; height: 50px; background: #222; border: 1px solid #444;
-            color: var(--gold); text-align: center; font-size: 1.2rem; border-radius: 5px;
+            width: 55px; height: 45px; background: #111; border: 1px solid #444;
+            color: var(--primary-blue); text-align: center; font-size: 1.2rem; border-radius: 6px; font-weight: bold;
         }
+        input.active { border: 2px solid var(--pink-accent); box-shadow: 0 0 10px var(--pink-accent); }
 
-        input.active { border: 2px solid var(--pink); background: #333; }
-
-        /* Keypad Styling */
-        .keypad-wrapper {
+        /* 4x4 Keypad - Equal Buttons */
+        .keypad-grid {
             background: var(--keypad-bg);
-            padding: 15px;
-            border-radius: 15px;
-            border: 1px solid #444;
-            margin: 20px 0;
+            padding: 12px;
+            border-radius: 12px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
             gap: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #4b5563;
         }
 
         button {
-            height: 50px; border: none; border-radius: 8px; font-weight: bold;
-            font-size: 1.1rem; cursor: pointer; color: white; background: #334155;
+            aspect-ratio: 1 / 1; /* Makes buttons square and equal */
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            color: white;
+            background: #4b5563;
+            transition: 0.1s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
+        button:active { transform: scale(0.92); filter: brightness(1.2); }
 
-        .btn-num { background: #475569; }
-        .btn-special { background: var(--pink); color: black; }
-        .btn-go { background: var(--gold); color: black; grid-column: span 2; }
+        .btn-op { background: var(--primary-blue); color: #000; font-size: 0.85rem; }
+        .btn-del { background: #ef4444; }
+        .btn-go { background: var(--pink-accent); color: white; }
 
-        /* Output */
-        .output-section { display: flex; flex-direction: column; gap: 20px; align-items: center; }
-        .res-matrix { transform: scale(0.9); }
-        .cell-res { width: 55px; height: 40px; display: flex; align-items: center; justify-content: center; background: #111; font-weight: bold; border-radius: 4px; }
-        .l-cell { color: var(--l-color); border: 1px solid var(--l-color); }
-        .u-cell { color: var(--u-color); border: 1px solid var(--u-color); }
+        /* Output View */
+        .output-box { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
+        .res-row { display: flex; align-items: center; justify-content: space-between; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #444; }
+        .cell-res { width: 50px; text-align: center; font-family: monospace; font-weight: bold; }
+        .l-txt { color: var(--l-color); }
+        .u-txt { color: var(--u-color); }
 
-        .trace { font-size: 0.8rem; background: #000; padding: 10px; border-radius: 8px; margin-top: 15px; border: 1px solid #333; max-height: 200px; overflow-y: auto; }
+        .trace-area { 
+            font-size: 0.75rem; color: #9ca3af; background: #000; 
+            padding: 10px; border-radius: 8px; margin-top: 10px; 
+            height: 120px; overflow-y: auto; border: 1px solid #374151;
+        }
     </style>
 </head>
 <body>
 
 <div class="outer-frame">
     <div class="inner-frame">
-        <h1>LU DECOMPOSITION</h1>
+        <h1>LU Decomposition</h1>
 
         <div class="matrix-container">
             <div class="brackets" id="inputGrid">
@@ -131,119 +128,104 @@
                 <input type="text" id="v20" value="-2" readonly onclick="setActive(2,0)">
                 <input type="text" id="v21" value="2" readonly onclick="setActive(2,1)">
                 <input type="text" id="v22" value="-11" readonly onclick="setActive(2,2)">
-                <div class="bracket-footer"></div>
             </div>
         </div>
 
-        <div class="keypad-wrapper">
-            <button class="btn-num" onclick="handleInput('7')">7</button>
-            <button class="btn-num" onclick="handleInput('8')">8</button>
-            <button class="btn-num" onclick="handleInput('9')">9</button>
-            <button class="btn-special" onclick="handleInput('DEL')">DEL</button>
-            <button class="btn-num" onclick="handleInput('4')">4</button>
-            <button class="btn-num" onclick="handleInput('5')">5</button>
-            <button class="btn-num" onclick="handleInput('6')">6</button>
-            <button class="btn-special" onclick="handleInput('NEXT')">NEXT</button>
-            <button class="btn-num" onclick="handleInput('1')">1</button>
-            <button class="btn-num" onclick="handleInput('2')">2</button>
-            <button class="btn-num" onclick="handleInput('3')">3</button>
-            <button class="btn-special" onclick="handleInput('-')">+/-</button>
-            <button class="btn-num" onclick="handleInput('0')">0</button>
-            <button class="btn-num" onclick="handleInput('.')">.</button>
-            <button class="btn-special" onclick="randomize()">RAND</button>
-            <button class="btn-go" onclick="calculate()">DECOMPOSE</button>
+        <div class="keypad-grid">
+            <button onclick="press('7')">7</button>
+            <button onclick="press('8')">8</button>
+            <button onclick="press('9')">9</button>
+            <button class="btn-del" onclick="press('DEL')">DEL</button>
+            <button onclick="press('4')">4</button>
+            <button onclick="press('5')">5</button>
+            <button onclick="press('6')">6</button>
+            <button class="btn-op" onclick="press('NEXT')">NEXT</button>
+            <button onclick="press('1')">1</button>
+            <button onclick="press('2')">2</button>
+            <button onclick="press('3')">3</button>
+            <button class="btn-op" onclick="press('-')">+/-</button>
+            <button onclick="press('0')">0</button>
+            <button onclick="press('.')">.</button>
+            <button class="btn-op" onclick="randomize()">RAND</button>
+            <button class="btn-go" onclick="calculate()">GO</button>
         </div>
 
-        <div id="results" style="display:none">
-            <div class="output-section">
-                <div class="res-matrix">
-                    <span style="color:var(--l-color)">L =</span>
-                    <div class="brackets" id="outL"></div>
+        <div id="resultsView" style="display:none">
+            <div class="output-box">
+                <div class="res-row">
+                    <span class="l-txt">L Matrix</span>
+                    <div id="resL" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:5px;"></div>
                 </div>
-                <div class="res-matrix">
-                    <span style="color:var(--u-color)">U =</span>
-                    <div class="brackets" id="outU"></div>
+                <div class="res-row">
+                    <span class="u-txt">U Matrix</span>
+                    <div id="resU" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:5px;"></div>
                 </div>
             </div>
-            <div class="trace" id="traceLog"></div>
+            <div class="trace-area" id="trace"></div>
         </div>
     </div>
 </div>
 
 <script>
-    let activeR = 0, activeC = 0, isNewInput = true;
+    let r = 0, c = 0, isNew = true;
 
-    function setActive(r, c) {
-        document.querySelectorAll('input').forEach(el => el.classList.remove('active'));
-        activeR = r; activeC = c; isNewInput = true;
+    function setActive(row, col) {
+        document.querySelectorAll('input').forEach(i => i.classList.remove('active'));
+        r = row; c = col; isNew = true;
         document.getElementById(`v${r}${c}`).classList.add('active');
     }
 
-    function handleInput(key) {
-        let input = document.getElementById(`v${activeR}${activeC}`);
+    function press(k) {
+        let el = document.getElementById(`v${r}${c}`);
+        if(k === 'NEXT') {
+            c++; if(c > 2) { c = 0; r++; } if(r > 2) r = 0;
+            setActive(r, c); return;
+        }
+        if(k === 'DEL') { el.value = "0"; isNew = true; return; }
+        if(k === '-') { el.value = el.value.startsWith('-') ? el.value.slice(1) : '-' + el.value; return; }
         
-        if (key === 'NEXT') {
-            activeC++; if(activeC > 2) { activeC = 0; activeR++; }
-            if(activeR > 2) activeR = 0;
-            setActive(activeR, activeC);
-            return;
-        }
-
-        if (key === 'DEL') { input.value = "0"; isNewInput = true; return; }
-        if (key === '-') { input.value = input.value.startsWith('-') ? input.value.substr(1) : '-' + input.value; return; }
-
-        // الاستبدال التلقائي عند أول ضغطة
-        if (isNewInput) {
-            input.value = key;
-            isNewInput = false;
-        } else {
-            input.value += key;
-        }
+        if(isNew) { el.value = k; isNew = false; }
+        else { el.value += k; }
     }
 
     function randomize() {
-        for(let i=0; i<3; i++) for(let j=0; j<3; j++) 
-            document.getElementById(`v${i}${j}`).value = Math.floor(Math.random() * 15) - 7;
+        for(let i=0; i<3; i++) for(let j=0; j<3; j++)
+            document.getElementById(`v${i}${j}`).value = (Math.random()*16 - 8).toFixed(0);
         calculate();
     }
 
     function calculate() {
-        let A = [];
+        let A = [[],[],[]];
+        for(let i=0; i<3; i++) for(let j=0; j<3; j++) A[i][j] = parseFloat(document.getElementById(`v${i}${j}`).value) || 0;
+
+        let L = [[1,0,0],[0,1,0],[0,0,1]], U = [[0,0,0],[0,0,0],[0,0,0]], log = [];
+
         for(let i=0; i<3; i++) {
-            A[i] = [];
-            for(let j=0; j<3; j++) A[i][j] = parseFloat(document.getElementById(`v${i}${j}`).value) || 0;
-        }
-
-        let L = [[1,0,0],[0,1,0],[0,0,1]], U = [[0,0,0],[0,0,0],[0,0,0]], logs = [];
-
-        for (let i = 0; i < 3; i++) {
-            for (let k = i; k < 3; k++) {
+            for(let k=i; k<3; k++) {
                 let sum = 0;
-                for (let j = 0; j < i; j++) sum += (L[i][j] * U[j][k]);
+                for(let j=0; j<i; j++) sum += L[i][j]*U[j][k];
                 U[i][k] = A[i][k] - sum;
-                logs.push(`U${i+1}${k+1}: ${A[i][k]} - ${sum.toFixed(1)} = ${U[i][k].toFixed(2)}`);
+                log.push(`U${i+1}${k+1} = ${A[i][k]} - ${sum.toFixed(1)} = ${U[i][k].toFixed(2)}`);
             }
-            for (let k = i + 1; k < 3; k++) {
+            for(let k=i+1; k<3; k++) {
                 let sum = 0;
-                for (let j = 0; j < i; j++) sum += (L[k][j] * U[j][i]);
-                if(U[i][i] === 0) { alert("Division by Zero!"); return; }
+                for(let j=0; j<i; j++) sum += L[k][j]*U[j][i];
+                if(U[i][i] === 0) { alert("Error: Pivot is 0"); return; }
                 L[k][i] = (A[k][i] - sum) / U[i][i];
-                logs.push(`L${k+1}${i+1}: (${A[k][i]} - ${sum.toFixed(1)}) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}`);
+                log.push(`L${k+1}${i+1} = (${A[k][i]} - ${sum.toFixed(1)}) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}`);
             }
         }
 
-        render(L, 'outL', 'l-cell'); render(U, 'outU', 'u-cell');
-        document.getElementById('results').style.display = 'block';
-        document.getElementById('traceLog').innerHTML = logs.join('<br>');
+        render('resL', L, 'l-txt');
+        render('resU', U, 'u-txt');
+        document.getElementById('resultsView').style.display = 'block';
+        document.getElementById('trace').innerHTML = log.join('<br>');
     }
 
-    function render(m, id, cls) {
-        let el = document.getElementById(id); el.innerHTML = '';
-        m.forEach(row => row.forEach(v => {
-            let d = document.createElement('div'); d.className = `cell-res ${cls}`;
-            d.innerText = v.toFixed(1); el.appendChild(d);
-        }));
-        let f = document.createElement('div'); f.className = 'bracket-footer'; el.appendChild(f);
+    function render(id, m, cls) {
+        let h = '';
+        m.forEach(row => row.forEach(val => h += `<div class="cell-res ${cls}">${val.toFixed(1)}</div>`));
+        document.getElementById(id).innerHTML = h;
     }
 </script>
 </body>
