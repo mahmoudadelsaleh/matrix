@@ -1,37 +1,35 @@
-const CACHE_NAME = 'matrix-v1';
+const CACHE_NAME = 'matrix-v' + Date.now(); // تغيير الاسم مع كل تحديث لكسر الكاش
 const ASSETS = [
+  './',
   'index.html',
   'manifest.json',
   'icon-192x192.png',
-  'icon-512x512.png',
-  'icon-180x180.png'
+  'icon-512x512.png'
 ];
 
-// تثبيت الخدمة وتخزين الملفات
 self.addEventListener('install', (e) => {
+  self.skipWaiting(); // إجبار السيرفس وركر الجديد على التفعيل فوراً
   e.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
+    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
 });
 
-// تفعيل الخدمة وتنظيف الكاش القديم
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
       return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
+        keys.map((key) => {
+          if (key !== CACHE_NAME) {
+            return caches.delete(key); // مسح الكاش القديم تماماً
+          }
+        })
       );
     })
   );
 });
 
-// استدعاء الملفات من الكاش في حال عدم وجود إنترنت
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((res) => {
-      return res || fetch(e.request);
-    })
+    fetch(e.request).catch(() => caches.match(e.request))
   );
 });
