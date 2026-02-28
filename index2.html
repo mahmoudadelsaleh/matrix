@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LU Solver Pro - Mahmoud Adel</title>
+    <title>LU Solver - Mahmoud Adel Edition</title>
     <style>
         :root {
             --primary-blue: #38bdf8;
@@ -30,23 +30,24 @@
         input.active { border: 2px solid var(--pink-accent); background: #222; }
 
         .keypad-grid { background: var(--keypad-bg); padding: 10px; border-radius: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
-        button { aspect-ratio: 1/1; border: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; color: white; background: #4b5563; }
+        button.key { aspect-ratio: 1/1; border: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; color: white; background: #4b5563; }
         .btn-blue { background: var(--primary-blue); color: #000; }
         .btn-red { background: #ef4444; }
         .btn-go { background: var(--pink-accent); color: white; }
 
-        /* Results Area Control */
+        /* Results Area */
         #resultsArea { margin-top: 15px; border-top: 2px dashed #555; padding-top: 15px; display: none; }
         .res-matrix-box { margin-bottom: 15px; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #444; }
         .res-title { font-size: 0.8rem; margin-bottom: 5px; display: block; text-align: center; font-weight: bold; }
         .cell-res { text-align: center; font-family: monospace; padding: 5px; font-weight: bold; font-size: 0.95rem; }
 
-        .guide-container { display: flex; justify-content: center; margin-bottom: 10px; }
-        .btn-guide { padding: 6px 15px; background: transparent; color: var(--primary-blue); border: 1px solid var(--primary-blue); border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        /* Control Row: Reload & Show Guide */
+        .control-row { display: flex; justify-content: space-between; align-items: center; padding: 0 10px; margin-top: 10px; }
+        .action-text { color: var(--primary-blue); cursor: pointer; font-size: 0.85rem; font-weight: bold; text-decoration: underline; background: none; border: none; padding: 0; }
+        .action-text:hover { color: var(--pink-accent); }
         
-        .derivation-log { display: none; font-size: 0.75rem; background: #000; padding: 10px; border-radius: 8px; max-height: 180px; overflow-y: auto; border: 1px solid #444; }
+        .derivation-log { display: none; font-size: 0.75rem; background: #000; padding: 10px; border-radius: 8px; max-height: 180px; overflow-y: auto; border: 1px solid #444; margin-top: 10px; }
         .step { margin-bottom: 6px; border-bottom: 1px solid #222; padding-bottom: 3px; }
-        .origin { color: var(--pink-accent); }
     </style>
 </head>
 <body>
@@ -69,11 +70,11 @@
             </div>
         </div>
 
-        <div class="keypad-grid">
-            <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button><button class="btn-red" onclick="press('DEL')">DEL</button>
-            <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button><button class="btn-blue" onclick="press('NEXT')">NEXT</button>
-            <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button><button class="btn-blue" onclick="press('-')">+/-</button>
-            <button onclick="press('0')">0</button><button onclick="press('.')">.</button><button class="btn-blue" onclick="randomize()">RAND</button><button class="btn-go" onclick="calculate()">GO</button>
+        <div id="keypad" class="keypad-grid">
+            <button class="key" onclick="press('7')">7</button><button class="key" onclick="press('8')">8</button><button class="key" onclick="press('9')">9</button><button class="key btn-red" onclick="press('DEL')">DEL</button>
+            <button class="key" onclick="press('4')">4</button><button class="key" onclick="press('5')">5</button><button class="key" onclick="press('6')">6</button><button class="key btn-blue" onclick="press('NEXT')">NEXT</button>
+            <button class="key" onclick="press('1')">1</button><button class="key" onclick="press('2')">2</button><button class="key" onclick="press('3')">3</button><button class="key btn-blue" onclick="press('-')">+/-</button>
+            <button class="key" onclick="press('0')">0</button><button class="key" onclick="press('.')">.</button><button class="key btn-blue" onclick="randomize()">RAND</button><button class="key btn-go" onclick="calculate()">GO</button>
         </div>
 
         <div id="resultsArea">
@@ -86,8 +87,9 @@
                 <div id="resU" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
             </div>
             
-            <div class="guide-container">
-                <button class="btn-guide" onclick="toggleDerivation()">Show Guide</button>
+            <div class="control-row">
+                <button class="action-text" onclick="reloadApp()">Reload</button>
+                <button class="action-text" onclick="toggleDerivation()">Show Guide</button>
             </div>
             <div class="derivation-log" id="derivationLog"></div>
         </div>
@@ -115,12 +117,18 @@
     }
 
     function randomize() {
-        // توليد فقط وإخفاء النتائج تماماً
         for(let i=0; i<3; i++) for(let j=0; j<3; j++)
             document.getElementById(`v${i}${j}`).value = (Math.random()*16 - 8).toFixed(0);
-        
+        document.getElementById('resultsArea').style.display = 'none';
+    }
+
+    function reloadApp() {
+        // إعادة إظهار الكيبورد وتصفير المصفوفة
+        document.getElementById('keypad').style.display = 'grid';
         document.getElementById('resultsArea').style.display = 'none';
         document.getElementById('derivationLog').style.display = 'none';
+        for(let i=0; i<3; i++) for(let j=0; j<3; j++) document.getElementById(`v${i}${j}`).value = "0";
+        setActive(0, 0);
     }
 
     function toggleDerivation() {
@@ -139,20 +147,20 @@
                 let sum = 0, detail = "";
                 for(let j=0; j<i; j++) {
                     sum += L[i][j]*U[j][k];
-                    detail += ` + (${L[i][j].toFixed(1)} * ${U[j][k].toFixed(1)})`;
+                    detail += `+(${L[i][j].toFixed(1)}*${U[j][k].toFixed(1)})`;
                 }
                 U[i][k] = A[i][k] - sum;
-                trace.push(`<div class="step">U${i+1}${k+1} = <span class="origin">${A[i][k]}</span> - [${detail || '0'}] = ${U[i][k].toFixed(2)}</div>`);
+                trace.push(`<div class="step">U${i+1}${k+1} = ${A[i][k]} - [${detail || '0'}] = ${U[i][k].toFixed(2)}</div>`);
             }
             for(let k=i+1; k<3; k++) {
                 let sum = 0, detail = "";
                 for(let j=0; j<i; j++) {
                     sum += L[k][j]*U[j][i];
-                    detail += ` + (${L[k][j].toFixed(1)} * ${U[j][i].toFixed(1)})`;
+                    detail += `+(${L[k][j].toFixed(1)}*${U[j][i].toFixed(1)})`;
                 }
                 if(U[i][i] === 0) { alert("Pivot is 0."); return; }
                 L[k][i] = (A[k][i] - sum) / U[i][i];
-                trace.push(`<div class="step">L${k+1}${i+1} = (<span class="origin">${A[k][i]}</span> - [${detail || '0'}]) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}</div>`);
+                trace.push(`<div class="step">L${k+1}${i+1} = (${A[k][i]} - [${detail || '0'}]) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}</div>`);
             }
         }
 
@@ -160,9 +168,10 @@
         render('resU', U, 'u-color');
         document.getElementById('derivationLog').innerHTML = trace.join('');
         
-        // إظهار النتائج الآن عند ضغط GO
+        // إظهار النتائج وإخفاء الكيبورد
+        document.getElementById('keypad').style.display = 'none';
         document.getElementById('resultsArea').style.display = 'block';
-        document.getElementById('derivationLog').style.display = 'none'; // تبقى التفاصيل مخفية حتى يطلبها المستخدم
+        document.getElementById('derivationLog').style.display = 'none';
     }
 
     function render(id, m, colorVar) {
