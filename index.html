@@ -2,128 +2,118 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-    <title>Matrix Pro - M.A.S</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Matrix Compact - M.A.S</title>
     
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192x192.png">
-    <link rel="apple-touch-icon" href="icon-180x180.png">
-    <meta name="theme-color" content="#2c3e50">
     
     <style>
-        :root { --p: #2c3e50; --a: #2980b9; --ac: #fff9c4; --s: #27ae60; --w: #e67e22; --r: #8e44ad; --g: #ffd700; --b1: #3498db; --b2: #e67e22; --b3: #9b59b6; }
+        :root { --p: #2c3e50; --a: #2980b9; --ac: #fff9c4; --s: #27ae60; --w: #e67e22; --r: #8e44ad; --g: #ffd700; --b1: #3498db; --b3: #9b59b6; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; padding: 5px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; user-select: none; }
         
-        .c-t { width: 100%; max-width: 500px; background: #fff; padding: 10px; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); margin-top: 2px; position: relative; }
-        .l-y { display: flex; justify-content: center; align-items: center; gap: 30px; background: #fafafa; border-radius: 10px; min-height: 180px; margin: 5px 0; }
-        .l-y.sys { gap: 4px !important; }
-        
-        .u-t { display: flex; flex-direction: column; align-items: center; }
-        .u-l { font-weight: bold; font-size: 13px; color: var(--p); margin-bottom: 3px; }
-        .s-m { font-size: 24px; font-weight: bold; color: var(--w); padding: 0 2px; }
-        
-        .b-k { display: flex; align-items: center; padding: 2px 4px; border-left: 3.5px solid var(--p); border-right: 3.5px solid var(--p); border-radius: 14px / 10px; background: #fff; }
+        /* تثبيت الشاشة ومنع التحريك الخارجي */
+        html, body { 
+            height: 100vh; width: 100vw; overflow: hidden; 
+            background: #f4f7f6; font-family: 'Segoe UI', sans-serif;
+            display: flex; flex-direction: column;
+        }
+
+        /* القسم الأول: المصفوفات (25% من الشاشة) */
+        .sec-matrices { height: 28vh; display: flex; justify-content: center; align-items: center; gap: 5px; background: #fafafa; border-bottom: 1px solid #ddd; padding: 5px; }
+        .u-t { display: flex; flex-direction: column; align-items: center; scale: 0.85; } /* تصغير ذكي للمساحة */
+        .u-l { font-weight: bold; font-size: 12px; color: var(--p); }
+        .b-k { display: flex; align-items: center; padding: 2px; border-left: 3px solid var(--p); border-right: 3px solid var(--p); border-radius: 10px / 8px; background: #fff; }
         .det-style { border-radius: 0 !important; border-width: 4px !important; }
+        .g-d { display: grid; gap: 1px; }
+        .c-l { width: 32px; height: 28px; text-align: center; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; }
+        .c-l.at { background: var(--ac) !important; border: 2px solid var(--a); }
+        .c-l.ro { background: #f0f0f0; color: #999; }
+        .ctrls { display: flex; gap: 2px; margin-bottom: 2px; }
+        .v-c { width: 18px; height: 18px; border-radius: 3px; background: var(--p); color: #fff; font-size: 10px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-        .d-c { display: flex; gap: 3px; margin-bottom: 4px; align-items: center; }
-        .v-card { width: 22px; height: 22px; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 11px; font-weight: bold; cursor: pointer; }
-        .v1 { background: var(--b1); } .v2 { background: var(--b2); } .v3 { background: var(--b3); }
-        
-        .g-d { display: grid; gap: 2px; }
-        .c-l { width: 36px; height: 32px; text-align: center; border: 1px solid #ddd; border-radius: 5px; font-size: 17px; font-weight: bold; cursor: pointer; outline: none; transition: 0.1s; }
-        .c-l.at { background: var(--ac) !important; border: 2.5px solid var(--a); transform: scale(1.05); }
-        .c-l.ro { background: #f0f0f0; cursor: default; color: #999; }
+        /* القسم الثاني: لوحة المفاتيح (30% من الشاشة) */
+        .sec-numpad { height: 28vh; display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 5px; background: #34495e; }
+        .sec-numpad button { border: none; border-radius: 5px; font-size: 18px; font-weight: bold; background: #ecf0f1; cursor: pointer; height: 100%; }
+        .btn-sp { background: var(--w) !important; color: white; }
+        .btn-rd { background: #e74c3c !important; color: white; }
 
-        .n-p { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; background: #34495e; padding: 8px; border-radius: 12px; margin-bottom: 8px; width: 100%; }
-        .n-p button { height: 40px; border: none; border-radius: 6px; font-size: 18px; font-weight: bold; cursor: pointer; background: #ecf0f1; box-shadow: 0 2px 0 #bdc3c7; }
+        /* القسم الثالث: العمليات (20% من الشاشة) */
+        .sec-ops { height: 20vh; display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 5px; background: #ebf0f1; }
+        .o-b { border: none; border-radius: 5px; font-size: 10px; font-weight: bold; background: var(--p); color: white; cursor: pointer; }
+
+        /* القسم الرابع: النتائج (22% من الشاشة) */
+        .sec-res { height: 24vh; padding: 5px; overflow-y: auto; background: #fff; border-top: 2px solid var(--a); text-align: center; }
+        .res-row { display: flex; align-items: center; justify-content: center; gap: 5px; padding-top: 5px; }
+        .f-c { display: flex; flex-direction: column; align-items: center; font-size: 16px; font-weight: bold; }
+        .f-n { border-bottom: 2px solid #000; padding: 0 4px; }
         
-        .o-p { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; width: 100%; }
-        .o-b { padding: 12px 2px; font-size: 11px; background: var(--p); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; box-shadow: 0 3px 0 #1a252f; }
-        
-        /* ميزان النتيجة الجديد */
-        #res { margin-top: 10px; padding: 15px 5px; border-top: 2px dashed #eee; width: 100%; min-height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
-        .res-row { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; flex-wrap: nowrap; }
-        
-        .f-c { display: flex; flex-direction: column; align-items: center; justify-content: center; line-height: 1.1; font-weight: bold; font-size: 18px; }
-        .f-n { border-bottom: 2px solid #000; padding: 0 4px; margin-bottom: 2px; }
-        
-        .m-c { width: 100%; max-width: 500px; background: #1a1a1a; padding: 2px; border-radius: 20px; margin-top: 10px; border: 1px solid var(--g); overflow: hidden; }
-        .m-c marquee { color: var(--g); font-size: 13px; font-weight: bold; line-height: 20px; }
-        .w-a { position: fixed; bottom: 50px; left: 15px; background: #25d366; color: white; width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); z-index: 100; text-decoration: none; }
-        #pwa-btn { display: none; background: #27ae60; color: white; padding: 10px; border-radius: 10px; font-size: 14px; font-weight: bold; margin-bottom: 10px; cursor: pointer; border: none; width: 100%; }
+        .s-m { font-size: 20px; font-weight: bold; color: var(--w); }
     </style>
 </head>
 <body>
 
-    <button id="pwa-btn">تثبيت التطبيق على الهاتف 📲</button>
-
-    <div class="c-t">
-        <div class="l-y" id="_mainL">
-            <div id="_preX" style="display:none; align-items:center;"><div class="f-c"><span class="f-n">١</span><span>٢</span></div></div>
-            <div class="u-t" id="_uA">
-                <div class="d-c" id="_ctrlA">
-                    <div class="v-card v1" onclick="_fH(6,'A','r',1)">١</div><div class="v-card v2" onclick="_fH(6,'A','r',2)">٢</div><div class="v-card v3" onclick="_fH(6,'A','r',3)">٣</div>
-                    <div style="width:10px"></div>
-                    <div class="v-card v1" onclick="_fH(6,'A','c',1)">١</div><div class="v-card v2" onclick="_fH(6,'A','c',2)">٢</div><div class="v-card v3" onclick="_fH(6,'A','c',3)">٣</div>
-                </div>
-                <span class="u-l" id="_lblA">أ</span><div class="b-k" id="_brkA"><div id="_grA" class="g-d"></div></div>
+    <div class="sec-matrices" id="_mainL">
+        <div id="_preX" style="display:none; margin-top:20px;"><div class="f-c"><span class="f-n">١</span><span>٢</span></div></div>
+        <div class="u-t" id="_uA">
+            <div class="ctrls" id="_cA">
+                <div class="v-c" onclick="_fH(6,'A','r',1)">١</div><div class="v-c" onclick="_fH(6,'A','r',2)">٢</div><div class="v-c" onclick="_fH(6,'A','r',3)">٣</div>
+                <div style="width:5px"></div>
+                <div class="v-c" onclick="_fH(6,'A','c',1)">١</div><div class="v-c" onclick="_fH(6,'A','c',2)">٢</div><div class="v-c" onclick="_fH(6,'A','c',3)">٣</div>
             </div>
-            <div id="_uSys" style="display:none; align-items:center;"><div class="s-m">×</div><div class="u-t"><span class="u-l">س</span><div class="b-k"><div id="_grX" class="g-d"></div></div></div><div class="s-m">=</div></div>
-            <div class="u-t" id="_uB">
-                <div class="d-c" id="_ctrlB">
-                    <div class="v-card v1" onclick="_fH(6,'B','r',1)">١</div><div class="v-card v2" onclick="_fH(6,'B','r',2)">٢</div><div class="v-card v3" onclick="_fH(6,'B','r',3)">٣</div>
-                    <div style="width:10px"></div>
-                    <div class="v-card v1" onclick="_fH(6,'B','c',1)">١</div><div class="v-card v2" onclick="_fH(6,'B','c',2)">٢</div><div class="v-card v3" onclick="_fH(6,'B','c',3)">٣</div>
-                </div>
-                <span class="u-l" id="_lblB">ب</span><div class="b-k" id="_brkB"><div id="_grB" class="g-d"></div></div>
+            <span class="u-l" id="_lblA">أ</span><div class="b-k" id="_brkA"><div id="_grA" class="g-d"></div></div>
+        </div>
+        <div id="_uSys" style="display:none; align-items:center;">
+            <div class="s-m">×</div>
+            <div class="u-t"><span class="u-l">س</span><div class="b-k"><div id="_grX" class="g-d"></div></div></div>
+            <div class="s-m">=</div>
+        </div>
+        <div class="u-t" id="_uB">
+            <div class="ctrls" id="_cB">
+                <div class="v-c" onclick="_fH(6,'B','r',1)">١</div><div class="v-c" onclick="_fH(6,'B','r',2)">٢</div><div class="v-c" onclick="_fH(6,'B','r',3)">٣</div>
+                <div style="width:5px"></div>
+                <div class="v-c" onclick="_fH(6,'B','c',1)">١</div><div class="v-c" onclick="_fH(6,'B','c',2)">٢</div><div class="v-c" onclick="_fH(6,'B','c',3)">٣</div>
             </div>
+            <span class="u-l">ب</span><div class="b-k" id="_brkB"><div id="_grB" class="g-d"></div></div>
         </div>
-
-        <div class="n-p">
-            <button onclick="_fH(3,'7')">٧</button><button onclick="_fH(3,'8')">٨</button><button onclick="_fH(3,'9')">٩</button><button style="background:var(--w)" onclick="_fH(5)">مسح</button>
-            <button onclick="_fH(3,'4')">٤</button><button onclick="_fH(3,'5')">٥</button><button onclick="_fH(3,'6')">٦</button><button onclick="_fH(3,'back')">⌫</button>
-            <button onclick="_fH(3,'1')">١</button><button onclick="_fH(3,'2')">٢</button><button onclick="_fH(3,'3')">٣</button><button style="background:var(--a);color:white" onclick="_fH(4)">تعديل</button>
-            <button onclick="_fH(3,'0')">٠</button><button onclick="_fH(3,'-')">ـ</button><button onclick="_fH(3,'.')">٫</button><button style="background:#e74c3c;color:white" onclick="location.reload()">إعادة</button>
-        </div>
-
-        <div class="o-p">
-            <button class="o-b" onclick="_oK(1)">أ + ب</button><button class="o-b" onclick="_oK(2)">أ - ب</button><button class="o-b" onclick="_oK(3)">أ × ب</button>
-            <button class="o-b" onclick="_oK(4)">محدد أ</button><button class="o-b" onclick="_oK(5)">محدد ب</button><button class="o-b" onclick="_oK(6)">معكوس أ</button>
-            <button class="o-b" onclick="_oK(7)">معكوس ب</button><button class="o-b" onclick="_oK(8)">أ ^ ن</button><button class="o-b sp" onclick="_oK(9)">نظام AX=B</button>
-            <button class="o-b" style="background:var(--s)" onclick="_oK(10)">مساحة المثلث</button><button class="o-b" style="background:var(--r)" onclick="_oK(11)">تفكيك S+Sk</button><button class="o-b rd" onclick="_oK(12)">عشوائي</button>
-        </div>
-        <div id="res"></div>
     </div>
-    <div class="m-c" id="_mQ"></div>
-    <a href="https://wa.me/201552402912" class="w-a" id="_wA" target="_blank"></a>
+
+    <div class="sec-numpad">
+        <button onclick="_fH(3,'7')">٧</button><button onclick="_fH(3,'8')">٨</button><button onclick="_fH(3,'9')">٩</button><button class="btn-sp" onclick="_fH(5)">مسح</button>
+        <button onclick="_fH(3,'4')">٤</button><button onclick="_fH(3,'5')">٥</button><button onclick="_fH(3,'6')">٦</button><button onclick="_fH(3,'back')">⌫</button>
+        <button onclick="_fH(3,'1')">١</button><button onclick="_fH(3,'2')">٢</button><button onclick="_fH(3,'3')">٣</button><button class="btn-sp" style="background:var(--a)!important" onclick="_fH(4)">تعديل</button>
+        <button onclick="_fH(3,'0')">٠</button><button onclick="_fH(3,'-')">ـ</button><button onclick="_fH(3,'.')">٫</button><button class="btn-rd" onclick="location.reload()">إعادة</button>
+    </div>
+
+    <div class="sec-ops">
+        <button class="o-b" onclick="_oK(1)">أ + ب</button><button class="o-b" onclick="_oK(2)">أ - ب</button><button class="o-b" onclick="_oK(3)">أ × ب</button><button class="o-b" onclick="_oK(4)">محدد أ</button>
+        <button class="o-b" onclick="_oK(5)">محدد ب</button><button class="o-b" onclick="_oK(6)">معكوس أ</button><button class="o-b" onclick="_oK(7)">معكوس ب</button><button class="o-b" onclick="_oK(8)">أ ^ ن</button>
+        <button class="o-b" style="background:var(--w)" onclick="_oK(9)">AX=B</button><button class="o-b" style="background:var(--s)" onclick="_oK(10)">المساحة</button><button class="o-b" style="background:var(--r)" onclick="_oK(11)">S+Sk</button><button class="o-b btn-rd" onclick="_oK(12)">عشوائي</button>
+    </div>
+
+    <div class="sec-res" id="res">جاهز للعمل...</div>
 
 <script>
     if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-    let _iP; window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); _iP = e; document.getElementById('pwa-btn').style.display = 'block'; });
-    document.getElementById('pwa-btn').onclick = () => { if(_iP){ _iP.prompt(); _iP=null; document.getElementById('pwa-btn').style.display = 'none'; }};
-
     (function(){
-        document.getElementById('_mQ').innerHTML = `<marquee scrollamount="8" direction="right">محمود عادل صالح - رياضيات تفاعلية - المحمودية - حاسبة المصفوفات - محمود عادل صالح</marquee>`;
-        document.getElementById('_wA').innerHTML = `<svg viewBox="0 0 32 32" style="width:22px; fill:#fff;"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825.737 5.48 2.025 7.788l-2.025 7.212 7.375-1.938c2.207 1.156 4.712 1.813 7.375 1.813 8.837 0 16-7.163 16-16s-7.163-16-16-16zm8.294 22.181c-.344.969-1.713 1.775-2.363 1.894-.65.119-1.294.225-3.531-.662-2.825-1.125-4.638-4-4.781-4.188-.138-.194-1.15-1.531-1.15-2.925 0-1.394.725-2.081 1-2.381.269-.3.594-.375.794-.375.194 0 .394.006.563.013.175.006.413-.069.644.494.238.563.813 1.981.881 2.125.069.138.113.3.019.488-.094.188-.138.306-.281.475-.144.175-.3.388-.431.519-.144.144-.3.3-.131.594.169.294.75 1.238 1.606 2.006.719.644 1.325.85 1.619.994.294.144.463.125.638-.075.175-.194.75-.875.95-1.175.194-.3.394-.25.663-.15s1.713.806 2.006.956c.3.15.5.225.575.356.075.131.075.769-.269 1.738z"/></svg>`;
-        let _ac = null, _d = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _mN=false;
+        let _ac = null, _d = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}};
         const _ta = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]).replace("-", "ـ"), _te = s => s.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("ـ", "-");
-
+        
         window._fH = (n,a,b,c) => { 
             if(n===6){ _d[a][b]=c; _rG(a); _rs(); } 
-            if(n===3){ if(!_ac)return; let v=_ac.value; if(a==='back') _ac.value=v.length>1?v.slice(0,-1):"٠"; else if(a==='-') _ac.value=v.includes('ـ')?_ac.value.replace('ـ',''):'ـ'+(_ac.value==="٠"?"":_ac.value); else _ac.value=(_ac.value==="٠"?_ta(a):_ac.value+_ta(a)); } 
-            if(n===4){ let l=Array.from(document.querySelectorAll('.c-l:not(.ro)')); let i=l.indexOf(_ac); if(i<l.length-1)_sA(l[i+1]); } 
-            if(n===5){ if(_ac)_ac.value="٠"; } 
+            if(n===3){ if(!_ac)return; let v=_ac.value; if(a==='back') _ac.value=v.length>1?v.slice(0,-1):"٠"; else if(a==='-') _ac.value=v.includes('ـ')?_ac.value.replace('ـ',''):'ـ'+(_ac.value==="٠"?"":_ac.value); else _ac.value=(_ac.value==="٠"?_ta(a):_ac.value+_ta(a)); }
+            if(n===4){ let l=Array.from(document.querySelectorAll('.c-l:not(.ro)')); let i=l.indexOf(_ac); if(i<l.length-1)_sA(l[i+1]); }
+            if(n===5){ if(_ac)_ac.value="٠"; }
         };
-        const _rG = i => { const g=document.getElementById('_gr'+i); if(!g)return; g.style.gridTemplateColumns=`repeat(${_d[i].c},36px)`; g.innerHTML=''; for(let k=0;k<_d[i].r*_d[i].c;k++) g.innerHTML+='<input class="c-l" type="text" value="٠" readonly onclick="_sA(this)">'; };
+        const _rG = i => { const g=document.getElementById('_gr'+i); if(!g)return; g.style.gridTemplateColumns=`repeat(${_d[i].c},32px)`; g.innerHTML=''; for(let k=0;k<_d[i].r*_d[i].c;k++) g.innerHTML+='<input class="c-l" type="text" value="٠" readonly onclick="_sA(this)">'; };
         window._sA = e => { if(e.classList.contains('ro'))return; document.querySelectorAll('.c-l').forEach(c=>c.classList.remove('at')); _ac=e; _ac.classList.add('at'); };
-
+        
         window._oK = n => {
             let a=_gM('A'), b=_gM('B');
             if(n===12) { let isT=document.getElementById('_lblA').innerText.includes("مساحة"); document.querySelectorAll('.c-l:not(.ro)').forEach((i, idx) => { if(isT && idx % 3 === 0) return; i.value=_ta(Math.floor(Math.random()*19)-9); }); }
-            else if(n===8) { document.getElementById('res').innerHTML='<b>أدخل الأس ن:</b><br><input class="c-l at" style="width:60px" id="_powVal" readonly onclick="_sA(this)" value="٢"><br><button class="o-b sp" onclick="_eP()">احسب القوة</button>'; _sA(document.getElementById('_powVal')); }
-            else if(n===9) { document.getElementById('res').innerHTML='<b>المجاهيل:</b><br><button class="o-b" style="width:70px;background:var(--b1)" onclick="_setS(2)">٢</button> <button class="o-b" style="width:70px;background:var(--b3)" onclick="_setS(3)">٣</button>'; }
-            else if(n===10) { _rs(); document.getElementById('_uB').style.display='none'; document.getElementById('_preX').style.display='flex'; _d.A={r:3,c:3}; _rG('A'); document.getElementById('_brkA').classList.add('det-style'); document.getElementById('_ctrlA').style.display='none'; document.getElementById('_lblA').innerText="مساحة المثلث"; document.getElementById('_mainL').classList.add('sys'); let cl=document.querySelectorAll('#_grA input'); for(let i=0;i<3;i++){cl[i*3].value="١"; cl[i*3].classList.add('ro');} document.getElementById('res').innerHTML='<button class="o-b" style="background:var(--s);width:100px" onclick="_eT()">احسب</button>'; }
+            else if(n===8) { document.getElementById('res').innerHTML='<b>الأس ن:</b><input class="c-l at" style="width:50px" id="_powV" readonly onclick="_sA(this)" value="٢"><button class="o-b" onclick="_eP()" style="width:60px;margin-right:5px">احسب</button>'; _sA(document.getElementById('_powV')); }
+            else if(n===9) { document.getElementById('res').innerHTML='<b>المجاهيل:</b><br><button class="o-b" style="width:60px;padding:5px;background:var(--b1)" onclick="_setS(2)">٢</button> <button class="o-b" style="width:60px;padding:5px;background:var(--b3)" onclick="_setS(3)">٣</button>'; }
+            else if(n===10) { _rs(); document.getElementById('_uB').style.display='none'; document.getElementById('_preX').style.display='flex'; _d.A={r:3,c:3}; _rG('A'); document.getElementById('_brkA').classList.add('det-style'); document.getElementById('_cA').style.display='none'; document.getElementById('_lblA').innerText="مساحة المثلث"; let cl=document.querySelectorAll('#_grA input'); for(let i=0;i<3;i++){cl[i*3].value="١"; cl[i*3].classList.add('ro');} document.getElementById('res').innerHTML='<button class="o-b" style="background:var(--s);padding:5px 15px" onclick="_eT()">احسب</button>'; }
             else if(n===1||n===2) { if(_d.A.r!==_d.B.r||_d.A.c!==_d.B.c)return; _sR(a.map((r,i)=>r.map((v,j)=>n===1?v+b[i][j]:v-b[i][j])), n===1?"أ + ب":"أ - ب"); }
             else if(n===3) { if(a[0].length!==b.length)return; _sR(_mu(a,b),"أ × ب"); }
             else if(n===4||n===5) { let r=_adD(n===4?a:b); document.getElementById('res').innerHTML=`<b>محدد = ${_ta(r.det)}</b>`; }
@@ -131,16 +121,16 @@
             else if(n===11) { if(a.length!==a[0].length)return; let at=_tp(a), s=a.map((r,i)=>r.map((v,j)=>(v+at[i][j])/2)), sk=a.map((r,i)=>r.map((v,j)=>(v-at[i][j])/2)); _sR(s,"التفكيك S",null," + ",sk); }
         };
 
-        window._setS = n => { _d.A={r:n,c:n}; _d.B={r:n,c:1}; _d.X={r:n,c:1}; _rG('A'); _rG('B'); document.getElementById('_ctrlA').style.display='none'; document.getElementById('_ctrlB').style.display='none'; document.getElementById('_uSys').style.display='flex'; document.getElementById('_mainL').classList.add('sys'); const gx=document.getElementById('_grX'), ux=n===2?['س','ص']:['س','ص','ع']; gx.style.gridTemplateColumns='36px'; gx.innerHTML=ux.map(u=>`<input class="c-l ro" type="text" value="${u}" readonly>`).join(''); document.getElementById('res').innerHTML='<button class="o-b sp" style="width:120px" onclick="_eS()">احسب الحل</button>'; };
-        window._eS = () => { let _a=_gM('A'), _b=_gM('B'), _r=_adD(_a); if(_r.det===0){alert("المحدد صفر");return;} let _ajB=_mu(_r.adj,_b); let ux=_a.length===2?['س','ص']:['س','ص','ع']; let h = `<div class="res-row"><div class="b-k"><div class="g-d">${ux.map(u=>`<input class="c-l ro" type="text" value="${u}" readonly>`).join('')}</div></div><span>=</span>`+( _r.det===1?_rS(_ajB):`<div class="f-c"><span class="f-n">١</span><span>${_ta(_r.det)}</span></div>`+_rS(_ajB)) +`</div>`; document.getElementById('res').innerHTML=h; };
-        window._eP = () => { let n=parseInt(_te(document.getElementById('_powVal').value))||1; let m=_gM('A'); if(_d.A.r!==_d.A.c)return; let r=m; for(let i=1;i<n;i++) r=_mu(r,m); _sR(r,`أ ^ ${_ta(n)}`); };
+        window._setS = n => { _d.A={r:n,c:n}; _d.B={r:n,c:1}; _d.X={r:n,c:1}; _rG('A'); _rG('B'); document.getElementById('_cA').style.display='none'; document.getElementById('_cB').style.display='none'; document.getElementById('_uSys').style.display='flex'; const gx=document.getElementById('_grX'), ux=n===2?['س','ص']:['س','ص','ع']; gx.style.gridTemplateColumns='32px'; gx.innerHTML=ux.map(u=>`<input class="c-l ro" type="text" value="${u}" readonly>`).join(''); document.getElementById('res').innerHTML='<button class="o-b sp" style="padding:5px 15px" onclick="_eS()">احسب الحل</button>'; };
+        window._eS = () => { let _a=_gM('A'), _b=_gM('B'), _r=_adD(_a); if(_r.det===0)return; let _ajB=_mu(_r.adj,_b), ux=_a.length===2?['س','ص']:['س','ص','ع']; let h=`<div class="res-row"><div class="b-k"><div class="g-d">${ux.map(u=>`<input class="c-l ro" type="text" value="${u}" readonly>`).join('')}</div></div><span>=</span>`+(_r.det===1?_rS(_ajB):`<div class="f-c"><span class="f-n">١</span><span>${_ta(_r.det)}</span></div>`+_rS(_ajB))+`</div>`; document.getElementById('res').innerHTML=h; };
+        window._eP = () => { let n=parseInt(_te(document.getElementById('_powV').value))||1, m=_gM('A'); if(_d.A.r!==_d.A.c)return; let r=m; for(let i=1;i<n;i++) r=_mu(r,m); _sR(r,`أ ^ ${_ta(n)}`); };
         window._eT = () => { let m=_gM('A'), d=(m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1]))-(m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0]))+(m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0])); document.getElementById('res').innerHTML=`<b>المساحة = ${_ta(Math.abs(d)/2)} وحدة مربعة</b>`; };
-        window._rs = () => { document.getElementById('_uSys').style.display='none'; document.getElementById('_preX').style.display='none'; document.getElementById('_uB').style.display='flex'; document.getElementById('_ctrlA').style.display='flex'; document.getElementById('_ctrlB').style.display='flex'; document.getElementById('_brkA').classList.remove('det-style'); document.getElementById('_lblA').innerText="أ"; document.getElementById('_mainL').classList.remove('sys'); document.getElementById('res').innerHTML=''; };
+        window._rs = () => { document.getElementById('_uSys').style.display='none'; document.getElementById('_preX').style.display='none'; document.getElementById('_uB').style.display='flex'; document.getElementById('_cA').style.display='flex'; document.getElementById('_cB').style.display='flex'; document.getElementById('_brkA').classList.remove('det-style'); document.getElementById('_lblA').innerText="أ"; document.getElementById('res').innerHTML=''; };
         const _gM = i => { let cl=document.querySelectorAll(`#_gr${i} input`), r=_d[i].r, c=_d[i].c, m=[]; for(let j=0; j<r; j++){ m[j]=[]; for(let k=0; k<c; k++) m[j][k]=parseFloat(_te(cl[j*c+k].value))||0; } return m; };
         const _mu = (m1,m2) => { let r=Array(m1.length).fill(0).map(()=>Array(m2[0].length).fill(0)); for(let i=0; i<m1.length; i++)for(let j=0; j<m2[0].length; j++)for(let k=0; k<m1[0].length; k++)r[i][j]+=m1[i][k]*m2[k][j]; return r; };
         const _tp = a => a[0].map((_,c)=>a.map(r=>r[c]));
         const _adD = m => { let n=m.length, d=(n===1)?m[0][0]:(n===2)?(m[0][0]*m[1][1]-m[0][1]*m[1][0]):(m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0])), aj = (n===1)?[[1]]:(n===2)?[[m[1][1],-m[0][1]],[-m[1][0],m[0][0]]]:[[(m[1][1]*m[2][2]-m[1][2]*m[2][1]),-(m[0][1]*m[2][2]-m[0][2]*m[2][1]),(m[0][1]*m[1][2]-m[0][2]*m[1][1])],[-(m[1][0]*m[2][2]-m[1][2]*m[2][0]),(m[0][0]*m[2][2]-m[0][2]*m[2][0]),-(m[0][0]*m[1][2]-m[0][2]*m[1][0])],[(m[1][0]*m[2][1]-m[1][1]*m[2][0]),-(m[0][0]*m[2][1]-m[0][1]*m[2][0]),(m[0][0]*m[1][1]-m[0][1]*m[1][0])]]; return {adj:aj, det:d}; };
-        const _rS = m => { let h=`<div class="b-k"><div class="g-d" style="grid-template-columns:repeat(${m[0].length},36px)">`; m.forEach(r=>r.forEach(v=>h+=`<input class="c-l ro" type="text" value="${_ta(Number.isInteger(v)?v:v.toFixed(1))}" readonly>`)); return h+'</div></div>'; };
+        const _rS = m => { let h=`<div class="b-k"><div class="g-d" style="grid-template-columns:repeat(${m[0].length},32px)">`; m.forEach(r=>r.forEach(v=>h+=`<input class="c-l ro" type="text" value="${_ta(Number.isInteger(v)?v:v.toFixed(1))}" readonly>`)); return h+'</div></div>'; };
         const _sR = (m,t,dt=null,sep="",m2=null) => { let h=`<b>${t}</b><div class="res-row">`+(dt && dt!==1?`<div class="f-c"><span class="f-n">١</span><span>${_ta(dt)}</span></div>`:"")+_rS(m)+(sep?`<span>${sep}</span>`:"")+(m2?_rS(m2):"")+'</div>'; document.getElementById('res').innerHTML=h; };
         _rG('A'); _rG('B');
     })();
