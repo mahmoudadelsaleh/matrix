@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LU Solver Gray & Blue - Mahmoud Adel</title>
+    <title>LU Solver Offline - Mahmoud Adel</title>
     <style>
         :root {
             --primary-blue: #38bdf8;
@@ -16,7 +16,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
+            font-family: sans-serif;
             background-color: var(--bg-gray);
             color: white;
             margin: 0;
@@ -25,13 +25,13 @@
             justify-content: center;
         }
 
-        /* Framing */
+        /* Framing: Gold-like Blue and Pink */
         .outer-frame {
             border: 4px solid var(--primary-blue);
-            padding: 4px;
+            padding: 5px;
             border-radius: 20px;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
         }
 
         .inner-frame {
@@ -39,83 +39,74 @@
             padding: 15px;
             border-radius: 15px;
             background: var(--panel-gray);
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
         }
 
-        h1 { text-align: center; color: var(--primary-blue); font-size: 1.3rem; margin: 0 0 15px 0; text-transform: uppercase; }
+        h1 { text-align: center; color: var(--primary-blue); font-size: 1.2rem; margin: 0 0 15px 0; }
 
-        /* Matrix Brackets Setup */
-        .matrix-container { display: flex; justify-content: center; margin-bottom: 20px; }
+        /* Input Matrix Brackets */
+        .matrix-container { display: flex; justify-content: center; margin-bottom: 15px; }
         .brackets {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            padding: 15px;
+            gap: 8px;
+            padding: 12px;
             border-left: 3px solid white;
             border-right: 3px solid white;
             position: relative;
         }
-        .brackets::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 10px; border-top: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
-        .brackets::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 10px; border-bottom: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
+        .brackets::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px; border-top: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
+        .brackets::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 8px; border-bottom: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
 
         input {
-            width: 55px; height: 45px; background: #111; border: 1px solid #444;
-            color: var(--primary-blue); text-align: center; font-size: 1.2rem; border-radius: 6px; font-weight: bold;
+            width: 50px; height: 45px; background: #000; border: 1px solid #555;
+            color: var(--primary-blue); text-align: center; font-size: 1.1rem; border-radius: 5px; font-weight: bold;
         }
-        input.active { border: 2px solid var(--pink-accent); box-shadow: 0 0 10px var(--pink-accent); }
+        input.active { border: 2px solid var(--pink-accent); background: #222; }
 
-        /* 4x4 Keypad - Equal Buttons */
+        /* 4x4 Keypad */
         .keypad-grid {
             background: var(--keypad-bg);
-            padding: 12px;
+            padding: 10px;
             border-radius: 12px;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
             gap: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #4b5563;
+            margin-bottom: 10px;
         }
 
         button {
-            aspect-ratio: 1 / 1; /* Makes buttons square and equal */
+            aspect-ratio: 1/1;
             border: none;
             border-radius: 8px;
             font-weight: bold;
-            font-size: 1rem;
+            font-size: 0.9rem;
             cursor: pointer;
             color: white;
             background: #4b5563;
-            transition: 0.1s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
-        button:active { transform: scale(0.92); filter: brightness(1.2); }
-
-        .btn-op { background: var(--primary-blue); color: #000; font-size: 0.85rem; }
-        .btn-del { background: #ef4444; }
+        button:active { transform: scale(0.9); }
+        .btn-blue { background: var(--primary-blue); color: #000; }
+        .btn-red { background: #ef4444; }
         .btn-go { background: var(--pink-accent); color: white; }
 
-        /* Output View */
-        .output-box { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-        .res-row { display: flex; align-items: center; justify-content: space-between; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #444; }
-        .cell-res { width: 50px; text-align: center; font-family: monospace; font-weight: bold; }
-        .l-txt { color: var(--l-color); }
-        .u-txt { color: var(--u-color); }
+        /* Output View - Hidden by default */
+        #resultsView { margin-top: 15px; border-top: 2px dashed #555; padding-top: 15px; }
+        .res-matrix-box { margin-bottom: 15px; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #444; }
+        .res-title { font-size: 0.9rem; margin-bottom: 8px; display: block; text-align: center; font-weight: bold; }
+        .cell-res { text-align: center; font-family: monospace; padding: 5px; font-weight: bold; }
 
-        .trace-area { 
-            font-size: 0.75rem; color: #9ca3af; background: #000; 
-            padding: 10px; border-radius: 8px; margin-top: 10px; 
-            height: 120px; overflow-y: auto; border: 1px solid #374151;
+        .trace-box {
+            font-size: 0.7rem; color: #ccc; background: #000; padding: 10px;
+            border-radius: 8px; max-height: 150px; overflow-y: auto; line-height: 1.4;
         }
+        .math-step { color: var(--primary-blue); border-bottom: 1px dotted #333; padding: 2px 0; }
     </style>
 </head>
 <body>
 
 <div class="outer-frame">
     <div class="inner-frame">
-        <h1>LU Decomposition</h1>
+        <h1>LU DECOMPOSITION</h1>
 
         <div class="matrix-container">
             <div class="brackets" id="inputGrid">
@@ -132,36 +123,22 @@
         </div>
 
         <div class="keypad-grid">
-            <button onclick="press('7')">7</button>
-            <button onclick="press('8')">8</button>
-            <button onclick="press('9')">9</button>
-            <button class="btn-del" onclick="press('DEL')">DEL</button>
-            <button onclick="press('4')">4</button>
-            <button onclick="press('5')">5</button>
-            <button onclick="press('6')">6</button>
-            <button class="btn-op" onclick="press('NEXT')">NEXT</button>
-            <button onclick="press('1')">1</button>
-            <button onclick="press('2')">2</button>
-            <button onclick="press('3')">3</button>
-            <button class="btn-op" onclick="press('-')">+/-</button>
-            <button onclick="press('0')">0</button>
-            <button onclick="press('.')">.</button>
-            <button class="btn-op" onclick="randomize()">RAND</button>
-            <button class="btn-go" onclick="calculate()">GO</button>
+            <button onclick="press('7')">7</button><button onclick="press('8')">8</button><button onclick="press('9')">9</button><button class="btn-red" onclick="press('DEL')">DEL</button>
+            <button onclick="press('4')">4</button><button onclick="press('5')">5</button><button onclick="press('6')">6</button><button class="btn-blue" onclick="press('NEXT')">NEXT</button>
+            <button onclick="press('1')">1</button><button onclick="press('2')">2</button><button onclick="press('3')">3</button><button class="btn-blue" onclick="press('-')">+/-</button>
+            <button onclick="press('0')">0</button><button onclick="press('.')">.</button><button class="btn-blue" onclick="randomize()">RAND</button><button class="btn-go" onclick="calculate()">GO</button>
         </div>
 
         <div id="resultsView" style="display:none">
-            <div class="output-box">
-                <div class="res-row">
-                    <span class="l-txt">L Matrix</span>
-                    <div id="resL" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:5px;"></div>
-                </div>
-                <div class="res-row">
-                    <span class="u-txt">U Matrix</span>
-                    <div id="resU" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:5px;"></div>
-                </div>
+            <div class="res-matrix-box">
+                <span class="res-title" style="color:var(--l-color)">L (Lower Matrix)</span>
+                <div id="resL" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
             </div>
-            <div class="trace-area" id="trace"></div>
+            <div class="res-matrix-box">
+                <span class="res-title" style="color:var(--u-color)">U (Upper Matrix)</span>
+                <div id="resU" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
+            </div>
+            <div class="trace-box" id="trace"></div>
         </div>
     </div>
 </div>
@@ -201,31 +178,35 @@
         let L = [[1,0,0],[0,1,0],[0,0,1]], U = [[0,0,0],[0,0,0],[0,0,0]], log = [];
 
         for(let i=0; i<3; i++) {
+            // Upper
             for(let k=i; k<3; k++) {
                 let sum = 0;
                 for(let j=0; j<i; j++) sum += L[i][j]*U[j][k];
                 U[i][k] = A[i][k] - sum;
-                log.push(`U${i+1}${k+1} = ${A[i][k]} - ${sum.toFixed(1)} = ${U[i][k].toFixed(2)}`);
+                log.push(`<div class="math-step">U[${i+1},${k+1}]: ${A[i][k]} - (${sum.toFixed(1)}) = ${U[i][k].toFixed(2)}</div>`);
             }
+            // Lower
             for(let k=i+1; k<3; k++) {
                 let sum = 0;
                 for(let j=0; j<i; j++) sum += L[k][j]*U[j][i];
-                if(U[i][i] === 0) { alert("Error: Pivot is 0"); return; }
+                if(U[i][i] === 0) { alert("Error: Pivot is 0. Cannot decompose."); return; }
                 L[k][i] = (A[k][i] - sum) / U[i][i];
-                log.push(`L${k+1}${i+1} = (${A[k][i]} - ${sum.toFixed(1)}) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}`);
+                log.push(`<div class="math-step">L[${k+1},${i+1}]: (${A[k][i]} - ${sum.toFixed(1)}) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}</div>`);
             }
         }
 
-        render('resL', L, 'l-txt');
-        render('resU', U, 'u-txt');
-        document.getElementById('resultsView').style.display = 'block';
-        document.getElementById('trace').innerHTML = log.join('<br>');
-    }
+        // Render L
+        let hL = '';
+        L.forEach(row => row.forEach(val => hL += `<div class="cell-res" style="color:var(--l-color)">${val.toFixed(2)}</div>`));
+        document.getElementById('resL').innerHTML = hL;
 
-    function render(id, m, cls) {
-        let h = '';
-        m.forEach(row => row.forEach(val => h += `<div class="cell-res ${cls}">${val.toFixed(1)}</div>`));
-        document.getElementById(id).innerHTML = h;
+        // Render U
+        let hU = '';
+        U.forEach(row => row.forEach(val => hU += `<div class="cell-res" style="color:var(--u-color)">${val.toFixed(2)}</div>`));
+        document.getElementById('resU').innerHTML = hU;
+
+        document.getElementById('trace').innerHTML = log.join('');
+        document.getElementById('resultsView').style.display = 'block';
     }
 </script>
 </body>
