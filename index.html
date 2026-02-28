@@ -24,20 +24,21 @@
         .btn-next { background: var(--a) !important; color: white; }
         .sec-ops { height: 16vh; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 3px; background: #ebf0f1; }
         .o-b { border: none; border-radius: 4px; font-size: 9px; font-weight: bold; background: var(--p); color: white; cursor: pointer; }
+        
+        /* القسم 4: النتائج - استعادة البريق والصفوف */
         .sec-res { height: 38vh; padding: 10px 5px; overflow-y: auto; background: #fff; border-top: 2px solid var(--a); text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding-bottom: 45px; }
         .res-row { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 10px; padding: 0 5px; }
+        .res-grid { display: grid; gap: 2px; } /* ضمان توزيع المصفوفة لصفوف وأعمدة */
         .res-row .c-l { width: var(--cell-w, 35px); height: 28px; font-size: 14px; border: 1px solid #ccc; background: #fff; white-space: nowrap; padding: 0 2px; }
+        
         .f-c { display: flex; flex-direction: column; align-items: center; font-size: 14px; font-weight: bold; }
         .f-n { border-bottom: 1.5px solid #000; padding: 0 3px; }
         .m-wrap { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--gold); border-top: 1px solid #000; height: 32px; display: flex; align-items: center; z-index: 2000; }
         .m-wrap marquee { color: #000; font-size: 13px; font-weight: bold; line-height: 32px; }
         .wa-icon { vertical-align: middle; width: 18px; margin: 0 5px; }
-        #pwa-btn { display: none; position: fixed; top: 5px; left: 5px; z-index: 1000; background: var(--s); color: white; border: none; padding: 5px 10px; border-radius: 15px; font-size: 10px; font-weight: bold; }
     </style>
 </head>
 <body oncontextmenu="return false;">
-
-    <button id="pwa-btn">تثبيت 📲</button>
 
     <div class="sec-matrices" id="_mainL">
         <div id="_preX" style="display:none; align-items:center;"><div class="f-c"><span class="f-n">١</span><span>٢</span></div></div>
@@ -48,7 +49,7 @@
         <div id="_uSys" style="display:none; align-items:center;"><div style="font-size:18px; font-weight:bold; color:var(--w); margin: 0 2px;">×</div><div class="u-t"><span class="u-l">س</span><div class="b-k"><div id="_grX" class="g-d"></div></div></div><div style="font-size:18px; font-weight:bold; color:var(--w); margin: 0 2px;">=</div></div>
         <div class="u-t" id="_uB">
             <div id="_ctrlB" style="display:flex;"><div class="dim-btn" onclick="_fH(7,'B','r')">صف</div><div class="dim-btn" onclick="_fH(7,'B','c')">عمود</div></div>
-            <span class="u-l" id="_lblB">ب</span><div class="b-k" id="_brkB"><div id="_grB" class="g-d"></div></div>
+            <span class="u-l">ب</span><div class="b-k" id="_brkB"><div id="_grB" class="g-d"></div></div>
         </div>
     </div>
 
@@ -72,7 +73,7 @@
     </div>
 
 <script>
-/* كود معمى يدوي ومؤمن بالكامل - أستاذ محمود عادل صالح */
+/* المحرك البرمجي المؤمن - أستاذ محمود عادل صالح */
 (function(){
     var _0xM = null, _0xD = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _0xP = false;
     const _0xT = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]).replace("-", "ـ"), _0xE = s => s.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("ـ", "-");
@@ -127,7 +128,7 @@
     window._eS = function() {
         var a=_gM('A'), b=_gM('B'), r=_adD(a); if(r.det===0)return;
         var ajB=_mu(r.adj,b), ux=a.length===2?['س','ص']:['س','ص','ع'];
-        var h='<div class="res-row"><div class="b-k"><div class="grid" style="grid-template-columns:repeat(1,30px)">'+ux.map(u=>'<input class="c-l ro" type="text" value="'+u+'" readonly>').join('')+'</div></div><span style="font-weight:bold">=</span>'+(r.det===1?_rS(ajB):'<div class="f-c"><span class="f-n">١</span><span>'+_0xT(r.det)+'</span></div>'+_rS(ajB))+'</div>';
+        var h='<div class="res-row"><div class="b-k"><div class="res-grid" style="grid-template-columns:repeat(1,30px)">'+ux.map(u=>'<input class="c-l ro" type="text" value="'+u+'" readonly>')).join('')+'</div></div><span style="font-weight:bold">=</span>'+(r.det===1?_rS(ajB):'<div class="f-c"><span class="f-n">١</span><span>'+_0xT(r.det)+'</span></div>'+_rS(ajB))+'</div>';
         document.getElementById('res').innerHTML=h;
     };
 
@@ -155,7 +156,7 @@
     };
     const _rS = m => {
         var max=0; m.forEach(r=>r.forEach(v=>{ var s=_0xT(Number.isInteger(v)?v:v.toFixed(1)); if(s.length>max)max=s.length; }));
-        var w=Math.max(30, 8.5*max+12), h='<div class="b-k" style="--cell-w:'+w+'px"><div class="grid" style="grid-template-columns:repeat('+m[0].length+',var(--cell-w))">';
+        var w=Math.max(30, 8.5*max+12), h='<div class="b-k" style="--cell-w:'+w+'px"><div class="res-grid" style="grid-template-columns:repeat('+m[0].length+',var(--cell-w))">';
         m.forEach(r=>r.forEach(v=>h+='<input class="c-l ro" type="text" value="'+_0xT(Number.isInteger(v)?v:v.toFixed(1))+'" readonly>')); return h+'</div></div>';
     };
     const _sR = (m,t,dt,sep,m2) => {
