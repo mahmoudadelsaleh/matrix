@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LU Solver Offline - Mahmoud Adel</title>
+    <title>LU Step-by-Step - Mahmoud Adel</title>
     <style>
         :root {
             --primary-blue: #38bdf8;
@@ -15,98 +15,46 @@
             --u-color: #fb7185;
         }
 
-        body {
-            font-family: sans-serif;
-            background-color: var(--bg-gray);
-            color: white;
-            margin: 0;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Framing: Gold-like Blue and Pink */
-        .outer-frame {
-            border: 4px solid var(--primary-blue);
-            padding: 5px;
-            border-radius: 20px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .inner-frame {
-            border: 3px solid var(--pink-accent);
-            padding: 15px;
-            border-radius: 15px;
-            background: var(--panel-gray);
-        }
-
+        body { font-family: sans-serif; background-color: var(--bg-gray); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
+        .outer-frame { border: 4px solid var(--primary-blue); padding: 5px; border-radius: 20px; width: 100%; max-width: 400px; }
+        .inner-frame { border: 3px solid var(--pink-accent); padding: 15px; border-radius: 15px; background: var(--panel-gray); position: relative; }
         h1 { text-align: center; color: var(--primary-blue); font-size: 1.2rem; margin: 0 0 15px 0; }
 
-        /* Input Matrix Brackets */
+        /* Matrix A Input */
         .matrix-container { display: flex; justify-content: center; margin-bottom: 15px; }
-        .brackets {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            padding: 12px;
-            border-left: 3px solid white;
-            border-right: 3px solid white;
-            position: relative;
-        }
-        .brackets::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px; border-top: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
-        .brackets::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 8px; border-bottom: 3px solid white; border-left: 3px solid white; border-right: 3px solid white; }
+        .brackets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; border-left: 3px solid white; border-right: 3px solid white; position: relative; }
+        .brackets::before, .brackets::after { content: ''; position: absolute; left: 0; right: 0; height: 8px; border-left: 3px solid white; border-right: 3px solid white; }
+        .brackets::before { top: 0; border-top: 3px solid white; }
+        .brackets::after { bottom: 0; border-bottom: 3px solid white; }
 
-        input {
-            width: 50px; height: 45px; background: #000; border: 1px solid #555;
-            color: var(--primary-blue); text-align: center; font-size: 1.1rem; border-radius: 5px; font-weight: bold;
-        }
+        input { width: 50px; height: 45px; background: #000; border: 1px solid #555; color: var(--primary-blue); text-align: center; font-size: 1.1rem; border-radius: 5px; font-weight: bold; }
         input.active { border: 2px solid var(--pink-accent); background: #222; }
 
-        /* 4x4 Keypad */
-        .keypad-grid {
-            background: var(--keypad-bg);
-            padding: 10px;
-            border-radius: 12px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        button {
-            aspect-ratio: 1/1;
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            cursor: pointer;
-            color: white;
-            background: #4b5563;
-        }
-        button:active { transform: scale(0.9); }
+        /* Keypad */
+        .keypad-grid { background: var(--keypad-bg); padding: 10px; border-radius: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
+        button { aspect-ratio: 1/1; border: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; color: white; background: #4b5563; }
         .btn-blue { background: var(--primary-blue); color: #000; }
         .btn-red { background: #ef4444; }
         .btn-go { background: var(--pink-accent); color: white; }
 
-        /* Output View - Hidden by default */
-        #resultsView { margin-top: 15px; border-top: 2px dashed #555; padding-top: 15px; }
+        /* Results & Derivation */
+        #resultsArea { margin-top: 15px; border-top: 2px dashed #555; padding-top: 15px; display: none; }
         .res-matrix-box { margin-bottom: 15px; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #444; }
         .res-title { font-size: 0.9rem; margin-bottom: 8px; display: block; text-align: center; font-weight: bold; }
-        .cell-res { text-align: center; font-family: monospace; padding: 5px; font-weight: bold; }
+        .cell-res { text-align: center; font-family: monospace; padding: 5px; font-weight: bold; font-size: 1rem; }
 
-        .trace-box {
-            font-size: 0.7rem; color: #ccc; background: #000; padding: 10px;
-            border-radius: 8px; max-height: 150px; overflow-y: auto; line-height: 1.4;
-        }
-        .math-step { color: var(--primary-blue); border-bottom: 1px dotted #333; padding: 2px 0; }
+        .btn-guide { width: 100%; padding: 10px; background: #111; color: var(--primary-blue); border: 1px solid var(--primary-blue); border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        .derivation-log { display: none; font-size: 0.75rem; background: #000; padding: 10px; border-radius: 8px; max-height: 200px; overflow-y: auto; border: 1px solid var(--primary-blue); }
+        .step { margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
+        .origin { color: var(--pink-accent); } /* Color for Matrix A values */
+        .component { color: #aaa; } /* Color for intermediate L/U values */
     </style>
 </head>
 <body>
 
 <div class="outer-frame">
     <div class="inner-frame">
-        <h1>LU DECOMPOSITION</h1>
+        <h1>LU Step-by-Step</h1>
 
         <div class="matrix-container">
             <div class="brackets" id="inputGrid">
@@ -129,16 +77,18 @@
             <button onclick="press('0')">0</button><button onclick="press('.')">.</button><button class="btn-blue" onclick="randomize()">RAND</button><button class="btn-go" onclick="calculate()">GO</button>
         </div>
 
-        <div id="resultsView" style="display:none">
+        <div id="resultsArea">
             <div class="res-matrix-box">
-                <span class="res-title" style="color:var(--l-color)">L (Lower Matrix)</span>
+                <span class="res-title" style="color:var(--l-color)">L Matrix</span>
                 <div id="resL" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
             </div>
             <div class="res-matrix-box">
-                <span class="res-title" style="color:var(--u-color)">U (Upper Matrix)</span>
+                <span class="res-title" style="color:var(--u-color)">U Matrix</span>
                 <div id="resU" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
             </div>
-            <div class="trace-box" id="trace"></div>
+            
+            <button class="btn-guide" onclick="toggleDerivation()">🔍 Show Derivation (Guide)</button>
+            <div class="derivation-log" id="derivationLog"></div>
         </div>
     </div>
 </div>
@@ -160,9 +110,7 @@
         }
         if(k === 'DEL') { el.value = "0"; isNew = true; return; }
         if(k === '-') { el.value = el.value.startsWith('-') ? el.value.slice(1) : '-' + el.value; return; }
-        
-        if(isNew) { el.value = k; isNew = false; }
-        else { el.value += k; }
+        if(isNew) { el.value = k; isNew = false; } else { el.value += k; }
     }
 
     function randomize() {
@@ -171,42 +119,52 @@
         calculate();
     }
 
+    function toggleDerivation() {
+        let log = document.getElementById('derivationLog');
+        log.style.display = (log.style.display === 'block') ? 'none' : 'block';
+    }
+
     function calculate() {
         let A = [[],[],[]];
         for(let i=0; i<3; i++) for(let j=0; j<3; j++) A[i][j] = parseFloat(document.getElementById(`v${i}${j}`).value) || 0;
 
-        let L = [[1,0,0],[0,1,0],[0,0,1]], U = [[0,0,0],[0,0,0],[0,0,0]], log = [];
+        let L = [[1,0,0],[0,1,0],[0,0,1]], U = [[0,0,0],[0,0,0],[0,0,0]], trace = [];
 
         for(let i=0; i<3; i++) {
-            // Upper
+            // Upper: U[i][k] = A[i][k] - sum(L[i][j]*U[j][k])
             for(let k=i; k<3; k++) {
-                let sum = 0;
-                for(let j=0; j<i; j++) sum += L[i][j]*U[j][k];
+                let sum = 0, detail = "";
+                for(let j=0; j<i; j++) {
+                    sum += L[i][j]*U[j][k];
+                    detail += ` + (${L[i][j].toFixed(1)} * ${U[j][k].toFixed(1)})`;
+                }
                 U[i][k] = A[i][k] - sum;
-                log.push(`<div class="math-step">U[${i+1},${k+1}]: ${A[i][k]} - (${sum.toFixed(1)}) = ${U[i][k].toFixed(2)}</div>`);
+                trace.push(`<div class="step"><b>U${i+1}${k+1}</b> = <span class="origin">A${i+1}${k+1}(${A[i][k]})</span> - [${detail || '0'}] = <b>${U[i][k].toFixed(2)}</b></div>`);
             }
-            // Lower
+            // Lower: L[k][i] = (A[k][i] - sum(L[k][j]*U[j][i])) / U[i][i]
             for(let k=i+1; k<3; k++) {
-                let sum = 0;
-                for(let j=0; j<i; j++) sum += L[k][j]*U[j][i];
-                if(U[i][i] === 0) { alert("Error: Pivot is 0. Cannot decompose."); return; }
+                let sum = 0, detail = "";
+                for(let j=0; j<i; j++) {
+                    sum += L[k][j]*U[j][i];
+                    detail += ` + (${L[k][j].toFixed(1)} * ${U[j][i].toFixed(1)})`;
+                }
+                if(U[i][i] === 0) { alert("Pivot is 0. Manual intervention needed."); return; }
                 L[k][i] = (A[k][i] - sum) / U[i][i];
-                log.push(`<div class="math-step">L[${k+1},${i+1}]: (${A[k][i]} - ${sum.toFixed(1)}) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}</div>`);
+                trace.push(`<div class="step"><b>L${k+1}${i+1}</b> = (<span class="origin">A${k+1}${i+1}(${A[k][i]})</span> - [${detail || '0'}]) / <span class="component">U${i+1}${i+1}(${U[i][i].toFixed(1)})</span> = <b>${L[k][i].toFixed(2)}</b></div>`);
             }
         }
 
-        // Render L
-        let hL = '';
-        L.forEach(row => row.forEach(val => hL += `<div class="cell-res" style="color:var(--l-color)">${val.toFixed(2)}</div>`));
-        document.getElementById('resL').innerHTML = hL;
+        render('resL', L, 'l-color');
+        render('resU', U, 'u-color');
+        document.getElementById('derivationLog').innerHTML = trace.join('');
+        document.getElementById('resultsArea').style.display = 'block';
+        document.getElementById('derivationLog').style.display = 'none'; // Keep closed initially
+    }
 
-        // Render U
-        let hU = '';
-        U.forEach(row => row.forEach(val => hU += `<div class="cell-res" style="color:var(--u-color)">${val.toFixed(2)}</div>`));
-        document.getElementById('resU').innerHTML = hU;
-
-        document.getElementById('trace').innerHTML = log.join('');
-        document.getElementById('resultsView').style.display = 'block';
+    function render(id, m, colorVar) {
+        let html = '';
+        m.forEach(row => row.forEach(v => html += `<div class="cell-res" style="color:var(--${colorVar})">${v.toFixed(2)}</div>`));
+        document.getElementById(id).innerHTML = html;
     }
 </script>
 </body>
