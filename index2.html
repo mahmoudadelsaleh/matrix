@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LU Step-by-Step - Mahmoud Adel</title>
+    <title>LU Solver Pro - Mahmoud Adel</title>
     <style>
         :root {
             --primary-blue: #38bdf8;
@@ -17,10 +17,9 @@
 
         body { font-family: sans-serif; background-color: var(--bg-gray); color: white; margin: 0; padding: 10px; display: flex; justify-content: center; }
         .outer-frame { border: 4px solid var(--primary-blue); padding: 5px; border-radius: 20px; width: 100%; max-width: 400px; }
-        .inner-frame { border: 3px solid var(--pink-accent); padding: 15px; border-radius: 15px; background: var(--panel-gray); position: relative; }
+        .inner-frame { border: 3px solid var(--pink-accent); padding: 15px; border-radius: 15px; background: var(--panel-gray); }
         h1 { text-align: center; color: var(--primary-blue); font-size: 1.2rem; margin: 0 0 15px 0; }
 
-        /* Matrix A Input */
         .matrix-container { display: flex; justify-content: center; margin-bottom: 15px; }
         .brackets { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px; border-left: 3px solid white; border-right: 3px solid white; position: relative; }
         .brackets::before, .brackets::after { content: ''; position: absolute; left: 0; right: 0; height: 8px; border-left: 3px solid white; border-right: 3px solid white; }
@@ -30,24 +29,24 @@
         input { width: 50px; height: 45px; background: #000; border: 1px solid #555; color: var(--primary-blue); text-align: center; font-size: 1.1rem; border-radius: 5px; font-weight: bold; }
         input.active { border: 2px solid var(--pink-accent); background: #222; }
 
-        /* Keypad */
         .keypad-grid { background: var(--keypad-bg); padding: 10px; border-radius: 12px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 10px; }
         button { aspect-ratio: 1/1; border: none; border-radius: 8px; font-weight: bold; font-size: 0.9rem; cursor: pointer; color: white; background: #4b5563; }
         .btn-blue { background: var(--primary-blue); color: #000; }
         .btn-red { background: #ef4444; }
         .btn-go { background: var(--pink-accent); color: white; }
 
-        /* Results & Derivation */
+        /* Results Area Control */
         #resultsArea { margin-top: 15px; border-top: 2px dashed #555; padding-top: 15px; display: none; }
         .res-matrix-box { margin-bottom: 15px; background: #111; padding: 10px; border-radius: 10px; border: 1px solid #444; }
-        .res-title { font-size: 0.9rem; margin-bottom: 8px; display: block; text-align: center; font-weight: bold; }
-        .cell-res { text-align: center; font-family: monospace; padding: 5px; font-weight: bold; font-size: 1rem; }
+        .res-title { font-size: 0.8rem; margin-bottom: 5px; display: block; text-align: center; font-weight: bold; }
+        .cell-res { text-align: center; font-family: monospace; padding: 5px; font-weight: bold; font-size: 0.95rem; }
 
-        .btn-guide { width: 100%; padding: 10px; background: #111; color: var(--primary-blue); border: 1px solid var(--primary-blue); border-radius: 8px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
-        .derivation-log { display: none; font-size: 0.75rem; background: #000; padding: 10px; border-radius: 8px; max-height: 200px; overflow-y: auto; border: 1px solid var(--primary-blue); }
-        .step { margin-bottom: 8px; border-bottom: 1px solid #333; padding-bottom: 4px; }
-        .origin { color: var(--pink-accent); } /* Color for Matrix A values */
-        .component { color: #aaa; } /* Color for intermediate L/U values */
+        .guide-container { display: flex; justify-content: center; margin-bottom: 10px; }
+        .btn-guide { padding: 6px 15px; background: transparent; color: var(--primary-blue); border: 1px solid var(--primary-blue); border-radius: 5px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        
+        .derivation-log { display: none; font-size: 0.75rem; background: #000; padding: 10px; border-radius: 8px; max-height: 180px; overflow-y: auto; border: 1px solid #444; }
+        .step { margin-bottom: 6px; border-bottom: 1px solid #222; padding-bottom: 3px; }
+        .origin { color: var(--pink-accent); }
     </style>
 </head>
 <body>
@@ -87,7 +86,9 @@
                 <div id="resU" style="display:grid; grid-template-columns: repeat(3, 1fr);"></div>
             </div>
             
-            <button class="btn-guide" onclick="toggleDerivation()">🔍 Show Derivation (Guide)</button>
+            <div class="guide-container">
+                <button class="btn-guide" onclick="toggleDerivation()">Show Guide</button>
+            </div>
             <div class="derivation-log" id="derivationLog"></div>
         </div>
     </div>
@@ -114,9 +115,12 @@
     }
 
     function randomize() {
+        // توليد فقط وإخفاء النتائج تماماً
         for(let i=0; i<3; i++) for(let j=0; j<3; j++)
             document.getElementById(`v${i}${j}`).value = (Math.random()*16 - 8).toFixed(0);
-        calculate();
+        
+        document.getElementById('resultsArea').style.display = 'none';
+        document.getElementById('derivationLog').style.display = 'none';
     }
 
     function toggleDerivation() {
@@ -131,7 +135,6 @@
         let L = [[1,0,0],[0,1,0],[0,0,1]], U = [[0,0,0],[0,0,0],[0,0,0]], trace = [];
 
         for(let i=0; i<3; i++) {
-            // Upper: U[i][k] = A[i][k] - sum(L[i][j]*U[j][k])
             for(let k=i; k<3; k++) {
                 let sum = 0, detail = "";
                 for(let j=0; j<i; j++) {
@@ -139,31 +142,32 @@
                     detail += ` + (${L[i][j].toFixed(1)} * ${U[j][k].toFixed(1)})`;
                 }
                 U[i][k] = A[i][k] - sum;
-                trace.push(`<div class="step"><b>U${i+1}${k+1}</b> = <span class="origin">A${i+1}${k+1}(${A[i][k]})</span> - [${detail || '0'}] = <b>${U[i][k].toFixed(2)}</b></div>`);
+                trace.push(`<div class="step">U${i+1}${k+1} = <span class="origin">${A[i][k]}</span> - [${detail || '0'}] = ${U[i][k].toFixed(2)}</div>`);
             }
-            // Lower: L[k][i] = (A[k][i] - sum(L[k][j]*U[j][i])) / U[i][i]
             for(let k=i+1; k<3; k++) {
                 let sum = 0, detail = "";
                 for(let j=0; j<i; j++) {
                     sum += L[k][j]*U[j][i];
                     detail += ` + (${L[k][j].toFixed(1)} * ${U[j][i].toFixed(1)})`;
                 }
-                if(U[i][i] === 0) { alert("Pivot is 0. Manual intervention needed."); return; }
+                if(U[i][i] === 0) { alert("Pivot is 0."); return; }
                 L[k][i] = (A[k][i] - sum) / U[i][i];
-                trace.push(`<div class="step"><b>L${k+1}${i+1}</b> = (<span class="origin">A${k+1}${i+1}(${A[k][i]})</span> - [${detail || '0'}]) / <span class="component">U${i+1}${i+1}(${U[i][i].toFixed(1)})</span> = <b>${L[k][i].toFixed(2)}</b></div>`);
+                trace.push(`<div class="step">L${k+1}${i+1} = (<span class="origin">${A[k][i]}</span> - [${detail || '0'}]) / ${U[i][i].toFixed(1)} = ${L[k][i].toFixed(2)}</div>`);
             }
         }
 
         render('resL', L, 'l-color');
         render('resU', U, 'u-color');
         document.getElementById('derivationLog').innerHTML = trace.join('');
+        
+        // إظهار النتائج الآن عند ضغط GO
         document.getElementById('resultsArea').style.display = 'block';
-        document.getElementById('derivationLog').style.display = 'none'; // Keep closed initially
+        document.getElementById('derivationLog').style.display = 'none'; // تبقى التفاصيل مخفية حتى يطلبها المستخدم
     }
 
     function render(id, m, colorVar) {
         let html = '';
-        m.forEach(row => row.forEach(v => html += `<div class="cell-res" style="color:var(--${colorVar})">${v.toFixed(2)}</div>`));
+        m.forEach(row => row.forEach(v => html += `<div class="cell-res" style="color:var(--${colorVar})">${v.toFixed(1)}</div>`));
         document.getElementById(id).innerHTML = html;
     }
 </script>
