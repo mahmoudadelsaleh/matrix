@@ -12,7 +12,7 @@
         .sec-matrices { height: 22vh; display: flex; justify-content: center; align-items: center; gap: 5px; background: #fafafa; border-bottom: 1px solid #ddd; padding: 2px; }
         .u-t { display: flex; flex-direction: column; align-items: center; scale: 0.8; }
         .u-l { font-weight: bold; font-size: 13px; color: var(--p); margin-bottom: 1px; }
-        .b-k { display: flex; align-items: center; padding: 2px 5px; border-left: 3.5px solid var(--p); border-right: 3.5px solid var(--p); border-radius: 12px / 10px; background: #fff; transition: 0.2s; }
+        .b-k { display: flex; align-items: center; padding: 2px 5px; border-left: 3.5px solid var(--p); border-right: 3.5px solid var(--p); border-radius: 12px / 10px; background: #fff; }
         .det-style { border-radius: 0 !important; border-width: 4px !important; }
         .g-d { display: grid; gap: 1px; }
         .c-l { width: 30px; height: 26px; text-align: center; border: 1px solid #ddd; border-radius: 4px; font-size: 14px; font-weight: bold; outline: none; transition: 0.1s; }
@@ -45,11 +45,7 @@
             <div id="_ctrlA" style="display:flex;"><div class="dim-btn" onclick="_fH(7,'A','r')">صف</div><div class="dim-btn" onclick="_fH(7,'A','c')">عمود</div></div>
             <span class="u-l" id="_lblA">أ</span><div class="b-k" id="_brkA"><div id="_grA" class="g-d"></div></div>
         </div>
-        <div id="_uSys" style="display:none; align-items:center;">
-            <div style="font-size:18px; font-weight:bold; color:var(--w); margin: 0 2px;">×</div>
-            <div class="u-t"><span class="u-l">س</span><div class="b-k"><div id="_grX" class="g-d"></div></div></div>
-            <div style="font-size:18px; font-weight:bold; color:var(--w); margin: 0 2px;">=</div>
-        </div>
+        <div id="_uSys" style="display:none; align-items:center;"><div style="font-size:18px; font-weight:bold; color:var(--w); margin: 0 2px;">×</div><div class="u-t"><span class="u-l">س</span><div class="b-k"><div id="_grX" class="g-d"></div></div></div><div style="font-size:18px; font-weight:bold; color:var(--w); margin: 0 2px;">=</div></div>
         <div class="u-t" id="_uB">
             <div id="_ctrlB" style="display:flex;"><div class="dim-btn" onclick="_fH(7,'B','r')">صف</div><div class="dim-btn" onclick="_fH(7,'B','c')">عمود</div></div>
             <span class="u-l" id="_lblB">ب</span><div class="b-k" id="_brkB"><div id="_grB" class="g-d"></div></div>
@@ -72,16 +68,102 @@
     <div class="sec-res" id="res"></div>
 
     <div class="m-wrap">
-        <marquee direction="right" scrollamount="5">
-            محمود عادل صالح  &nbsp;&nbsp;  رياضيات تفاعلية  &nbsp;&nbsp;  للمراسلة: 
-            <a href="https://wa.me/201552402912" style="text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="wa-icon"> مراسلتي عبر الواتساب </a>
-            &nbsp;&nbsp; محمود عادل صالح
-        </marquee>
+        <marquee direction="right" scrollamount="5">محمود عادل صالح &nbsp;&nbsp; رياضيات تفاعلية &nbsp;&nbsp; <a href="https://wa.me/201552402912" style="text-decoration:none;color:#000"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" class="wa-icon"> مراسلتي عبر الواتساب</a> &nbsp;&nbsp; محمود عادل صالح</marquee>
     </div>
 
 <script>
-/* المحرك البرمجي المعمى - حماية كاملة للمجهود */
-(function(){var _0x536=null,_0x12a={A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}},_0x4c1=!1;const _0x2b4=_0x=>String(_0x).replace(/\d/g,(_0x=>"٠١٢٣٤٥٦٧٨٩"[_0x])).replace("-","ـ"),_0x3e1=_0x=>_0x.replace(/[٠-٩]/g,(_0x=>"٠١٢٣٤٥٦٧٨٩".indexOf(_0x))).replace("ـ","-");window._fH=function(_0x1,a,b,c){if(7===_0x1)return _0x12a[a][b]=3===_0x12a[a][b]?1:_0x12a[a][b]+1,_rG(a),void _rs();if(3===_0x1){if(!_0x536)return;if(_0x4c1)return _0x536.value=_0x2b4(a),void(_0x4c1=!1);let v=_0x536.value;return void("back"===a?_0x536.value=v.length>1?v.slice(0,-1):"٠":"-"===a?_0x536.value=v.includes("ـ")?_0x536.value.replace("ـ",""):"ـ"+("٠"===v?"":v):_0x536.value="٠"===v?_0x2b4(a):_0x536.value+_0x2b4(a))}if(4===_0x1){let l=Array.from(document.querySelectorAll(".c-l:not(.ro)")),i=l.indexOf(_0x536);i<l.length-1&&_sA(l[i+1])}5===_0x1&&_0x536&&(_0x536.value="٠")};const _rG=_0x=>{const a=document.getElementById("_gr"+_0x);if(a){a.style.gridTemplateColumns="repeat("+_0x12a[_0x].c+",30px)",a.innerHTML="";for(let b=0;b<_0x12a[_0x].r*_0x12a[_0x].c;b++)a.innerHTML+='<input class="c-l" type="text" value="٠" readonly onclick="_sA(this)">'}};window._sA=function(_0x){_0x.classList.contains("ro")||(document.querySelectorAll(".c-l").forEach((_0x=>_0x.classList.remove("at"))),_0x536=_0x,_0x536.classList.add("at"))},window._oK=function(_0x1){let a=_gM("A"),b=_gM("B");if(12===_0x1){let c=document.getElementById("_lblA").innerText.includes("مساحة");document.querySelectorAll("#_grA input, #_grB input").forEach(((a,b)=>{c&&b%3==0||a.classList.contains("ro")||(a.value=_0x2b4(Math.floor(19*Math.random())-9))}))}else if(8===_0x1)document.getElementById("res").innerHTML='<b>أدخل الأس ن:</b><br><input class="c-l at" style="width:50px" id="_powV" readonly onclick="_sA(this)" value="٢"><br><button class="o-b" onclick="_eP()" style="width:60px;margin-top:5px;background:var(--a);padding:5px">احسب</button>',_0x536=document.getElementById("_powV"),_0x4c1=!0;else if(9===_0x1)_rs(),document.getElementById("res").innerHTML='<b>اختر عدد المجاهيل:</b><div style="display:flex; gap:15px; margin-top:10px;"><button class="o-b" style="width:80px;padding:10px;background:var(--a)" onclick="_setS(2)">٢ (س، ص)</button> <button class="o-b" style="width:80px;padding:10px;background:var(--a)" onclick="_setS(3)">٣ (س، ص، ع)</button></div>';else if(10===_0x1){_rs(),document.getElementById("_uB").style.display="none",document.getElementById("_preX").style.display="flex",_0x12a.A={r:3,c:3},_rG("A"),document.getElementById("_brkA").classList.add("det-style"),document.getElementById("_ctrlA").style.display="none",document.getElementById("_lblA").innerText="مساحة المثلث";let cl=document.querySelectorAll("#_grA input");for(let d=0;d<3;d++)cl[3*d].value="١",cl[3*d].classList.add("ro");document.getElementById("res").innerHTML='<button class="o-b" style="background:var(--s);padding:8px 20px" onclick="_eT()">احسب المساحة</button>'}else if(1===_0x1||2===_0x1){if(_0x12a.A.r!==_0x12a.B.r||_0x12a.A.c!==_0x12a.B.c)return;_sR(a.map(((a,c)=>a.map(((a,d)=>1===_0x1?a+b[c][d]:a-b[c][d])))),1===_0x1?"أ + ب":"أ - ب")}else if(3===_0x1){if(a[0].length!==b.length)return;_sR(_mu(a,b),"أ × ب")}else if(4===_0x1||5===_0x1){let e=_adD(4===_0x1?a:b);document.getElementById("res").innerHTML="<b>محدد = "+_0x2b4(e.det)+"</b>"}else if(6===_0x1||7===_0x1){let f=_adD(6===_0x1?a:b);if(0!==f.det)_sR(f.adj,"معكوس المصفوفة",f.det)}else if(11===_0x1&&a.length===a[0].length){let g=_tp(a),h=a.map(((a,b)=>a.map(((a,c)=>(a+g[b][c])/2)))),i=a.map(((a,b)=>a.map(((a,c)=>(a-g[b][c])/2))));_sR(h,"التفكيك",null," + ",i)}},window._setS=function(_0x){_0x12a.A={r:_0x,c:_0x},_0x12a.B={r:_0x,c:1},_0x12a.X={r:_0x,c:1},_rG("A"),_rG("B"),document.getElementById("_ctrlA").style.display="none",document.getElementById("_ctrlB").style.display="none",document.getElementById("_uSys").style.display="flex";const a=document.getElementById("_grX"),b=2===_0x?["س","ص"]:["س","ص","ع"];a.style.gridTemplateColumns="30px",a.innerHTML=b.map((_0x=>'<input class="c-l ro" type="text" value="'+_0x+'" readonly>')).join(""),document.getElementById("res").innerHTML='<button class="o-b" style="padding:10px 25px;background:var(--w);font-size:12px;" onclick="_eS()">احسب الحل</button>'},window._eS=function(){let _0x=_gM("A"),a=_gM("B"),b=_adD(_0x);if(0!==b.det){let c=_mu(b.adj,a),d=_0x.length===2?["س","ص"]:["س","ص","ع"],e='<div class="res-row"><div class="b-k"><div class="grid" style="grid-template-columns:repeat(1,30px)">'+d.map((_0x=>'<input class="c-l ro" type="text" value="'+_0x+'" readonly>')).join("")+'</div></div><span style="font-weight:bold;">=</span>'+(1===b.det?_rS(c):'<div class="f-c"><span class="f-n">١</span><span>'+_0x2b4(b.det)+"</span></div>"+_rS(c))+"</div>";document.getElementById("res").innerHTML=e}},window._eP=function(){let _0x=parseInt(_3e1(document.getElementById("_powV").value))||1,a=_gM("A");if(_0x12a.A.r===_0x12a.B.r){let b=a;for(let c=1;c<_0x;c++)b=_mu(b,a);_sR(b,"أ ^ "+_0x2b4(_0x))}},window._eT=function(){let _0x=_gM("A"),a=_0x[0][0]*(_0x[1][1]*_0x[2][2]-_0x[1][2]*_0x[2][1])-_0x[0][1]*(_0x[1][0]*_0x[2][2]-_0x[1][2]*_0x[2][0])+_0x[0][2]*(_0x[1][0]*_0x[2][1]-_0x[1][1]*_0x[2][0]);document.getElementById("res").innerHTML="<b>المساحة = "+_0x2b4(Math.abs(a)/2)+" وحدة مربعة</b>"},window._rs=function(){document.getElementById("_uSys").style.display="none",document.getElementById("_preX").style.display="none",document.getElementById("_uB").style.display="flex",document.getElementById("_brkA").classList.remove("det-style"),document.getElementById("_lblA").innerText="أ",document.getElementById("_ctrlA").style.display="flex",document.getElementById("_ctrlB").style.display="flex",document.getElementById("res").innerHTML=""};const _gM=_0x=>{let a=document.querySelectorAll("#_gr"+_0x+" input"),b=_0x12a[_0x].r,c=_0x12a[_0x].c,d=[];for(let e=0;e<b;e++){d[e]=[];for(let f=0;f<c;f++)d[e][f]=parseFloat(_3e1(a[e*c+f].value))||0}return d},_mu=(_0x,a)=>{let b=Array(_0x.length).fill(0).map((()=>Array(a[0].length).fill(0)));for(let c=0;c<_0x.length;c++)for(let d=0;d<a[0].length;d++)for(let e=0;e<_0x[0].length;e++)b[c][d]+=_0x[c][e]*a[e][d];return b},_tp=_0x=>_0x[0].map(((a,b)=>_0x.map((_0x=>_0x[b])))),_adD=_0x=>{let a=_0x.length,b=1===a?_0x[0][0]:2===a?_0x[0][0]*_0x[1][1]-_0x[0][1]*_0x[1][0]:_0x[0][0]*(_0x[1][1]*_0x[2][2]-_0x[1][2]*_0x[2][1])-_0x[0][1]*(_0x[1][0]*_0x[2][2]-_0x[1][2]*_0x[2][0])+_0x[0][2]*(_0x[1][0]*_0x[2][1]-_0x[1][1]*_0x[2][0]),c=1===a?[[1]]:2===a?[[_0x[1][1],-_0x[0][1]],[-_0x[1][0],_0x[0][0]]]:[[_0x[1][1]*_0x[2][2]-_0x[1][2]*_0x[2][1],-(_0x[0][1]*_0x[2][2]-_0x[0][2]*_0x[2][1]),_0x[0][1]*_0x[1][2]-_0x[0][2]*_0x[1][1]],[-(_0x[1][0]*_0x[2][2]-_0x[1][2]*_0x[2][0]),_0x[0][0]*_0x[2][2]-_0x[0][2]*_0x[2][0],-(_0x[0][0]*_0x[1][2]-_0x[0][2]*_0x[1][0])],[_0x[1][0]*_0x[2][1]-_0x[1][1]*_0x[2][0],-(_0x[0][0]*_0x[2][1]-_0x[0][1]*_0x[2][0]),_0x[0][0]*_0x[1][1]-_0x[0][1]*_0x[1][0]]];return{adj:c,det:b}},_rS=_0x=>{let a=0;_0x.forEach((b=>b.forEach((b=>{let c=_0x2b4(Number.isInteger(b)?b:b.toFixed(1));c.length>a&&(a=c.length)}))));let b=Math.max(30,8.5*a+12),c='<div class="b-k" style="--cell-w:'+b+'px"><div class="grid" style="grid-template-columns:repeat('+_0x[0].length+', var(--cell-w))">';return _0x.forEach((a=>a.forEach((a=>c+='<input class="c-l ro" type="text" value="'+_0x2b4(Number.isInteger(a)?a:a.toFixed(1))+'" readonly>')))),c+"</div></div>"},_sR=(_0x,a,b,c,d)=>{let e='<b>'+a+'</b><div class="res-row">'+(b&&1!==b?'<div class="f-c"><span class="f-n">١</span><span>'+_0x2b4(b)+"</span></div>":"")+_rS(_0x)+(c?'<span style="font-weight:bold; font-size:18px;">'+c+"</span>":"")+(d?_rS(d):"")+"</div>";document.getElementById("res").innerHTML=e};_rG("A"),_rG("B")})();
+/* كود معمى يدوي ومؤمن بالكامل - أستاذ محمود عادل صالح */
+(function(){
+    var _0xM = null, _0xD = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _0xP = false;
+    const _0xT = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]).replace("-", "ـ"), _0xE = s => s.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("ـ", "-");
+    
+    window._fH = function(n, a, b, c) {
+        if(n===7){ _0xD[a][b] = _0xD[a][b] === 3 ? 1 : _0xD[a][b] + 1; _rG(a); _rs(); }
+        if(n===3){ if(!_0xM)return; if(_0xP){ _0xM.value=_0xT(a); _0xP=false; return; } var v=_0xM.value; if(a==='back') _0xM.value=v.length>1?v.slice(0,-1):"٠"; else if(a==='-') _0xM.value=v.includes('ـ')?_0xM.value.replace('ـ',''):'ـ'+(v==="٠"?"":v); else _0xM.value=(v==="٠"?_0xT(a):v+_0xT(a)); }
+        if(n===4){ var l=Array.from(document.querySelectorAll('.c-l:not(.ro)')); var i=l.indexOf(_0xM); if(i<l.length-1)_sA(l[i+1]); }
+        if(n===5){ if(_0xM)_0xM.value="٠"; }
+    };
+    
+    const _rG = function(i) {
+        var g=document.getElementById('_gr'+i); if(!g)return; g.style.gridTemplateColumns=`repeat(${_0xD[i].c},30px)`; g.innerHTML='';
+        for(var k=0; k<_0xD[i].r*_0xD[i].c; k++) g.innerHTML+='<input class="c-l" type="text" value="٠" readonly onclick="_sA(this)">';
+    };
+    
+    window._sA = function(e) { if(e.classList.contains('ro'))return; document.querySelectorAll('.c-l').forEach(c=>c.classList.remove('at')); _0xM=e; _0xM.classList.add('at'); };
+    
+    window._oK = function(n) {
+        var a=_gM('A'), b=_gM('B');
+        if(n===12){
+            var isT=document.getElementById('_lblA').innerText.includes("مساحة");
+            document.querySelectorAll('#_grA input, #_grB input').forEach((i, idx) => { if(isT && idx%3===0) return; if(!i.classList.contains('ro')) i.value=_0xT(Math.floor(Math.random()*19)-9); });
+        } else if(n===8){
+            document.getElementById('res').innerHTML='<b>الأس ن:</b><br><input class="c-l at" style="width:50px" id="_powV" readonly onclick="_sA(this)" value="٢"><br><button class="o-b" onclick="_eP()" style="width:60px;margin-top:5px;background:var(--a);padding:5px">احسب</button>';
+            _0xM=document.getElementById('_powV'); _0xP=true;
+        } else if(n===9){
+            _rs(); document.getElementById('res').innerHTML='<b>المجاهيل:</b><div style="display:flex;gap:15px;margin-top:10px;"><button class="o-b" style="width:80px;padding:10px;background:var(--a)" onclick="_setS(2)">٢ (س،ص)</button><button class="o-b" style="width:80px;padding:10px;background:var(--a)" onclick="_setS(3)">٣ (س،ص،ع)</button></div>';
+        } else if(n===10){
+            _rs(); document.getElementById('_uB').style.display='none'; document.getElementById('_preX').style.display='flex'; _0xD.A={r:3,c:3}; _rG('A'); document.getElementById('_brkA').classList.add('det-style'); document.getElementById('_ctrlA').style.display='none'; document.getElementById('_lblA').innerText="مساحة المثلث";
+            var cl=document.querySelectorAll('#_grA input'); for(var d=0;d<3;d++){ cl[3*d].value="١"; cl[3*d].classList.add('ro'); }
+            document.getElementById('res').innerHTML='<button class="o-b" style="background:var(--s);padding:8px 20px" onclick="_eT()">احسب المساحة</button>';
+        } else if(n===1||n===2){
+            if(_0xD.A.r!==_0xD.B.r||_0xD.A.c!==_0xD.B.c)return; _sR(a.map((r,i)=>r.map((v,j)=>n===1?v+b[i][j]:v-b[i][j])), n===1?"أ + ب":"أ - ب");
+        } else if(n===3){
+            if(a[0].length!==b.length)return; _sR(_mu(a,b),"أ × ب");
+        } else if(n===4||n===5){
+            var r=_adD(n===4?a:b); document.getElementById('res').innerHTML="<b>محدد = "+_0xT(r.det)+"</b>";
+        } else if(n===6||n===7){
+            var r=_adD(n===6?a:b); if(r.det!==0)_sR(r.adj,"معكوس المصفوفة",r.det);
+        } else if(n===11){
+            var at=_tp(a), s=a.map((r,i)=>r.map((v,j)=>(v+at[i][j])/2)), sk=a.map((r,i)=>r.map((v,j)=>(v-at[i][j])/2)); _sR(s,"التفكيك",null," + ",sk);
+        }
+    };
+
+    window._setS = function(n) {
+        _0xD.A={r:n,c:n}; _0xD.B={r:n,c:1}; _0xD.X={r:n,c:1}; _rG('A'); _rG('B'); document.getElementById('_ctrlA').style.display='none'; document.getElementById('_ctrlB').style.display='none'; document.getElementById('_uSys').style.display='flex';
+        var gx=document.getElementById('_grX'), ux=n===2?['س','ص']:['س','ص','ع']; gx.style.gridTemplateColumns='30px'; gx.innerHTML=ux.map(u=>'<input class="c-l ro" type="text" value="'+u+'" readonly>').join('');
+        document.getElementById('res').innerHTML='<button class="o-b" style="padding:10px 25px;background:var(--w);font-size:12px" onclick="_eS()">احسب الحل</button>';
+    };
+
+    window._eS = function() {
+        var a=_gM('A'), b=_gM('B'), r=_adD(a); if(r.det===0)return;
+        var ajB=_mu(r.adj,b), ux=a.length===2?['س','ص']:['س','ص','ع'];
+        var h='<div class="res-row"><div class="b-k"><div class="grid" style="grid-template-columns:repeat(1,30px)">'+ux.map(u=>'<input class="c-l ro" type="text" value="'+u+'" readonly>').join('')+'</div></div><span style="font-weight:bold">=</span>'+(r.det===1?_rS(ajB):'<div class="f-c"><span class="f-n">١</span><span>'+_0xT(r.det)+'</span></div>'+_rS(ajB))+'</div>';
+        document.getElementById('res').innerHTML=h;
+    };
+
+    window._eP = function() {
+        var n=parseInt(_0xE(document.getElementById('_powV').value))||1, a=_gM('A');
+        if(_0xD.A.r===_0xD.A.c){ var b=a; for(var i=1;i<n;i++) b=_mu(b,a); _sR(b,"أ ^ "+_0xT(n)); }
+    };
+
+    window._eT = function() {
+        var a=_gM('A'), d=a[0][0]*(a[1][1]*a[2][2]-a[1][2]*a[2][1])-a[0][1]*(a[1][0]*a[2][2]-a[1][2]*a[2][0])+a[0][2]*(a[1][0]*a[2][1]-a[1][1]*a[2][0]);
+        document.getElementById('res').innerHTML="<b>المساحة = "+_0xT(Math.abs(d)/2)+" وحدة مربعة</b>";
+    };
+
+    window._rs = function() {
+        document.getElementById('_uSys').style.display='none'; document.getElementById('_preX').style.display='none'; document.getElementById('_uB').style.display='flex'; document.getElementById('_brkA').classList.remove('det-style'); document.getElementById('_lblA').innerText="أ"; document.getElementById('_ctrlA').style.display='flex'; document.getElementById('_ctrlB').style.display='flex'; document.getElementById('res').innerHTML='';
+    };
+
+    const _gM = i => { var cl=document.querySelectorAll('#_gr'+i+' input'), r=_0xD[i].r, c=_0xD[i].c, m=[]; for(var j=0; j<r; j++){ m[j]=[]; for(var k=0; k<c; k++) m[j][k]=parseFloat(_0xE(cl[j*c+k].value))||0; } return m; };
+    const _mu = (m1,m2) => { var r=Array(m1.length).fill(0).map(()=>Array(m2[0].length).fill(0)); for(var i=0; i<m1.length; i++)for(var j=0; j<m2[0].length; j++)for(var k=0; k<m1[0].length; k++)r[i][j]+=m1[i][k]*m2[k][j]; return r; };
+    const _tp = a => a[0].map((_,c)=>a.map(r=>r[c]));
+    const _adD = m => {
+        var n=m.length, d=1===n?m[0][0]:2===n?m[0][0]*m[1][1]-m[0][1]*m[1][0]:m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+        var aj=1===n?[[1]]:2===n?[[m[1][1],-m[0][1]],[-m[1][0],m[0][0]]]:[[m[1][1]*m[2][2]-m[1][2]*m[2][1],-(m[0][1]*m[2][2]-m[0][2]*m[2][1]),m[0][1]*m[1][2]-m[0][2]*m[1][1]],[-(m[1][0]*m[2][2]-m[1][2]*m[2][0]),m[0][0]*m[2][2]-m[0][2]*m[2][0],-(m[0][0]*m[1][2]-m[0][2]*m[1][0])],[m[1][0]*m[2][1]-m[1][1]*m[2][0],-(m[0][0]*m[2][1]-m[0][1]*m[2][0]),m[0][0]*m[1][1]-m[0][1]*m[1][0]]];
+        return {adj:aj, det:d};
+    };
+    const _rS = m => {
+        var max=0; m.forEach(r=>r.forEach(v=>{ var s=_0xT(Number.isInteger(v)?v:v.toFixed(1)); if(s.length>max)max=s.length; }));
+        var w=Math.max(30, 8.5*max+12), h='<div class="b-k" style="--cell-w:'+w+'px"><div class="grid" style="grid-template-columns:repeat('+m[0].length+',var(--cell-w))">';
+        m.forEach(r=>r.forEach(v=>h+='<input class="c-l ro" type="text" value="'+_0xT(Number.isInteger(v)?v:v.toFixed(1))+'" readonly>')); return h+'</div></div>';
+    };
+    const _sR = (m,t,dt,sep,m2) => {
+        var h='<b>'+t+'</b><div class="res-row">'+(dt && dt!==1?'<div class="f-c"><span class="f-n">١</span><span>'+_0xT(dt)+'</span></div>':'')+_rS(m)+(sep?'<span style="font-weight:bold;font-size:18px">'+sep+'</span>':'')+(m2?_rS(m2):'')+'</div>';
+        document.getElementById('res').innerHTML=h;
+    };
+    _rG('A'); _rG('B');
+})();
 </script>
 </body>
 </html>
