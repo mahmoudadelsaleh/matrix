@@ -5,62 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Matrix Pro - M.A.S</title>
     <style>
-        :root { --p: #2c3e50; --a: #2980b9; --s: #27ae60; --w: #e67e22; --gold: #f1c40f; --random: #8e44ad; --gray-bg: #d1d8e0; }
+        :root { --p: #2c3e50; --a: #2980b9; --s: #27ae60; --w: #e67e22; --gold: #f1c40f; --red: #e74c3c; --gray-panel: #f0f2f5; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         html, body { height: 100vh; width: 100vw; overflow: hidden; overscroll-behavior: contain; background: #000; font-family: sans-serif; display: flex; justify-content: center; }
         
         .main-app { 
-            width: 100%; max-width: 500px; height: 100%; background: #f4f7f6; border: 3px solid var(--p); 
-            display: flex; flex-direction: column; position: relative; 
-            padding-top: 1cm; /* تباعد عن سقف الصفحة 1 سم */
+            width: 100%; max-width: 500px; height: 100%; background: #fff; border: 3px solid var(--p); 
+            display: flex; flex-direction: column; position: relative; padding-top: 1cm;
         }
         
         .sec-matrices { height: 18vh; display: flex; justify-content: space-around; align-items: center; background: #fff; border-bottom: 2px solid #ddd; padding: 2px; }
         .u-t { display: flex; flex-direction: column; align-items: center; width: 45%; }
-        .b-k { display: flex; align-items: center; padding: 2px; border-left: 4px solid var(--p); border-right: 4px solid var(--p); border-radius: 12px; background: #fff; width: 100%; position: relative; }
+        .b-k { display: flex; align-items: center; padding: 2px; border-left: 4px solid var(--p); border-right: 4px solid var(--p); border-radius: 12px; background: #fff; width: 100%; }
         .det-style { border-radius: 0 !important; border-width: 0 4px !important; }
-        .g-d { display: grid; gap: 2px; width: 100%; }
         .c-l { width: 100%; height: 30px; text-align: center; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; font-weight: bold; }
         .c-l.at { background: #fff9c4 !important; border: 2px solid var(--a); }
         .c-l.ro { background: #f1f2f6; color: #999; }
 
-        /* منطقة الأزرار مغلفة ومضغوطة أفقياً */
-        .btn-wrapper { padding: 0 15px; background: #f0f0f0; border-radius: 8px; margin: 0 10px; }
+        /* إطار المجموعات الرمادي */
+        .group-box { margin: 0.3cm 10px 0; padding: 8px; background: var(--gray-panel); border-radius: 12px; border: 1px solid #d1d8e0; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); }
 
-        /* لوحة المفاتيح 3D */
-        .sec-numpad { height: 20vh; display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; gap: 4px; padding: 5px; background: #333; border-radius: 8px; }
+        /* لوحة الأرقام 3D */
+        .sec-numpad { height: 18vh; display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; gap: 4px; }
         .sec-numpad button { 
-            border: none; border-radius: 6px; font-size: 18px; font-weight: bold; background: #1a1a1a; color: #fff; cursor: pointer;
-            box-shadow: 0 4px 0 #000; transition: 0.1s;
+            border: none; border-radius: 8px; font-size: 18px; font-weight: bold; background: #1a1a1a; color: #fff; 
+            box-shadow: 0 4px 0 #000; transition: 0.1s; cursor: pointer;
         }
         .sec-numpad button:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
-        .side-btn { background: var(--p) !important; font-size: 13px !important; }
 
-        /* تباعد العمليات الرمادية */
-        .sec-ops-gray { 
-            height: 14vh; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); 
-            gap: 4px; padding: 6px; background: var(--gray-bg); 
-            margin-top: 0.6cm; border-radius: 8px;
-        }
-        .o-b-g { border: none; border-radius: 4px; font-size: 10px; font-weight: bold; background: #fff; color: #333; cursor: pointer; box-shadow: 0 2px 0 #999; }
-
-        /* تباعد الوظائف الأخيرة */
-        .sec-ops-special { 
-            height: 7vh; display: grid; grid-template-columns: repeat(5, 1fr); 
-            gap: 4px; padding: 5px; background: #222; 
-            margin-top: 0.6cm; border-radius: 8px;
-        }
-        .o-b-s { border: none; border-radius: 4px; font-size: 10px; font-weight: bold; color: white; cursor: pointer; }
+        /* أزرار العمليات الملونة */
+        .sec-ops-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+        .o-b { border: none; border-radius: 6px; font-size: 10px; font-weight: bold; height: 38px; color: #fff; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .o-b:active { transform: scale(0.95); }
+        
+        .btn-add { background: var(--s); } /* أخضر للجمع والطرح */
+        .btn-mul { background: var(--a); } /* أزرق للضرب */
+        .btn-det { background: var(--red); } /* أحمر للمحدد */
+        .btn-pow { background: var(--w); } /* برتقالي للقوة */
+        .btn-sys { background: var(--p); } /* كحلي للأنظمة */
 
         /* الكسر الرأسي */
-        .f-c { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; margin: 0 4px; vertical-align: middle; }
-        .f-n { border-bottom: 2px solid #000; padding: 0 2px; min-width: 15px; text-align: center; }
-        .f-d { padding: 0 2px; min-width: 15px; text-align: center; }
+        .f-c { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; margin: 0 4px; vertical-align: middle; font-size: 14px; }
+        .f-n { border-bottom: 2px solid #000; padding: 0 2px; }
 
         .sec-res { flex: 1; padding: 8px; overflow-y: auto; background: #fff; border-top: 2px solid var(--a); text-align: center; }
         .res-row { display: flex; align-items: center; justify-content: center; gap: 3px; margin-top: 8px; }
+        .footer { background: var(--gold); height: 30px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; border-top: 1px solid #000; }
         .dim-btn { background: var(--a); color: white; border: none; padding: 1px 5px; font-size: 9px; border-radius: 2px; margin: 1px; }
-        .footer { background: var(--gold); height: 28px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -73,39 +64,48 @@
                 <div id="_areaFrac" style="display:none;" class="f-c"><span class="f-n">١</span><span>٢</span></div>
                 <div class="b-k" id="_brkA"><div id="_grA" class="g-d"></div></div>
             </div>
-            <span id="_lblA" style="font-size:10px; font-weight:bold;">مصفوفة أ</span>
+            <span id="_lblA" style="font-size:10px; font-weight:bold; margin-top:2px;">المصفوفة أ</span>
         </div>
         <div id="_uSys" style="display:none; align-items:center; font-weight:bold; color:var(--w)">× <div class="u-t"><div class="b-k"><div id="_grX" class="g-d"></div></div></div> =</div>
         <div class="u-t" id="_uB">
             <div id="_ctrlB"><button class="dim-btn" onclick="_fH(7,'B','r')">صف</button><button class="dim-btn" onclick="_fH(7,'B','c')">عمود</button></div>
             <div class="b-k"><div id="_grB" class="g-d"></div></div>
-            <span id="_lblB" style="font-size:10px; font-weight:bold;">مصفوفة ب</span>
+            <span id="_lblB" style="font-size:10px; font-weight:bold; margin-top:2px;">المصفوفة ب</span>
         </div>
     </div>
 
-    <div class="btn-wrapper" style="background:transparent;">
+    <div class="group-box" style="background: #333; padding: 5px;">
         <div class="sec-numpad">
-            <button onclick="_fH(3,'7')">٧</button><button onclick="_fH(3,'8')">٨</button><button onclick="_fH(3,'9')">٩</button><button class="side-btn" style="background:var(--w)!important" onclick="_fH(5)">مسح</button>
-            <button onclick="_fH(3,'4')">٤</button><button onclick="_fH(3,'5')">٥</button><button onclick="_fH(3,'6')">٦</button><button class="side-btn" onclick="_fH(3,'back')">حذف ⌫</button>
-            <button onclick="_fH(3,'1')">١</button><button onclick="_fH(3,'2')">٢</button><button onclick="_fH(3,'3')">٣</button><button class="side-btn" style="background:var(--a)!important" onclick="_fH(4)">التالي</button>
-            <button onclick="_fH(3,'0')">٠</button><button onclick="_fH(3,'-')">ـ</button><button onclick="_fH(3,'.')">٫</button><button class="side-btn" style="background:#e74c3c!important" onclick="location.reload()">إعادة</button>
+            <button onclick="_fH(3,'7')">٧</button><button onclick="_fH(3,'8')">٨</button><button onclick="_fH(3,'9')">٩</button><button style="background:var(--w)!important" onclick="_fH(5)">مسح</button>
+            <button onclick="_fH(3,'4')">٤</button><button onclick="_fH(3,'5')">٥</button><button onclick="_fH(3,'6')">٦</button><button style="background:var(--p)!important" onclick="_fH(3,'back')">حذف ⌫</button>
+            <button onclick="_fH(3,'1')">١</button><button onclick="_fH(3,'2')">٢</button><button onclick="_fH(3,'3')">٣</button><button style="background:var(--a)!important" onclick="_fH(4)">التالي</button>
+            <button onclick="_fH(3,'0')">٠</button><button onclick="_fH(3,'-')">ـ</button><button onclick="_fH(3,'.')">٫</button><button style="background:var(--red)!important" onclick="location.reload()">إعادة</button>
         </div>
     </div>
 
-    <div class="btn-wrapper">
-        <div class="sec-ops-gray">
-            <button class="o-b-g" onclick="_oK(1)">أ + ب</button><button class="o-b-g" onclick="_oK(3)">أ × ب</button><button class="o-b-g" onclick="_oK(6)">معكوس أ</button><button class="o-b-g" onclick="_oK(8)">أ ^ ن</button><button class="o-b-g" onclick="_oK(4)">محدد أ</button>
-            <button class="o-b-g" onclick="_oK(2)">أ - ب</button><button class="o-b-g" onclick="_oK(13)">ب × أ</button><button class="o-b-g" onclick="_oK(7)">معكوس ب</button><button class="o-b-g" onclick="_oK(14)">ب ^ ن</button><button class="o-b-g" onclick="_oK(5)">محدد ب</button>
+    <div class="group-box">
+        <div class="sec-ops-grid" style="grid-template-rows: 1fr 1fr;">
+            <button class="o-b btn-add" onclick="_oK(1)">أ + ب</button>
+            <button class="o-b btn-mul" onclick="_oK(3)">أ × ب</button>
+            <button class="o-b btn-det" onclick="_oK(4)">محدد أ</button>
+            <button class="o-b btn-pow" onclick="_oK(8)">أ ^ ن</button>
+            <button class="o-b btn-inv" style="background:#8e44ad" onclick="_oK(6)">معكوس أ</button>
+            
+            <button class="o-b btn-add" onclick="_oK(2)">أ - ب</button>
+            <button class="o-b btn-mul" onclick="_oK(13)">ب × أ</button>
+            <button class="o-b btn-det" onclick="_oK(5)">محدد ب</button>
+            <button class="o-b btn-pow" onclick="_oK(14)">ب ^ ن</button>
+            <button class="o-b btn-inv" style="background:#8e44ad" onclick="_oK(7)">معكوس ب</button>
         </div>
     </div>
 
-    <div class="btn-wrapper" style="background:transparent;">
-        <div class="sec-ops-special">
-            <button class="o-b-s" style="background:var(--p)" onclick="_oK(9)">حل النظام</button>
-            <button class="o-b-s" style="background:var(--s)" onclick="_oK(10)">المساحة</button>
-            <button class="o-b-s" style="background:var(--random)" onclick="_oK(11)">التفكيك</button>
-            <button class="o-b-s" style="background:#e74c3c" onclick="_oK(12)">عشوائي</button>
-            <button class="o-b-s" style="background:var(--a)" onclick="toggleFS()">ملء الشاشة</button>
+    <div class="group-box" style="background: #2c3e50; border-color: #1a252f;">
+        <div class="sec-ops-grid">
+            <button class="o-b btn-sys" style="background:#34495e" onclick="_oK(9)">حل النظام</button>
+            <button class="o-b btn-add" style="background:var(--s)" onclick="_oK(10)">المساحة</button>
+            <button class="o-b" style="background:#8e44ad" onclick="_oK(11)">التفكيك</button>
+            <button class="o-b" style="background:var(--red)" onclick="_oK(12)">عشوائي</button>
+            <button class="o-b btn-mul" style="background:var(--a)" onclick="toggleFS()">ملء الشاشة</button>
         </div>
     </div>
 
@@ -115,7 +115,7 @@
 
 <script>
 (function(){
-    var _0xM = null, _0xD = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _0xP = false, _targetPow = 'A', _isAreaMode = false;
+    var _0xM = null, _0xD = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _0xP = false, _targetPow = 'A', _isAreaMode = false, _isSysMode = false;
     const _0xT = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]).replace("-", "ـ");
     const _0xE = s => s.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("ـ", "-");
 
@@ -144,7 +144,7 @@
         else if(n===4||n===5) { var r=_adD(n===4?a:b); document.getElementById('res').innerHTML="<b>المحدد = "+_0xT(r.det)+"</b>"; }
         else if(n===6||n===7) { var r=_adD(n===6?a:b); if(r.det!==0) _sR(r.adj,"المعكوس",r.det); }
         else if(n===8||n===14) { _targetPow=(n===8?'A':'B'); _0xP=true; document.getElementById('res').innerHTML='<b>أس ن لـ '+_targetPow+':</b><br><input class="c-l at" style="width:60px" id="_powV" value="٢" readonly onclick="_sA(this)"><br><button class="dim-btn" onclick="_eP()">احسب</button>'; _0xM=document.getElementById('_powV'); }
-        else if(n===9) { document.getElementById('res').innerHTML='<b>المجاهيل:</b><br><button class="dim-btn" style="padding:8px" onclick="_setS(2)">٢ (س،ص)</button> <button class="dim-btn" style="padding:8px" onclick="_setS(3)">٣ (س،ص،ع)</button>'; }
+        else if(n===9) { _isSysMode=true; document.getElementById('res').innerHTML='<b>المجاهيل:</b><br><button class="dim-btn" style="padding:8px" onclick="_setS(2)">٢ (س،ص)</button> <button class="dim-btn" style="padding:8px" onclick="_setS(3)">٣ (س،ص،ع)</button>'; }
         else if(n===10) { _rs(); _eT_Mode(); }
         else if(n===11) { 
             if(a.length !== a[0].length) return;
@@ -179,7 +179,7 @@
         _isAreaMode = true; _0xD.A={r:3,c:3}; _rG('A'); 
         var cl=document.querySelectorAll('#_grA input');
         for(var d=0;d<3;d++){ cl[3*d].value="١"; cl[3*d].classList.add('ro'); }
-        document.getElementById('_ctrlA').style.display='none'; // إخفاء التحكم
+        document.getElementById('_ctrlA').style.display='none'; 
         document.getElementById('_brkA').classList.add('det-style'); 
         document.getElementById('_areaFrac').style.display='flex';
         document.getElementById('_lblA').innerText = "محدد المساحة";
@@ -203,7 +203,7 @@
         if(!val || val === 1) return '';
         let sign = val < 0 ? 'ـ' : '';
         let absVal = Math.abs(val);
-        return `<div class="f-c"><span class="f-n">${sign}١</span><span class="f-d">${_0xT(absVal)}</span></div>`;
+        return `<div class="f-c"><span class="f-n">${sign}١</span><span>${_0xT(absVal)}</span></div>`;
     };
 
     const _rS = (m, dt=1, sep, m2, dt2=1) => {
@@ -215,7 +215,8 @@
     
     window._clearResOnly = () => { document.getElementById('res').innerHTML=''; };
     window._rs = () => { 
-        _isAreaMode = false; document.getElementById('_uSys').style.display='none'; 
+        _isAreaMode = false; _isSysMode = false;
+        document.getElementById('_uSys').style.display='none'; 
         document.getElementById('_uB').style.display='flex'; 
         document.getElementById('_brkA').classList.remove('det-style'); 
         document.getElementById('_areaFrac').style.display='none';
