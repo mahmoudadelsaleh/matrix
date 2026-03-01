@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Matrix Pro - M.A.S</title>
     <style>
-        :root { --p: #2c3e50; --a: #2980b9; --s: #27ae60; --w: #e67e22; --gold: #f1c40f; --random: #8e44ad; --gray-bg: #95a5a6; }
+        :root { --p: #2c3e50; --a: #2980b9; --s: #27ae60; --w: #e67e22; --gold: #f1c40f; --random: #8e44ad; --gray-bg: #d1d8e0; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         html, body { height: 100vh; width: 100vw; overflow: hidden; overscroll-behavior: contain; background: #000; font-family: sans-serif; display: flex; justify-content: center; }
         
@@ -24,28 +24,31 @@
         .c-l.at { background: #fff9c4 !important; border: 2px solid var(--a); }
         .c-l.ro { background: #f1f2f6; color: #999; }
 
-        /* لوحة المفاتيح */
-        .sec-numpad { height: 20vh; display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; gap: 4px; padding: 5px; background: #333; }
+        /* منطقة الأزرار مغلفة ومضغوطة أفقياً */
+        .btn-wrapper { padding: 0 15px; background: #f0f0f0; border-radius: 8px; margin: 0 10px; }
+
+        /* لوحة المفاتيح 3D */
+        .sec-numpad { height: 20vh; display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; gap: 4px; padding: 5px; background: #333; border-radius: 8px; }
         .sec-numpad button { 
-            border: none; border-radius: 6px; font-size: 20px; font-weight: bold; background: #1a1a1a; color: #fff; cursor: pointer;
+            border: none; border-radius: 6px; font-size: 18px; font-weight: bold; background: #1a1a1a; color: #fff; cursor: pointer;
             box-shadow: 0 4px 0 #000; transition: 0.1s;
         }
         .sec-numpad button:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
-        .side-btn { background: var(--p) !important; font-size: 14px !important; }
+        .side-btn { background: var(--p) !important; font-size: 13px !important; }
 
-        /* تباعد بين الكيبورد والعمليات 0.5 سم */
+        /* تباعد العمليات الرمادية */
         .sec-ops-gray { 
             height: 14vh; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(2, 1fr); 
-            gap: 2px; padding: 4px; background: var(--gray-bg); 
-            margin-top: 0.5cm; 
+            gap: 4px; padding: 6px; background: var(--gray-bg); 
+            margin-top: 0.6cm; border-radius: 8px;
         }
-        .o-b-g { border: none; border-radius: 4px; font-size: 10px; font-weight: bold; background: #f8f9fa; color: #333; cursor: pointer; }
+        .o-b-g { border: none; border-radius: 4px; font-size: 10px; font-weight: bold; background: #fff; color: #333; cursor: pointer; box-shadow: 0 2px 0 #999; }
 
-        /* تباعد بين العمليات والوظائف الأخيرة 0.5 سم */
+        /* تباعد الوظائف الأخيرة */
         .sec-ops-special { 
             height: 7vh; display: grid; grid-template-columns: repeat(5, 1fr); 
-            gap: 2px; padding: 4px; background: #222; 
-            margin-top: 0.5cm; 
+            gap: 4px; padding: 5px; background: #222; 
+            margin-top: 0.6cm; border-radius: 8px;
         }
         .o-b-s { border: none; border-radius: 4px; font-size: 10px; font-weight: bold; color: white; cursor: pointer; }
 
@@ -80,24 +83,30 @@
         </div>
     </div>
 
-    <div class="sec-numpad">
-        <button onclick="_fH(3,'7')">٧</button><button onclick="_fH(3,'8')">٨</button><button onclick="_fH(3,'9')">٩</button><button class="side-btn" style="background:var(--w)!important" onclick="_fH(5)">C</button>
-        <button onclick="_fH(3,'4')">٤</button><button onclick="_fH(3,'5')">٥</button><button onclick="_fH(3,'6')">٦</button><button class="side-btn" onclick="_fH(3,'back')">⌫</button>
-        <button onclick="_fH(3,'1')">١</button><button onclick="_fH(3,'2')">٢</button><button onclick="_fH(3,'3')">٣</button><button class="side-btn" style="background:var(--a)!important" onclick="_fH(4)">→</button>
-        <button onclick="_fH(3,'0')">٠</button><button onclick="_fH(3,'-')">ـ</button><button onclick="_fH(3,'.')">٫</button><button class="side-btn" style="background:#e74c3c!important" onclick="location.reload()">R</button>
+    <div class="btn-wrapper" style="background:transparent;">
+        <div class="sec-numpad">
+            <button onclick="_fH(3,'7')">٧</button><button onclick="_fH(3,'8')">٨</button><button onclick="_fH(3,'9')">٩</button><button class="side-btn" style="background:var(--w)!important" onclick="_fH(5)">مسح</button>
+            <button onclick="_fH(3,'4')">٤</button><button onclick="_fH(3,'5')">٥</button><button onclick="_fH(3,'6')">٦</button><button class="side-btn" onclick="_fH(3,'back')">حذف ⌫</button>
+            <button onclick="_fH(3,'1')">١</button><button onclick="_fH(3,'2')">٢</button><button onclick="_fH(3,'3')">٣</button><button class="side-btn" style="background:var(--a)!important" onclick="_fH(4)">التالي</button>
+            <button onclick="_fH(3,'0')">٠</button><button onclick="_fH(3,'-')">ـ</button><button onclick="_fH(3,'.')">٫</button><button class="side-btn" style="background:#e74c3c!important" onclick="location.reload()">إعادة</button>
+        </div>
     </div>
 
-    <div class="sec-ops-gray">
-        <button class="o-b-g" onclick="_oK(1)">أ + ب</button><button class="o-b-g" onclick="_oK(3)">أ × ب</button><button class="o-b-g" onclick="_oK(6)">معكوس أ</button><button class="o-b-g" onclick="_oK(8)">أ ^ ن</button><button class="o-b-g" onclick="_oK(4)">محدد أ</button>
-        <button class="o-b-g" onclick="_oK(2)">أ - ب</button><button class="o-b-g" onclick="_oK(13)">ب × أ</button><button class="o-b-g" onclick="_oK(7)">معكوس ب</button><button class="o-b-g" onclick="_oK(14)">ب ^ ن</button><button class="o-b-g" onclick="_oK(5)">محدد ب</button>
+    <div class="btn-wrapper">
+        <div class="sec-ops-gray">
+            <button class="o-b-g" onclick="_oK(1)">أ + ب</button><button class="o-b-g" onclick="_oK(3)">أ × ب</button><button class="o-b-g" onclick="_oK(6)">معكوس أ</button><button class="o-b-g" onclick="_oK(8)">أ ^ ن</button><button class="o-b-g" onclick="_oK(4)">محدد أ</button>
+            <button class="o-b-g" onclick="_oK(2)">أ - ب</button><button class="o-b-g" onclick="_oK(13)">ب × أ</button><button class="o-b-g" onclick="_oK(7)">معكوس ب</button><button class="o-b-g" onclick="_oK(14)">ب ^ ن</button><button class="o-b-g" onclick="_oK(5)">محدد ب</button>
+        </div>
     </div>
 
-    <div class="sec-ops-special">
-        <button class="o-b-s" style="background:var(--p)" onclick="_oK(9)">حل النظام</button>
-        <button class="o-b-s" style="background:var(--s)" onclick="_oK(10)">المساحة</button>
-        <button class="o-b-s" style="background:var(--random)" onclick="_oK(11)">التفكيك</button>
-        <button class="o-b-s" style="background:#e74c3c" onclick="_oK(12)">عشوائي</button>
-        <button class="o-b-s" style="background:var(--a)" onclick="toggleFS()">ملء الشاشة</button>
+    <div class="btn-wrapper" style="background:transparent;">
+        <div class="sec-ops-special">
+            <button class="o-b-s" style="background:var(--p)" onclick="_oK(9)">حل النظام</button>
+            <button class="o-b-s" style="background:var(--s)" onclick="_oK(10)">المساحة</button>
+            <button class="o-b-s" style="background:var(--random)" onclick="_oK(11)">التفكيك</button>
+            <button class="o-b-s" style="background:#e74c3c" onclick="_oK(12)">عشوائي</button>
+            <button class="o-b-s" style="background:var(--a)" onclick="toggleFS()">ملء الشاشة</button>
+        </div>
     </div>
 
     <div class="sec-res" id="res"></div>
@@ -170,6 +179,7 @@
         _isAreaMode = true; _0xD.A={r:3,c:3}; _rG('A'); 
         var cl=document.querySelectorAll('#_grA input');
         for(var d=0;d<3;d++){ cl[3*d].value="١"; cl[3*d].classList.add('ro'); }
+        document.getElementById('_ctrlA').style.display='none'; // إخفاء التحكم
         document.getElementById('_brkA').classList.add('det-style'); 
         document.getElementById('_areaFrac').style.display='flex';
         document.getElementById('_lblA').innerText = "محدد المساحة";
@@ -209,6 +219,7 @@
         document.getElementById('_uB').style.display='flex'; 
         document.getElementById('_brkA').classList.remove('det-style'); 
         document.getElementById('_areaFrac').style.display='none';
+        document.getElementById('_ctrlA').style.display='block';
         document.getElementById('_lblA').innerText="مصفوفة أ"; document.getElementById('res').innerHTML=''; 
     };
     _rG('A'); _rG('B');
