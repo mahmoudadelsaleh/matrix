@@ -1,17 +1,15 @@
-const CACHE_NAME = 'matrix-v' + Date.now(); // تغيير الاسم مع كل تحديث لكسر الكاش
+const CACHE_NAME = 'matrix-pro-static-v1'; // اسم ثابت لا يتغير
 const ASSETS = [
   './',
   'index.html',
-  'manifest.json',
-  'icon-192x192.png',
-  'icon-512x512.png'
+  'manifest.json'
 ];
 
 self.addEventListener('install', (e) => {
-  self.skipWaiting(); // إجبار السيرفس وركر الجديد على التفعيل فوراً
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('activate', (e) => {
@@ -19,17 +17,18 @@ self.addEventListener('activate', (e) => {
     caches.keys().then((keys) => {
       return Promise.all(
         keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key); // مسح الكاش القديم تماماً
-          }
+          if (key !== CACHE_NAME) return caches.delete(key);
         })
       );
     })
   );
 });
 
+// الاستراتيجية: الكاش أولاً دائماً ولا تبحث عن تحديثات في الخلفية
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+    caches.match(e.request).then((response) => {
+      return response || fetch(e.request);
+    })
   );
 });
