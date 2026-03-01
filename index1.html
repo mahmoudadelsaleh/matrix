@@ -11,24 +11,24 @@
         
         .main-app { 
             width: 100%; max-width: 500px; height: 100%; background: #fff; border: 3px solid var(--p); 
-            display: flex; flex-direction: column; position: relative; padding-top: 0.8cm;
+            display: flex; flex-direction: column; position: relative; padding-top: 0.6cm;
         }
         
-        .sec-matrices { height: 18vh; display: flex; justify-content: center; align-items: center; gap: 10px; background: #fff; border-bottom: 2px solid #ddd; padding: 5px; }
+        /* ضبط منطقة المصفوفات لتكون العناوين واضحة */
+        .sec-matrices { height: 18vh; display: flex; justify-content: center; align-items: center; gap: 10px; background: #fff; padding-bottom: 5px; }
         .u-t { display: flex; flex-direction: column; align-items: center; }
         .b-k { 
             display: flex; align-items: center; padding: 4px; border-left: 5.5px solid var(--p); border-right: 5.5px solid var(--p); 
             border-radius: 14px / 12px; background: #fff; min-height: 70px; justify-content: center;
         }
         .det-style { border-radius: 0 !important; border-width: 0 5.5px !important; }
-        
         .g-d { display: grid; gap: 4px; }
         .c-l { width: 35px; height: 32px; text-align: center; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; font-weight: bold; }
         .c-l.at { background: #fff9c4 !important; border: 2.5px solid var(--a); }
         .c-l.ro { background: #f1f2f6; color: #999; }
 
-        /* لوحة مفاتيح موحدة تشمل الصف الرابع */
-        .numpad-container { margin: 5px 10px; background: #222; padding: 8px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        /* لوحة المفاتيح: تم إزاحتها لأسفل قليلاً لتلتصق بالعمليات */
+        .numpad-container { margin: 15px 10px 2px; background: #222; padding: 8px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .sec-numpad { display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; grid-template-rows: repeat(4, 1fr); gap: 5px; height: 24vh; }
         .sec-numpad button { 
             border: none; border-radius: 6px; font-size: 19px; font-weight: bold; background: #333; color: #fff; 
@@ -36,8 +36,8 @@
         }
         .sec-numpad button:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
 
-        /* لوحة العمليات */
-        .ops-panel { margin: 5px 10px; padding: 8px; background: var(--gray-panel); border-radius: 12px; border: 1px solid #bdc3c7; }
+        /* لوحة العمليات: ملتصقة تقريباً بلوحة الأرقام */
+        .ops-panel { margin: 2px 10px 5px; padding: 8px; background: var(--gray-panel); border-radius: 12px; border: 1px solid #bdc3c7; }
         .sec-ops-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
         .o-b { border: none; border-radius: 6px; font-size: 10px; font-weight: bold; height: 36px; color: #fff; cursor: pointer; box-shadow: 0 2px 3px rgba(0,0,0,0.2); }
         
@@ -248,3 +248,4 @@
 </script>
 </body>
 </html>
+
