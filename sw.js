@@ -1,10 +1,11 @@
-const CACHE_NAME = 'matrix-pro-static-v1'; // اسم ثابت لا يتغير
+const CACHE_NAME = 'matrix-pro-v1';
 const ASSETS = [
   './',
   'index.html',
   'manifest.json'
 ];
 
+// التثبيت وحفظ الملفات في الكاش
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
@@ -12,6 +13,7 @@ self.addEventListener('install', (e) => {
   self.skipWaiting();
 });
 
+// تفعيل وتنظيف الكاش القديم
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys().then((keys) => {
@@ -24,11 +26,11 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-// الاستراتيجية: الكاش أولاً دائماً ولا تبحث عن تحديثات في الخلفية
+// استراتيجية الكاش أولاً للعمل أوفلاين
 self.addEventListener('fetch', (e) => {
   e.respondWith(
-    caches.match(e.request).then((response) => {
-      return response || fetch(e.request);
+    caches.match(e.request).then((res) => {
+      return res || fetch(e.request);
     })
   );
 });
