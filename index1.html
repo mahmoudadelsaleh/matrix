@@ -27,9 +27,9 @@
         .c-l.at { background: #fff9c4 !important; border: 2.5px solid var(--a); }
         .c-l.ro { background: #f1f2f6; color: #999; }
 
-        /* لوحة المفاتيح */
-        .numpad-container { margin: 5px 10px; background: #222; padding: 8px; border-radius: 12px; }
-        .sec-numpad { display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; gap: 5px; height: 19vh; }
+        /* لوحة مفاتيح موحدة تشمل الصف الرابع */
+        .numpad-container { margin: 5px 10px; background: #222; padding: 8px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .sec-numpad { display: grid; grid-template-columns: 1fr 1fr 1fr 1.5fr; grid-template-rows: repeat(4, 1fr); gap: 5px; height: 24vh; }
         .sec-numpad button { 
             border: none; border-radius: 6px; font-size: 19px; font-weight: bold; background: #333; color: #fff; 
             box-shadow: 0 4px 0 #000; cursor: pointer; transition: 0.1s;
@@ -55,10 +55,8 @@
         .res-row { display: flex; align-items: center; justify-content: center; gap: 4px; margin-top: 8px; }
         .dim-btn { background: var(--p); color: white; border: none; padding: 2px 8px; font-size: 10px; border-radius: 4px; margin: 2px; }
         
-        /* شريط الماركي السفلي */
         .m-wrap { position: absolute; bottom: 0; width: 100%; background: var(--gold); height: 32px; display: flex; align-items: center; border-top: 1px solid #000; overflow: hidden; }
         .m-wrap marquee { color: #000; font-size: 13px; font-weight: bold; line-height: 32px; }
-        .wa-icon { vertical-align: middle; width: 18px; margin: 0 5px; }
     </style>
 </head>
 <body oncontextmenu="return false;">
@@ -128,7 +126,7 @@
 
 <script>
 (function(){
-    var _0xM = null, _0xD = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _0xP = false, _targetPow = 'A', _isAreaMode = false, _isSysMode = false;
+    var _0xM = null, _0xD = {A:{r:2,c:2},B:{r:2,c:2},X:{r:2,c:1}}, _0xP = false, _targetPow = 'A', _isAreaMode = false;
     const _0xT = n => String(n).replace(/\d/g, d => "٠١٢٣٤٥٦٧٨٩"[d]).replace("-", "ـ");
     const _0xE = s => s.replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace("ـ", "-");
 
@@ -158,7 +156,7 @@
         else if(n===4||n===5) { var r=_adD(n===4?a:b); document.getElementById('res').innerHTML="<b>المحدد = "+_0xT(r.det)+"</b>"; }
         else if(n===6||n===7) { var r=_adD(n===6?a:b); if(r.det!==0) _sR(r.adj,"المعكوس",r.det); }
         else if(n===8||n===14) { _targetPow=(n===8?'A':'B'); _0xP=true; document.getElementById('res').innerHTML='<b>أس ن لـ '+_targetPow+':</b><br><input class="c-l at" style="width:60px" id="_powV" value="٢" readonly onclick="_sA(this)"><br><button class="dim-btn" onclick="_eP()" style="margin-top:5px; padding:5px 15px;">احسب</button>'; _0xM=document.getElementById('_powV'); }
-        else if(n===9) { _clearAllStates(); _isSysMode=true; document.getElementById('res').innerHTML='<b>اختر عدد المجاهيل:</b><br><button class="dim-btn" style="padding:8px" onclick="_setS(2)">٢ (س،ص)</button> <button class="dim-btn" style="padding:8px" onclick="_setS(3)">٣ (س،ص،ع)</button>'; }
+        else if(n===9) { _clearAllStates(); document.getElementById('res').innerHTML='<b>اختر عدد المجاهيل:</b><br><button class="dim-btn" style="padding:8px" onclick="_setS(2)">٢ (س،ص)</button> <button class="dim-btn" style="padding:8px" onclick="_setS(3)">٣ (س،ص،ع)</button>'; }
         else if(n===10) { _clearAllStates(); _isAreaMode = true; _eT_Mode(); }
         else if(n===11) { 
             if(a.length !== a[0].length) return;
@@ -234,7 +232,7 @@
     
     window._clearResOnly = () => { document.getElementById('res').innerHTML=''; };
     window._clearAllStates = () => {
-        _isAreaMode = false; _isSysMode = false;
+        _isAreaMode = false;
         document.getElementById('_uSys').style.display='none'; 
         document.getElementById('_uB').style.display='flex'; 
         document.getElementById('_brkA').classList.remove('det-style'); 
