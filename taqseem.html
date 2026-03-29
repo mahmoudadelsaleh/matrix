@@ -11,62 +11,70 @@
         * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
         body { font-family: 'Tajawal', sans-serif; background-color: #0f172a; height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; position: fixed; width: 100%; }
         
-        .stats-bar { width: 100%; background: #1e293b; color: #10b981; font-size: 0.6rem; padding: 2px 10px; display: flex; justify-content: space-between; border-bottom: 1px solid #334155; flex-shrink: 0; }
-        .app-header { color: #f8fafc; font-size: 0.9rem; font-weight: bold; padding: 4px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5); flex-shrink: 0; }
+        /* شريط العدادات العلوي الموضح والمفعل */
+        .stats-bar { 
+            width: 100%; background: #10b981; color: #ffffff; font-size: 0.75rem; 
+            padding: 4px 15px; display: flex; justify-content: space-between; 
+            border-bottom: 2px solid #059669; flex-shrink: 0; font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .app-header { color: #f8fafc; font-size: 0.95rem; font-weight: bold; padding: 5px 0; text-shadow: 0 1px 2px rgba(0,0,0,0.5); flex-shrink: 0; }
         
-        .calc-body { width: 98%; max-width: 360px; background: #1e293b; border-radius: 10px; padding: 5px; border: 1px solid #334155; flex-shrink: 0; }
-        .screen { background: #cbd5e1; border-radius: 6px; padding: 3px; margin-bottom: 3px; }
+        .calc-body { width: 98%; max-width: 370px; background: #1e293b; border-radius: 12px; padding: 6px; border: 1px solid #334155; flex-shrink: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .screen { background: #cbd5e1; border-radius: 8px; padding: 4px; margin-bottom: 4px; }
         
-        .point-box { background: #ffffff; border-radius: 4px; padding: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 2px; border: 1px solid #94a3b8; font-size: 0.85rem; position: relative; color: #1e293b; }
-        .input-val { color: #1d4ed8; min-width: 28px; text-align: center; border-bottom: 1.5px solid transparent; cursor: pointer; }
-        .input-val.active { border-bottom-color: #ef4444; animation: blink 0.8s infinite; color: #ef4444; }
+        .point-box { background: #ffffff; border-radius: 5px; padding: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 3px; border: 1px solid #94a3b8; font-size: 0.9rem; position: relative; color: #1e293b; }
+        .input-val { color: #1d4ed8; min-width: 30px; text-align: center; border-bottom: 2px solid transparent; cursor: pointer; }
+        .input-val.active { border-bottom-color: #ef4444; animation: blink 0.8s infinite; color: #ef4444; font-weight: bold; }
         @keyframes blink { 50% { border-bottom-color: transparent; } }
         
-        #gr { background: #fff; border-radius: 5px; width: 100%; height: 130px; border: 1px solid #64748b; margin-top: 3px; }
+        /* تكبير شاشة الرسم قليلاً */
+        #gr { background: #fff; border-radius: 6px; width: 100%; height: 155px; border: 1px solid #64748b; margin-top: 4px; }
         
-        .flex-row { display: flex; gap: 4px; margin-top: 3px; }
-        .ratio-box { display: flex; align-items: center; justify-content: center; background: white; border-radius: 5px; border: 1px solid #94a3b8; font-size: 0.8rem; font-weight: bold; padding: 3px; flex: 1.2; }
-        .btn-toggle { background: #334155; color: white; border: none; border-bottom: 2px solid #000; border-radius: 5px; font-weight: bold; padding: 4px; font-family: 'Tajawal'; font-size: 0.75rem; flex: 1; }
+        .flex-row { display: flex; gap: 5px; margin-top: 4px; }
+        .ratio-box { display: flex; align-items: center; justify-content: center; background: white; border-radius: 6px; border: 1px solid #94a3b8; font-size: 0.85rem; font-weight: bold; padding: 4px; flex: 1.2; }
+        .btn-toggle { background: #334155; color: white; border: none; border-bottom: 3px solid #000; border-radius: 6px; font-weight: bold; padding: 5px; font-family: 'Tajawal'; font-size: 0.8rem; flex: 1; }
 
-        .grid-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin-top: 5px; }
-        .key { background: #334155; border: none; border-bottom: 2px solid #000; color: white; padding: 8px 0; border-radius: 6px; font-size: 1.1rem; font-weight: bold; font-family: 'Tajawal'; }
-        .key:active { border-bottom-width: 0; transform: translateY(2px); }
-        .key-calc { background: #10b981; grid-column: span 2; font-size: 0.9rem; }
-        .key-reset { background: #ef4444; font-size: 0.9rem; }
+        .grid-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 6px; }
+        .key { background: #475569; border: none; border-bottom: 3px solid #000; color: white; padding: 9px 0; border-radius: 8px; font-size: 1.2rem; font-weight: bold; font-family: 'Tajawal'; }
+        .key:active { border-bottom-width: 0; transform: translateY(2px); background: #1e293b; }
+        .key-calc { background: #10b981; grid-column: span 2; font-size: 1rem; border-bottom-color: #065f46; }
+        .key-reset { background: #ef4444; font-size: 1rem; border-bottom-color: #991b1b; }
 
-        .info-container { width: 100%; margin-top: 5px; color: #94a3b8; font-size: 0.65rem; text-align: center; line-height: 1.2; flex-shrink: 0; }
-        .clear-btn { background: #ef4444; color: white; border-radius: 3px; padding: 1px 4px; font-size: 0.55rem; position: absolute; left: 4px; cursor: pointer; border: none; }
+        .info-container { width: 100%; margin-top: auto; padding: 5px 0; color: #94a3b8; font-size: 0.7rem; text-align: center; line-height: 1.3; flex-shrink: 0; }
+        .clear-btn { background: #ef4444; color: white; border-radius: 3px; padding: 1px 5px; font-size: 0.55rem; position: absolute; left: 5px; cursor: pointer; border: none; }
     </style>
 </head>
 <body>
 
     <div class="stats-bar">
-        <span id="devices-count">...</span>
-        <span id="visits-count">...</span>
+        <span id="devices-count">الأجهزة: ٠</span>
+        <span id="visits-count">الاستخدام: ٠</span>
     </div>
 
-    <div class="app-header">تقسيم القطعة المستقيمة</div>
+    <div class="app-header">تقسيم القطعة المستقيمة (أولى ثانوي)</div>
 
     <div class="calc-body">
         <div class="screen">
-            <div class="point-box"><span>أ=(</span><div id="x1" class="input-val active" onclick="sf('x1')">؟</div><span>,</span><div id="y1" class="input-val" onclick="sf('y1')">؟</div><span>)</span></div>
-            <div class="point-box"><span>ب=(</span><div id="x2" class="input-val" onclick="sf('x2')">؟</div><span>,</span><div id="y2" class="input-val" onclick="sf('y2')">؟</div><span>)</span></div>
+            <div class="point-box"><span>أ = (</span><div id="x1" class="input-val active" onclick="sf('x1')">؟</div><span>،</span><div id="y1" class="input-val" onclick="sf('y1')">؟</div><span>)</span></div>
+            <div class="point-box"><span>ب = (</span><div id="x2" class="input-val" onclick="sf('x2')">؟</div><span>،</span><div id="y2" class="input-val" onclick="sf('y2')">؟</div><span>)</span></div>
             <div class="point-box" style="background: #f0fdf4;">
                 <button class="clear-btn" onclick="clC()">إعادة</button>
-                <span style="color:#15803d">جـ=(</span><div id="cx" class="input-val" onclick="sf('cx')">؟</div><span>,</span><div id="cy" class="input-val" onclick="sf('cy')">؟</div><span>)</span>
+                <span style="color:#15803d">جـ = (</span><div id="cx" class="input-val" onclick="sf('cx')">؟</div><span>،</span><div id="cy" class="input-val" onclick="sf('cy')">؟</div><span>)</span>
             </div>
             <div class="flex-row">
                 <button id="tBtn" onclick="tg()" class="btn-toggle">داخل (+)</button>
-                <div class="ratio-box"><span>ل:م = </span><div id="l" class="input-val" onclick="sf('l')">؟</div>:<div id="m" class="input-val" onclick="sf('m')">؟</div></div>
+                <div class="ratio-box"><span>ل : م = </span><div id="l" class="input-val" onclick="sf('l')">؟</div>:<div id="m" class="input-val" onclick="sf('m')">؟</div></div>
             </div>
             <canvas id="gr"></canvas>
         </div>
 
         <div class="grid-keys">
             <button class="key" onclick="pk('٧')">٧</button><button class="key" onclick="pk('٨')">٨</button><button class="key" onclick="pk('٩')">٩</button>
-            <button class="key" style="background:#ea580c" onclick="bk()">⌫</button>
+            <button class="key" style="background:#ea580c; border-bottom-color:#9a3412" onclick="bk()">⌫</button>
             <button class="key" onclick="pk('٤')">٤</button><button class="key" onclick="pk('٥')">٥</button><button class="key" onclick="pk('٦')">٦</button>
-            <button class="key" style="background:#2563eb" onclick="nx()">⏎</button>
+            <button class="key" style="background:#2563eb; border-bottom-color:#1e3a8a" onclick="nx()">⏎</button>
             <button class="key" onclick="pk('١')">١</button><button class="key" onclick="pk('٢')">٢</button><button class="key" onclick="pk('٣')">٣</button>
             <button class="key key-reset" onclick="rs()">جديد</button>
             <button class="key" onclick="pk('٠')">٠</button><button class="key" onclick="pk('-')">ـ</button>
@@ -75,10 +83,12 @@
     </div>
 
     <div class="info-container">
-        أ/ محمود عادل صالح - Edu MAS Tools © ٢٠٢٦
+        مطور التطبيق: أ/ محمود عادل صالح (معلم رياضيات)<br>
+        Edu MAS Tools © ٢٠٢٦
     </div>
 
 <script>
+    // تكوين Firebase مع رابط قاعدة البيانات الخاص بك
     const firebaseConfig = {
         apiKey: "AIzaSyBy0lkZZdbrDXcdzCt1fGYNrE2vS33pNbw",
         authDomain: "edumastools.firebaseapp.com",
@@ -88,20 +98,31 @@
         messagingSenderId: "541432270503",
         appId: "1:541432270503:web:06af14f3c8b43396ac1582"
     };
+
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
-    function track() {
-        const sRef = database.ref('stats');
-        sRef.child('visits').transaction(c => (c || 0) + 1);
-        let dId = localStorage.getItem('edumas_v2');
-        if(!dId){ dId='D'+Date.now(); localStorage.setItem('edumas_v2', dId); sRef.child('devices').transaction(c => (c || 0) + 1); }
-        sRef.on('value', snap => {
-            const d = snap.val() || {devices:0, visits:0};
-            document.getElementById('devices-count').innerText = "أجهزة: " + d.devices;
-            document.getElementById('visits-count').innerText = "استخدام: " + d.visits;
+
+    function initTracker() {
+        const statsRef = database.ref('stats');
+        // تسجيل زيارة
+        statsRef.child('visits').transaction(c => (c || 0) + 1);
+        // تسجيل جهاز فريد
+        let dId = localStorage.getItem('edumas_v3_id');
+        if(!dId){
+            dId = 'DEV_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('edumas_v3_id', dId);
+            statsRef.child('devices').transaction(c => (c || 0) + 1);
+        }
+        // الاستماع للتحديثات
+        statsRef.on('value', snap => {
+            const data = snap.val() || {devices: 0, visits: 0};
+            document.getElementById('devices-count').innerText = "الأجهزة: " + data.devices;
+            document.getElementById('visits-count').innerText = "الاستخدام: " + data.visits;
+        }, err => {
+            console.log("Firebase Offline");
         });
     }
-    window.onload = track;
+    window.onload = initTracker;
 
     let cF = 'x1'; const fL = ['x1','y1','x2','y2','cx','cy','l','m']; let isI = true;
     const hd = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
@@ -113,6 +134,7 @@
     function tg(){ isI=!isI; let b=document.getElementById('tBtn'); b.innerText=isI?"داخل (+)":"خارج (-)"; b.style.background=isI?"#334151":"#991b1b"; }
     function clC(){ document.getElementById('cx').innerText='؟'; document.getElementById('cy').innerText='؟'; sf('l'); }
     function rs(){ location.reload(); }
+    
     function toE(s){ if(s==='؟') return NaN; let r=s.replace(/ـ/g,'-'); hd.forEach((d,i)=>r=r.replace(new RegExp(d,'g'),i)); return parseFloat(r); }
     function toH(n){ if(isNaN(n)) return "؟"; let v = Math.round(n*100)/100; return v.toString().replace(/\d/g, d=>hd[d]).replace('-','ـ'); }
     function getGcd(a, b) { return b ? getGcd(b, a % b) : a; }
@@ -138,7 +160,7 @@
     function draw(x1, y1, x2, y2, cx, cy){ 
         const can = document.getElementById('gr'), ctx = can.getContext('2d');
         can.width = can.clientWidth * 2; can.height = can.clientHeight * 2;
-        ctx.scale(2, 2); const w = can.clientWidth, h = can.clientHeight, p=25;
+        ctx.scale(2, 2); const w = can.clientWidth, h = can.clientHeight, p=30;
         ctx.clearRect(0,0,w,h);
         const xs=[x1,x2,cx,0], ys=[y1,y2,cy,0];
         const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
@@ -148,16 +170,17 @@
         ctx.beginPath(); ctx.moveTo(tx(minX), ty(0)); ctx.lineTo(tx(maxX), ty(0)); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(tx(0), ty(minY)); ctx.lineTo(tx(0), ty(maxY)); ctx.stroke();
         if(!isNaN(x1)){
-            ctx.strokeStyle="#ef4444"; ctx.lineWidth=2;
+            ctx.strokeStyle="#ef4444"; ctx.lineWidth=2.5;
             ctx.beginPath(); ctx.moveTo(tx(x1),ty(y1)); ctx.lineTo(tx(x2),ty(y2)); ctx.stroke();
+            if(!isI){ ctx.setLineDash([5, 5]); ctx.beginPath(); ctx.moveTo(tx(x1),ty(y1)); ctx.lineTo(tx(cx),ty(cy)); ctx.stroke(); ctx.beginPath(); ctx.moveTo(tx(x2),ty(y2)); ctx.lineTo(tx(cx),ty(cy)); ctx.stroke(); ctx.setLineDash([]); }
         }
         dp(ctx, tx(x1), ty(y1), "أ", toH(x1), toH(y1), "#ef4444");
         dp(ctx, tx(x2), ty(y2), "ب", toH(x2), toH(y2), "#ef4444");
         if(!isNaN(cx)) dp(ctx, tx(cx), ty(cy), "جـ", toH(cx), toH(cy), "#10b981");
     }
     function dp(ctx, x, y, n, vx, vy, c){ 
-        ctx.fillStyle=c; ctx.beginPath(); ctx.arc(x,y,3,0,7); ctx.fill();
-        ctx.fillStyle="#1e293b"; ctx.font="bold 9px Tajawal"; ctx.fillText(`${n}`, x+3, y-3);
+        ctx.fillStyle=c; ctx.beginPath(); ctx.arc(x,y,4,0,7); ctx.fill();
+        ctx.fillStyle="#1e293b"; ctx.font="bold 10px Tajawal"; ctx.fillText(`${n}`, x+4, y-4);
     }
 </script>
 </body>
