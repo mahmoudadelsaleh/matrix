@@ -3,49 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>EduMAS - الأستاذ محمود عادل</title>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <title>EduMAS - أ/ محمود عادل</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700&display=swap');
-        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; touch-action: none; }
-        body { font-family: 'Tajawal', sans-serif; background-color: #0f172a; height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; position: fixed; width: 100%; }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; touch-action: none; }
+        body { font-family: 'Tajawal', sans-serif; background-color: #0f172a; height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; width: 100%; position: fixed; }
         
-        .stats-bar { width: 100%; background: #1e293b; color: #10b981; font-size: 0.65rem; padding: 3px 12px; display: flex; justify-content: space-between; border-bottom: 1px solid #334155; flex-shrink: 0; font-weight: bold; }
-        .app-header { color: #f8fafc; font-size: 1.1rem; font-weight: bold; padding: 6px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5); flex-shrink: 0; }
+        /* شريط العدادات - تم توضيحه */
+        .stats-bar { width: 100%; background: #1e293b; color: #10b981; font-size: 0.7rem; padding: 5px 15px; display: flex; justify-content: space-between; border-bottom: 2px solid #334155; flex-shrink: 0; font-weight: bold; }
+        .app-header { color: #f8fafc; font-size: 1.1rem; font-weight: bold; padding: 8px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
         
-        .calc-body { width: 96%; max-width: 380px; background: #1e293b; border-radius: 12px; padding: 6px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #334155; flex-shrink: 0; }
-        .screen { background: #cbd5e1; border-radius: 8px; padding: 4px; margin-bottom: 4px; }
-        .point-box { background: #ffffff; border-radius: 5px; padding: 4px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 2px; border: 1px solid #94a3b8; font-size: 0.95rem; position: relative; color: #1e293b; }
+        .calc-body { width: 96%; max-width: 380px; background: #1e293b; border-radius: 15px; padding: 8px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); border: 1px solid #334155; }
+        .screen { background: #cbd5e1; border-radius: 10px; padding: 5px; margin-bottom: 5px; }
+        .point-box { background: #ffffff; border-radius: 6px; padding: 6px; display: flex; align-items: center; justify-content: center; font-weight: bold; margin-bottom: 3px; border: 1px solid #94a3b8; font-size: 1rem; position: relative; color: #1e293b; }
         
-        .input-val { color: #1d4ed8; min-width: 32px; text-align: center; border-bottom: 2px solid transparent; cursor: pointer; font-size: 1rem; }
+        .input-val { color: #1d4ed8; min-width: 35px; text-align: center; border-bottom: 2px solid transparent; cursor: pointer; }
         .input-val.active { border-bottom-color: #ef4444; animation: blink 0.8s infinite; color: #ef4444; }
         @keyframes blink { 50% { border-bottom-color: transparent; } }
         
-        #gr { background: #fff; border-radius: 6px; width: 100%; height: 160px; border: 1px solid #64748b; margin-top: 4px; }
-        .flex-row { display: flex; gap: 4px; margin-top: 4px; }
-        .ratio-box { display: flex; align-items: center; justify-content: center; background: white; border-radius: 6px; border: 1px solid #94a3b8; font-size: 0.85rem; font-weight: bold; padding: 3px; flex: 1.2; }
-        .btn-toggle { background: #334155; color: white; border: none; border-bottom: 2px solid #000; border-radius: 6px; font-weight: bold; padding: 4px; font-family: 'Tajawal'; font-size: 0.8rem; flex: 1; }
+        #gr { background: #fff; border-radius: 8px; width: 100%; height: 180px; border: 1px solid #64748b; margin-top: 5px; }
+        .flex-row { display: flex; gap: 5px; margin-top: 5px; }
+        .ratio-box { display: flex; align-items: center; justify-content: center; background: white; border-radius: 8px; border: 1px solid #94a3b8; font-size: 0.9rem; font-weight: bold; padding: 5px; flex: 1.2; }
+        .btn-toggle { background: #334155; color: white; border: none; border-bottom: 3px solid #000; border-radius: 8px; font-weight: bold; padding: 6px; font-family: 'Tajawal'; flex: 1; }
 
-        .grid-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; margin-top: 6px; }
-        .key { background: #334155; border: none; border-bottom: 3px solid #000; color: white; padding: 10px 0; border-radius: 8px; font-size: 1.2rem; font-weight: bold; font-family: 'Tajawal'; }
-        .key:active { border-bottom-width: 1px; transform: translateY(2px); }
+        .grid-keys { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 8px; }
+        .key { background: #334155; border: none; border-bottom: 4px solid #000; color: white; padding: 12px 0; border-radius: 10px; font-size: 1.3rem; font-weight: bold; font-family: 'Tajawal'; }
+        .key:active { border-bottom-width: 1px; transform: translateY(3px); }
         .key-calc { background: #10b981; grid-column: span 2; }
         .key-reset { background: #ef4444; }
-
-        .info-container { width: 96%; max-width: 380px; margin-top: 4px; background: rgba(30, 41, 59, 0.9); border-radius: 8px; padding: 6px; border: 1px solid #334155; color: #94a3b8; font-size: 0.75rem; text-align: center; line-height: 1.4; flex-shrink: 0; }
-        .clear-btn { background: #ef4444; color: white; border-radius: 3px; padding: 1px 5px; font-size: 0.55rem; position: absolute; left: 5px; cursor: pointer; border: none; }
+        .clear-btn { background: #ef4444; color: white; border-radius: 4px; padding: 2px 6px; font-size: 0.6rem; position: absolute; left: 8px; cursor: pointer; border: none; }
+        .info { font-size: 0.7rem; color: #94a3b8; text-align: center; margin-top: 8px; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
     <div class="stats-bar">
-        <span id="devices-count">الأجهزة: ...</span>
-        <span id="visits-count">الاستخدام: ...</span>
+        <span id="devices-count">الأجهزة: متصل...</span>
+        <span id="visits-count">الزيارات: متصل...</span>
     </div>
 
-    <div class="app-header">تقسيم القطعة المستقيمة (أولى ثانوي)</div>
+    <div class="app-header">تقسيم القطعة المستقيمة</div>
 
     <div class="calc-body">
         <div class="screen">
@@ -58,7 +58,7 @@
             <div class="flex-row">
                 <button id="tBtn" onclick="tg()" class="btn-toggle">داخل (+)</button>
                 <div class="ratio-box">
-                    <span>ل : م = </span><div id="l" class="input-val" onclick="sf('l')">؟</div>:<div id="m" class="input-val" onclick="sf('m')">؟</div>
+                    <span>ل:م = </span><div id="l" class="input-val" onclick="sf('l')">؟</div> : <div id="m" class="input-val" onclick="sf('m')">؟</div>
                 </div>
             </div>
             <canvas id="gr"></canvas>
@@ -74,11 +74,10 @@
             <button class="key key-calc" onclick="cl()">احسب</button>
         </div>
     </div>
-
-    <div class="info-container">مطور التطبيق: أ/ محمود عادل صالح (معلم رياضيات)<br>Edu MAS Tools © ٢٠٢٦</div>
+    <div class="info">أ/ محمود عادل صالح - Edu MAS 2026</div>
 
 <script>
-    // --- Firebase Logic ---
+    // --- Firebase Configuration ---
     const firebaseConfig = {
         apiKey: "AIzaSyBy0lkZZdbrDXcdzCt1fGYNrE2vS33pNbw",
         authDomain: "edumastools.firebaseapp.com",
@@ -92,24 +91,27 @@
     firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    function track() {
-        const statsRef = database.ref('stats');
-        statsRef.child('visits').transaction(c => (c || 0) + 1);
-        let dId = localStorage.getItem('device_id');
-        if (!dId) {
-            dId = 'dev_' + Date.now();
-            localStorage.setItem('device_id', dId);
-            statsRef.child('devices').transaction(c => (c || 0) + 1);
+    function initFirebase() {
+        const sRef = database.ref('stats');
+        // تسجيل زيارة
+        sRef.child('visits').transaction(c => (c || 0) + 1);
+        // تسجيل جهاز جديد
+        let dId = localStorage.getItem('edumas_uid');
+        if(!dId){
+            dId = 'ID_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('edumas_uid', dId);
+            sRef.child('devices').transaction(c => (c || 0) + 1);
         }
-        statsRef.on('value', snap => {
-            const d = snap.val() || {devices:0, visits:0};
+        // عرض البيانات
+        sRef.on('value', s => {
+            const d = s.val() || {devices:0, visits:0};
             document.getElementById('devices-count').innerText = "الأجهزة: " + d.devices;
-            document.getElementById('visits-count').innerText = "الاستخدام: " + d.visits;
+            document.getElementById('visits-count').innerText = "الزيارات: " + d.visits;
         });
     }
-    window.onload = track;
+    window.onload = initFirebase;
 
-    // --- Calculator Logic ---
+    // --- الآلة الحاسبة ---
     let cF = 'x1'; const fL = ['x1','y1','x2','y2','cx','cy','l','m']; let isI = true;
     const hd = ['٠','١','٢','٣','٤','٥','٦','٧','٨','٩'];
 
@@ -119,6 +121,8 @@
     function bk(){ let e=document.getElementById(cF); e.innerText=(e.innerText.length>1 && e.innerText!=='؟')?e.innerText.slice(0,-1):'؟'; }
     function tg(){ isI=!isI; let b=document.getElementById('tBtn'); b.innerText=isI?"داخل (+)":"خارج (-)"; b.style.background=isI?"#334151":"#991b1b"; }
     function clC(){ document.getElementById('cx').innerText='؟'; document.getElementById('cy').innerText='؟'; sf('l'); }
+    function rs(){ location.reload(); }
+    
     function toE(s){ if(s==='؟') return NaN; let r=s.replace(/ـ/g,'-'); hd.forEach((d,i)=>r=r.replace(new RegExp(d,'g'),i)); return parseFloat(r); }
     function toH(n){ if(isNaN(n)) return "؟"; let v = Math.round(n*100)/100; return v.toString().replace(/\d/g, d=>hd[d]).replace('-','ـ'); }
     function getGcd(a, b) { return b ? getGcd(b, a % b) : a; }
@@ -137,16 +141,15 @@
             document.getElementById('l').innerText = toH(rL); document.getElementById('m').innerText = toH(rM);
             fX = v.cx; fY = v.cy;
         } else {
-            rL = v.l; rM = v.m;
-            if(isNaN(rL) || isNaN(rM)) return;
+            rL = v.l; rM = v.m; if(isNaN(rL) || isNaN(rM)) return;
             let l = rL, m = rM; if(!isI) l = -l;
             fX = (l*v.x2 + m*v.x1)/(l+m); fY = (l*v.y2 + m*v.y1)/(l+m);
             document.getElementById('cx').innerText = toH(fX); document.getElementById('cy').innerText = toH(fY);
         }
-        draw(v.x1, v.y1, v.x2, v.y2, fX, fY, rL, rM);
+        draw(v.x1, v.y1, v.x2, v.y2, fX, fY);
     }
 
-    function draw(x1, y1, x2, y2, cx, cy, l, m){ 
+    function draw(x1, y1, x2, y2, cx, cy){ 
         const can = document.getElementById('gr'), ctx = can.getContext('2d');
         can.width = can.clientWidth * 2; can.height = can.clientHeight * 2;
         ctx.scale(2, 2); const w = can.clientWidth, h = can.clientHeight;
@@ -154,11 +157,11 @@
         const minX=Math.min(...xs), maxX=Math.max(...xs), minY=Math.min(...ys), maxY=Math.max(...ys);
         const tx=v=> p + (v - minX) * (w - 2 * p) / (maxX - minX || 1);
         const ty=v=> h - (p + (v - minY) * (h - 2 * p) / (maxY - minY || 1));
-        ctx.strokeStyle="#cbd5e1"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(tx(minX), ty(0)); ctx.lineTo(tx(maxX), ty(0)); ctx.stroke();
+        ctx.strokeStyle="#e2e8f0"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(tx(minX), ty(0)); ctx.lineTo(tx(maxX), ty(0)); ctx.stroke();
         ctx.beginPath(); ctx.moveTo(tx(0), ty(minY)); ctx.lineTo(tx(0), ty(maxY)); ctx.stroke();
         if(!isNaN(x1)){
-            ctx.strokeStyle="#ef4444"; ctx.lineWidth=2.5; ctx.beginPath(); ctx.moveTo(tx(x1),ty(y1)); ctx.lineTo(tx(x2),ty(y2)); ctx.stroke();
-            if(!isI){ ctx.setLineDash([4, 4]); ctx.beginPath(); ctx.moveTo(tx(x1),ty(y1)); ctx.lineTo(tx(cx),ty(cy)); ctx.stroke(); ctx.beginPath(); ctx.moveTo(tx(x2),ty(y2)); ctx.lineTo(tx(cx),ty(cy)); ctx.stroke(); ctx.setLineDash([]); }
+            ctx.strokeStyle="#ef4444"; ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(tx(x1),ty(y1)); ctx.lineTo(tx(x2),ty(y2)); ctx.stroke();
+            if(!isI){ ctx.setLineDash([5, 5]); ctx.beginPath(); ctx.moveTo(tx(x1),ty(y1)); ctx.lineTo(tx(cx),ty(cy)); ctx.stroke(); ctx.beginPath(); ctx.moveTo(tx(x2),ty(y2)); ctx.lineTo(tx(cx),ty(cy)); ctx.stroke(); ctx.setLineDash([]); }
         }
         dp(ctx, tx(x1), ty(y1), "أ", toH(x1), toH(y1), "#ef4444");
         dp(ctx, tx(x2), ty(y2), "ب", toH(x2), toH(y2), "#ef4444");
@@ -169,7 +172,6 @@
         ctx.fillStyle=c; ctx.beginPath(); ctx.arc(x,y,4,0,7); ctx.fill();
         ctx.fillStyle="#1e293b"; ctx.font="bold 10px Tajawal"; ctx.fillText(`${n}(${vx}،${vy})`, x+5, y-5);
     }
-    function rs(){ location.reload(); }
 </script>
 </body>
 </html>
